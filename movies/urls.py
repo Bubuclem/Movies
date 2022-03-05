@@ -2,6 +2,7 @@ from django.urls import path
 
 from . import views
 
+app_name = 'movies'
 urlpatterns = [
     # URL Media - Page principal
     path('', 

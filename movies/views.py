@@ -1,13 +1,15 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
 from django.views.generic import TemplateView
+from django.contrib.auth import authenticate, login, logout
 
 # Class Base
 # ==========
 class BaseView(TemplateView):
-    def isNotauthenticated(self,request):
+    def isNotauthenticated(self,request) -> bool :
         if request.user.is_authenticated:
-            return redirect('/login')
+            return True
+        return False
 
     def isStaff(self,request) -> bool:
         return request.user.is_staff
@@ -22,7 +24,9 @@ class BaseView(TemplateView):
 # ===========
 class MediaView(BaseView):
     def get(self,request):
-        self.isNotauthenticated()
+        if self.isNotauthenticated(request) == False:
+            return HttpResponseRedirect('/login')
+        return render(request, 'gallery/gallery.html', {})
 
 class GenresView(BaseView):
     def get(self,request):
@@ -47,8 +51,17 @@ class LoginView(BaseView):
         return render(request, 'form/login.html', {})
 
     def post(self,request):
-        pass
+        email = request.POST.get('email', False)
+        password = request.POST.get('password', False)
+        user = authenticate(request,email=email,password=password)
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect('/')
+        return render(request, 'form/login.html', {})
 
 class LogoutView(BaseView):
     def get(self,request):
-        self.isNotauthenticated()
+        if self.isNotauthenticated(request) == False:
+            return HttpResponseRedirect('/login')
+        logout(request)
+        return HttpResponseRedirect ('/login')
