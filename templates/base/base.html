@@ -1,0 +1,21 @@
+{% load tailwind_tags %}
+
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% tailwind_css %}
+    <title>Movies | {% block title %}Base{% endblock %}</title>
+</head>
+
+<body>
+    <!-- content -->
+    {% block content %}{% endblock %}
+
+    <!-- footer -->
+    {% include "base/footer.html" %}
+</body>
+
+</html>
