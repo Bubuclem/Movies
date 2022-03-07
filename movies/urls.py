@@ -9,6 +9,11 @@ urlpatterns = [
     views.MediaView.as_view(), 
     name='media'),
 
+    # URL Media - Détail
+    path('', 
+    views.MediaView.as_view(), 
+    name='media'),
+
     # URL Genres
     path('genres', 
     views.GenresView.as_view(), 

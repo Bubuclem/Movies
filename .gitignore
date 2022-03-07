@@ -1,3 +1,4 @@
 /secret_key.txt
 /.vscode/*
 /db.sqlite3
+/theme/*

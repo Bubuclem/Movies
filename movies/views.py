@@ -28,6 +28,11 @@ class MediaView(BaseView):
             return HttpResponseRedirect('/login')
         return render(request, 'gallery/gallery.html', {})
 
+    def post(self, request, id):
+        if self.isNotauthenticated(request) == False:
+            return HttpResponseRedirect('/login')
+        return render(request, 'gallery/gallery.html', {'id':id})
+
 class GenresView(BaseView):
     def get(self,request):
         self.isNotauthenticated()
@@ -51,9 +56,9 @@ class LoginView(BaseView):
         return render(request, 'form/login.html', {})
 
     def post(self,request):
-        email = request.POST.get('email', False)
-        password = request.POST.get('password', False)
-        user = authenticate(request,email=email,password=password)
+        _username = request.POST['username']
+        _password = request.POST['password']
+        user = authenticate(request,username=_username,password=_password)
         if user is not None:
             login(request, user)
             return HttpResponseRedirect('/')

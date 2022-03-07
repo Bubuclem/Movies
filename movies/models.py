@@ -1,3 +1,5 @@
+from urllib import response
+import requests
 from enum import Enum
 from django.db import models
 
@@ -18,6 +20,12 @@ class BaseTMDB():
         self.type = 'movie'
         if self.type == 2:
             self.type = 'tv'
+
+    def __url_replace(self,url) -> str:
+        return url.replace(" ","%20")
+
+    def __url_request(self,url):
+        return requests.get(url,headers={'content-type': 'application/json'})
 
 class Video(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -51,8 +59,25 @@ class Media(models.Model,BaseTMDB):
     status              = models.CharField(max_length=200)
     tagline             = models.CharField(max_length=200)
 
+    def __init__(self,json) -> None:
+        self.id                 = json.get('id')
+        self.overview           = json.get('overview')
+        self.poster_path        = json.get('poster_path')
+        self.popularity         = json.get('popularity')
+        self.backdrop_path      = json.get('backdrop_path')
+        self.vote_average       = json.get('vote_average')
+        self.release_date       = json.get('release_date')
+        self.original_language  = json.get('original_language')
+        self.genre_ids          = json.get('genre_ids')
+        self.vote_count         = json.get('vote_count')
+        self.title              = json.get('title')
+        self.original_title     = json.get('original_title')
+
     def get_detail(self,id):
-        return '{}/{}/{}?api_key={}&language=fr'.format(self.URL,self.type,id,self.api_key)
+        response = self.__url_request('{}/{}/{}?api_key={}&language=fr'.format(self.URL,self.type,id,self.api_key))
+        media = Media(response)
+        return media
+
     def get_account_states(self,id):
         return '{}/{}/{}/account_states?api_key={}'.format(self.URL,self.type,id,self.api_key)
     def alternative_titles(self,id,country=""):
