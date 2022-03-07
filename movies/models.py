@@ -8,18 +8,16 @@ class type_media(Enum):
     TV = 2
 
 class BaseTMDB():
-    url_base = 'https://api.themoviedb.org/3'
+    URL = 'https://api.themoviedb.org/3'
     api_key = settings.SECRET_KEY_TMDB
     enum_type = type_media.Movie
     type = None
 
     def __init__(self,enum_type) -> None:
-        self.enum_type = enum_type 
-        match enum_type:
-            case 1:
-                self.type='movie'
-            case 2:
-                self.type='tv'
+        self.enum_type = enum_type
+        self.type = 'movie'
+        if self.type == 2:
+            self.type = 'tv'
 
 class Video(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -54,8 +52,8 @@ class Media(models.Model,BaseTMDB):
     tagline             = models.CharField(max_length=200)
 
     def get_detail(self,id):
-        return '{}/{}/{}?api_key={}&language=fr'.format(self.url_base,self.type,id,self.api_key)
+        return '{}/{}/{}?api_key={}&language=fr'.format(self.URL,self.type,id,self.api_key)
     def get_account_states(self,id):
-        return '{}/{}/{}/account_states?api_key={}'.format(self.url_base,self.type,id,self.api_key)
+        return '{}/{}/{}/account_states?api_key={}'.format(self.URL,self.type,id,self.api_key)
     def alternative_titles(self,id,country=""):
-        return '{}/{}/{}/alternative_titles?api_key={}'.format(self.url_base,self.type,id,self.api_key)
+        return '{}/{}/{}/alternative_titles?api_key={}'.format(self.URL,self.type,id,self.api_key)
