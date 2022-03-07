@@ -3,6 +3,18 @@
 {% block title %}Media{% endblock %}
 
 {% block body %}
+
+<div class="flex flex-col md:flex-row justify-between items-center gap-8">
+    <div class="w-64 h-12 flex border rounded-lg overflow-hidden divide-x">
+        <a href="#"
+            class="w-1/3 flex justify-center items-center hover:bg-gray-100 active:bg-gray-200 text-gray-500 transition duration-100">Popular</a>
+        <a href="#"
+            class="w-1/3 flex justify-center items-center hover:bg-gray-100 active:bg-gray-200 text-gray-500 transition duration-100">Lastest</a>
+        <a href="#"
+            class="w-1/3 flex justify-center items-center hover:bg-gray-100 active:bg-gray-200 text-gray-500 transition duration-100">Rate</a>
+    </div>
+</div>
+
 <div class="bg-white py-6 sm:py-8 lg:py-12">
     <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
         <!-- text - start -->
