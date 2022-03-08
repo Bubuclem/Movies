@@ -1,37 +1,94 @@
 {% extends "base/navbar.html" %}
 
-{% block title %}Media{% endblock %}
+{% block title %}Détail{% endblock %}
 
 {% block body %}
 <div class="bg-white py-6 sm:py-8 lg:py-12">
     <div class="max-w-screen-md px-4 md:px-8 mx-auto">
-      <h1 class="text-gray-800 text-2xl sm:text-3xl font-bold text-center mb-4 md:mb-6">Our competitive advantage</h1>
-  
-      <p class="text-gray-500 sm:text-lg mb-6 md:mb-8">
-        This is a section of some simple filler text, also known as placeholder text. It shares some characteristics of a real written text but is random or otherwise generated. It may be used to display a sample of fonts or generate text for testing. Filler text is dummy text which has no meaning however looks very similar to real text. The important factor when using filler text is that the text looks realistic otherwise it will not look very good.<br /><br />
-  
-        This is a section of some simple filler text, also known as placeholder text. It shares some characteristics of a real written text but is <a href="#" class="text-indigo-500 hover:text-indigo-600 active:text-indigo-700 underline transition duration-100">random</a> or otherwise generated. It may be used to display a sample of fonts or generate text for testing. Filler text is dummy text which has no meaning however looks very similar to real text.
-      </p>
-  
-      <h2 class="text-gray-800 text-xl sm:text-2xl font-semibold mb-2 md:mb-4">About us</h2>
-  
-      <p class="text-gray-500 sm:text-lg mb-6 md:mb-8">This is a section of some simple filler text, also known as placeholder text. It shares some characteristics of a real written text but is random or otherwise generated. It may be used to display a sample of fonts or generate text for testing. Filler text is dummy text which has no meaning however looks very similar to real text.</p>
-  
-      <ul class="list-disc list-inside text-gray-500 sm:text-lg mb-6 md:mb-8">
-        <li>This is a section of some simple filler text</li>
-        <li>Also known as placeholder text</li>
-        <li>It shares some characteristics of a real written text</li>
-      </ul>
-  
-      <blockquote class="text-gray-500 sm:text-lg italic border-l-4 pl-4 md:pl-6 mb-6 md:mb-8">“This is a section of some simple filler text, also known as placeholder text. It shares some characteristics of a real written text but is random or otherwise generated.”</blockquote>
+      <h1 class="text-gray-800 text-2xl sm:text-3xl font-bold text-center mb-4 md:mb-6">{{ movie.title }}{{ tv.name }}{{ people.name }}</h1>
   
       <div class="bg-gray-100 overflow-hidden rounded-lg shadow-lg relative mb-6 md:mb-8">
-        <img src="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&q=75&fit=crop&w=600&h=350" loading="lazy" alt="Photo by Minh Pham" class="w-full h-full object-cover object-center" />
+        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}{{ tv.poster_path }}{{ people.profile_path }}" loading="lazy" alt="Photo by Minh Pham" class="w-full h-full object-cover object-center" />
+      </div>
+
+      {% if people %}
+
+      <h2 class="text-gray-800 text-xl sm:text-2xl font-semibold mb-2 md:mb-4">Biographie</h2>
+
+      <p class="text-gray-500 sm:text-lg mb-6 md:mb-8">
+        {{ people.biography }}
+      </p>
+
+      <!-- genres - start -->
+      <div class="mb-8 md:mb-10">
+        <span class="inline-block text-gray-500 text-sm md:text-base font-semibold mb-3">Alias</span>
+
+        <div class="flex flex-wrap gap-3">
+          {% for name in people.also_known_as %}
+            <span class="w-12 h-8 flex justify-center items-center bg-white text-gray-400 text-sm font-semibold text-center border border-transparent rounded-md">{{ name }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      <!-- genres - end -->
+
+      {% else %}
+
+      <h2 class="text-gray-800 text-xl sm:text-2xl font-semibold mb-2 md:mb-4">Synopsis</h2>
+
+      <p class="text-gray-500 sm:text-lg mb-6 md:mb-8">
+        {{ movie.overview }}{{ tv.overview }}
+      </p>
+  
+      <h2 class="text-gray-800 text-xl sm:text-2xl font-semibold mb-2 md:mb-4">A Propos</h2>
+
+      <div class="bg-white py-6 sm:py-8 lg:py-12">
+        <div class="max-w-screen-xl px-4 md:px-8 mx-auto">
+      
+          <div class="grid grid-cols-2 gap-2">
+            <!-- stat - start -->
+            <div class="flex flex-col justify-center items-center bg-gray-100 rounded-lg p-4 lg:p-8">
+              <div class="text-indigo-500 text-xl sm:text-2xl md:text-3xl font-bold">{{ movie.status }}</div>
+              <div class="text-sm sm:text-base font-semibold">Statut</div>
+            </div>
+            <!-- stat - end -->
+      
+            <!-- stat - start -->
+            <div class="flex flex-col justify-center items-center bg-gray-100 rounded-lg p-4 md:p-8">
+              <div class="text-indigo-500 text-xl sm:text-2xl md:text-3xl font-bold">{{ movie.original_language }}</div>
+              <div class="text-sm sm:text-base font-semibold">Langue d'origine</div>
+            </div>
+      
+            <!-- stat - start -->
+            <div class="flex flex-col justify-center items-center bg-gray-100 rounded-lg p-4 md:p-8">
+              <div class="text-indigo-500 text-xl sm:text-2xl md:text-3xl font-bold">{{ movie.budget }}</div>
+              <div class="text-sm sm:text-base font-semibold">Budget</div>
+            </div>
+            <!-- stat - end -->
+      
+            <!-- stat - start -->
+            <div class="flex flex-col justify-center items-center bg-gray-100 rounded-lg p-4 md:p-8">
+              <div class="text-indigo-500 text-xl sm:text-2xl md:text-3xl font-bold">{{ movie.revenue }}</div>
+              <div class="text-sm sm:text-base font-semibold">Recette </div>
+            </div>
+            <!-- stat - end -->
+          </div>
+        </div>
       </div>
   
-      <h2 class="text-gray-800 text-xl sm:text-2xl font-semibold mb-2 md:mb-4">Features</h2>
-  
-      <p class="text-gray-500 sm:text-lg">This is a section of some simple filler text, also known as placeholder text. It shares some characteristics of a real written text but is random or otherwise generated. It may be used to display a sample of fonts or generate text for testing. Filler text is dummy text which has no meaning however looks very similar to real text.</p>
+      <!-- genres - start -->
+      <div class="mb-8 md:mb-10">
+        <span class="inline-block text-gray-500 text-sm md:text-base font-semibold mb-3">Genre</span>
+
+        <div class="flex flex-wrap gap-3">
+          {% for genre in movie.genres %}
+            <span class="w-12 h-8 flex justify-center items-center bg-white text-gray-400 text-sm font-semibold text-center border border-transparent rounded-md">{{ genre.name }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      <!-- genres - end -->
+
+      {% endif %}
+
     </div>
   </div>
   {% endblock %}

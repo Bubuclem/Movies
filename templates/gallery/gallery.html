@@ -7,10 +7,15 @@
 <div class="bg-white py-6 sm:py-8 lg:py-12">
     <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 md:gap-6 xl:gap-8">
+
+            <!-- movies - start -->
+            {% if list_movies%}
+            {% for movie in list_movies %}
+
             <!-- image - start -->
-            <a href="#"
+            <a href="{% url 'movies:movie-detail' movie.id %}"
                 class="group h-48 md:h-96 flex justify-end items-end bg-gray-100 overflow-hidden rounded-lg shadow-lg relative">
-                <img src="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&q=75&fit=crop&w=600"
+                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
                     loading="lazy" alt="Photo by Minh Pham"
                     class="w-full h-full object-cover object-center absolute inset-0 group-hover:scale-110 transition duration-200" />
 
@@ -19,15 +24,24 @@
                 </div>
 
                 <span
-                    class="inline-block text-gray-200 text-xs md:text-sm border border-gray-500 rounded-lg backdrop-blur relative px-2 md:px-3 py-1 mr-3 mb-3">VR</span>
+                    class="inline-block text-gray-200 text-xs md:text-sm border border-gray-500 rounded-lg backdrop-blur relative px-2 md:px-3 py-1 mr-3 mb-3">{{ movie.title }}</span>
             </a>
             <!-- image - end -->
 
+            {% endfor %}
+            {% endif %}
+
+            <!-- movies - end -->
+
+            <!-- tv - start -->
+            {% if list_tv%}
+            {% for tv in list_tv %}
+
             <!-- image - start -->
-            <a href="#"
+            <a href="{% url 'movies:tv-detail' tv.id %}"
                 class="group h-48 md:h-96 flex justify-end items-end bg-gray-100 overflow-hidden rounded-lg shadow-lg relative">
-                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&q=75&fit=crop&w=600"
-                    loading="lazy" alt="Photo by Lorenzo Herrera"
+                <img src="https://image.tmdb.org/t/p/w500{{ tv.poster_path }}"
+                    loading="lazy" alt="Photo by Minh Pham"
                     class="w-full h-full object-cover object-center absolute inset-0 group-hover:scale-110 transition duration-200" />
 
                 <div
@@ -35,15 +49,23 @@
                 </div>
 
                 <span
-                    class="inline-block text-gray-200 text-xs md:text-sm border border-gray-500 rounded-lg backdrop-blur relative px-2 md:px-3 py-1 mr-3 mb-3">Retro</span>
+                    class="inline-block text-gray-200 text-xs md:text-sm border border-gray-500 rounded-lg backdrop-blur relative px-2 md:px-3 py-1 mr-3 mb-3">{{ tv.name }}</span>
             </a>
             <!-- image - end -->
 
+            {% endfor %}
+            {% endif %}
+            <!-- tv - end -->
+
+            <!-- peoples - start -->
+            {% if list_peoples %}
+            {% for people in list_peoples %}
+
             <!-- image - start -->
-            <a href="#"
+            <a href="{% url 'movies:people-detail' people.id %}"
                 class="group h-48 md:h-96 flex justify-end items-end bg-gray-100 overflow-hidden rounded-lg shadow-lg relative">
-                <img src="https://images.unsplash.com/photo-1542759564-7ccbb6ac450a?auto=format&q=75&fit=crop&w=600"
-                    loading="lazy" alt="Photo by Magicle"
+                <img src="https://image.tmdb.org/t/p/w500{{ people.profile_path }}"
+                    loading="lazy" alt="Photo by Minh Pham"
                     class="w-full h-full object-cover object-center absolute inset-0 group-hover:scale-110 transition duration-200" />
 
                 <div
@@ -51,10 +73,42 @@
                 </div>
 
                 <span
-                    class="inline-block text-gray-200 text-xs md:text-sm border border-gray-500 rounded-lg backdrop-blur relative px-2 md:px-3 py-1 mr-3 mb-3">Tech</span>
+                    class="inline-block text-gray-200 text-xs md:text-sm border border-gray-500 rounded-lg backdrop-blur relative px-2 md:px-3 py-1 mr-3 mb-3">{{ people.name }}</span>
             </a>
             <!-- image - end -->
+
+            {% endfor %}
+            {% endif %}
+
+            <!-- peoples - end -->
+
+            <!-- search - start -->
+
+            {% if results %}
+            {% for result in results %}
+
+            <!-- image - start -->
+            <a href="{% url 'movies:movie-detail' result.id %}"
+                class="group h-48 md:h-96 flex justify-end items-end bg-gray-100 overflow-hidden rounded-lg shadow-lg relative">
+                <img src="https://image.tmdb.org/t/p/w500{{ result.poster_path }}"
+                    loading="lazy" alt="Photo by Minh Pham"
+                    class="w-full h-full object-cover object-center absolute inset-0 group-hover:scale-110 transition duration-200" />
+
+                <div
+                    class="bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50 absolute inset-0 pointer-events-none">
+                </div>
+
+                <span
+                    class="inline-block text-gray-200 text-xs md:text-sm border border-gray-500 rounded-lg backdrop-blur relative px-2 md:px-3 py-1 mr-3 mb-3">{{ result.title }} {{ result.name }}</span>
+            </a>
+            <!-- image - end -->
+
+            <!-- search - end -->
+
+            {% endfor %}
+            {% endif %}
         </div>
     </div>
 </div>
+
 {% endblock %}
