@@ -1,4 +1,3 @@
-from urllib import response
 import requests
 from enum import Enum
 from django.db import models

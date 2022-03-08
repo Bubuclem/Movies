@@ -9,10 +9,15 @@ urlpatterns = [
     views.MediaView.as_view(), 
     name='media'),
 
-    # URL Media - Détail
-    path('', 
-    views.MediaView.as_view(), 
-    name='media'),
+    # URL Films
+    path('movies', 
+    views.MoviesView.as_view(), 
+    name='movies'),
+
+    # URL TV
+    path('tv', 
+    views.TVView.as_view(), 
+    name='tv'),
 
     # URL Genres
     path('genres', 
@@ -29,10 +34,15 @@ urlpatterns = [
     views.VideosView.as_view(), 
     name='videos'),
     
+    # URL Profile
+    path('account', 
+    views.AccountView.as_view(), 
+    name='account'),
+
     # URL Utilisateurs
-    path('utilisateurs', 
-    views.UtilisateursView.as_view(), 
-    name='utilisateurs'),
+    path('Users', 
+    views.UsersView.as_view(), 
+    name='Users'),
 
     # URL Login
     path('login', 

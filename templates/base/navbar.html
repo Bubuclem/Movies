@@ -18,13 +18,20 @@
 
             <!-- nav - start -->
             <nav class="hidden lg:flex gap-12">
-                <a href="#" class="text-indigo-500 text-lg font-semibold">Films</a>
-                <a href="{% url 'movies:media' %}"
-                    class="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100">Séries</a>
-                <a href="#"
-                    class="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100">Personnes</a>
-                <a href="#"
-                    class="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100">Profile</a>
+                {% url 'movies:movies' as url %}
+                <a href="{% url 'movies:movies' %}" class="{% if request.path == url %} text-indigo-500 text-lg font-semibold {% else %} text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100 {% endif %}">Films</a>
+                
+                {% url 'movies:tv' as url %}
+                <a href="{% url 'movies:tv' %}"
+                    class="{% if request.path == url %} text-indigo-500 text-lg font-semibold {% else %} text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100 {% endif %}">Séries</a>
+                
+                {% url 'movies:poeples' as url %}
+                <a href="{% url 'movies:poeples' %}"
+                    class="{% if request.path == url %} text-indigo-500 text-lg font-semibold {% else %} text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100 {% endif %}">Personnes</a>
+                
+                {% url 'movies:account' as url %}
+                <a href="{% url 'movies:account' %}"
+                    class="{% if request.path == url %} text-indigo-500 text-lg font-semibold {% else %} text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100 {% endif %}">Profile</a>
             </nav>
             <!-- nav - end -->
             
@@ -44,9 +51,10 @@
             </button>
             <!-- buttons - end -->
         </header>
+
+        {% block body %}{% endblock %}
+
     </div>
 </div>
-
-{% block body %}{% endblock %}
 
 {% endblock %}

@@ -1,7 +1,13 @@
+# Django
+# ==========
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login, logout
+
+# Imports
+# ==========
+import requests
 
 # Class Base
 # ==========
@@ -14,12 +20,6 @@ class BaseView(TemplateView):
     def isStaff(self,request) -> bool:
         return request.user.is_staff
 
-    def get(self,request):
-        pass
-
-    def post(self,request):
-        pass
-
 # Class Views
 # ===========
 class MediaView(BaseView):
@@ -28,10 +28,18 @@ class MediaView(BaseView):
             return HttpResponseRedirect('/login')
         return render(request, 'gallery/gallery.html', {})
 
-    def post(self, request, id):
+class MoviesView(BaseView):
+    def get(self,request):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
-        return render(request, 'gallery/gallery.html', {'id':id})
+        
+        return render(request, 'gallery/gallery.html', {})
+
+class TVView(BaseView):
+    def get(self,request):
+        if self.isNotauthenticated(request) == False:
+            return HttpResponseRedirect('/login')
+        return render(request, 'gallery/gallery.html', {})
 
 class GenresView(BaseView):
     def get(self,request):
@@ -39,16 +47,23 @@ class GenresView(BaseView):
 
 class PoeplesView(BaseView):
     def get(self,request):
-        self.isNotauthenticated()
+        if self.isNotauthenticated(request) == False:
+            return HttpResponseRedirect('/login')
+        return render(request, 'gallery/gallery.html', {})
 
 class VideosView(BaseView):
     def get(self,request):
         self.isNotauthenticated()
 
-class UtilisateursView(BaseView):
+class AccountView(BaseView):
     def get(self,request):
-        self.isNotauthenticated()
-        if self.isStaff():
+        if self.isNotauthenticated(request) == False:
+            return HttpResponseRedirect('/login')
+        return render(request, 'form/form.html', {})
+
+class UsersView(BaseView):
+    def get(self,request):
+        if self.isNotauthenticated(request) == False and self.isStaff() == False:
            pass
 
 class LoginView(BaseView):
