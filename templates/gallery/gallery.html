@@ -15,8 +15,8 @@
             <!-- image - start -->
             <a href="{% url 'movies:movie-detail' movie.id %}"
                 class="group h-48 md:h-96 flex justify-end items-end bg-gray-100 overflow-hidden rounded-lg shadow-lg relative">
-                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
-                    loading="lazy" alt="Photo by Minh Pham"
+                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" loading="lazy"
+                    alt="Photo by Minh Pham"
                     class="w-full h-full object-cover object-center absolute inset-0 group-hover:scale-110 transition duration-200" />
 
                 <div
@@ -40,8 +40,7 @@
             <!-- image - start -->
             <a href="{% url 'movies:tv-detail' tv.id %}"
                 class="group h-48 md:h-96 flex justify-end items-end bg-gray-100 overflow-hidden rounded-lg shadow-lg relative">
-                <img src="https://image.tmdb.org/t/p/w500{{ tv.poster_path }}"
-                    loading="lazy" alt="Photo by Minh Pham"
+                <img src="https://image.tmdb.org/t/p/w500{{ tv.poster_path }}" loading="lazy" alt="Photo by Minh Pham"
                     class="w-full h-full object-cover object-center absolute inset-0 group-hover:scale-110 transition duration-200" />
 
                 <div
@@ -64,8 +63,8 @@
             <!-- image - start -->
             <a href="{% url 'movies:people-detail' people.id %}"
                 class="group h-48 md:h-96 flex justify-end items-end bg-gray-100 overflow-hidden rounded-lg shadow-lg relative">
-                <img src="https://image.tmdb.org/t/p/w500{{ people.profile_path }}"
-                    loading="lazy" alt="Photo by Minh Pham"
+                <img src="https://image.tmdb.org/t/p/w500{{ people.profile_path }}" loading="lazy"
+                    alt="Photo by Minh Pham"
                     class="w-full h-full object-cover object-center absolute inset-0 group-hover:scale-110 transition duration-200" />
 
                 <div
@@ -88,10 +87,10 @@
             {% for result in results %}
 
             <!-- image - start -->
-            <a href="{% url 'movies:movie-detail' result.id %}"
+            <a href="{% if  %} {% url 'movies:movie-detail' result.id %}"
                 class="group h-48 md:h-96 flex justify-end items-end bg-gray-100 overflow-hidden rounded-lg shadow-lg relative">
-                <img src="https://image.tmdb.org/t/p/w500{{ result.poster_path }}"
-                    loading="lazy" alt="Photo by Minh Pham"
+                <img src="https://image.tmdb.org/t/p/w500{{ result.poster_path }}" loading="lazy"
+                    alt="Photo by Minh Pham"
                     class="w-full h-full object-cover object-center absolute inset-0 group-hover:scale-110 transition duration-200" />
 
                 <div
@@ -99,7 +98,7 @@
                 </div>
 
                 <span
-                    class="inline-block text-gray-200 text-xs md:text-sm border border-gray-500 rounded-lg backdrop-blur relative px-2 md:px-3 py-1 mr-3 mb-3">{{ result.title }} {{ result.name }}</span>
+                    class="inline-block text-gray-200 text-xs md:text-sm border border-gray-500 rounded-lg backdrop-blur relative px-2 md:px-3 py-1 mr-3 mb-3">{{ result.title }}{{ result.name }}</span>
             </a>
             <!-- image - end -->
 
