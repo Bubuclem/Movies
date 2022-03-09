@@ -1,11 +1,16 @@
 # Django
 # ==========
-from unittest import result
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
+
+# API
+# ===
+#from .serializers import MoviesSerializer
+#from rest_framework import viewsets
+#from rest_framework import permissions
 
 # Imports
 # ==========
@@ -109,7 +114,13 @@ class PeoplesDetailView(BaseView):
         people = tmdb.People(people_id)
         response = people.info(language='fr')
         
-        return render(request, 'content/content.html', {'people':response})
+        populars = people.popular(language='fr')
+
+        list_populars = []
+        for popular in populars['results'][0]['known_for']:
+            list_populars.append(popular)
+
+        return render(request, 'content/content.html', {'people':response, 'list_populars':list_populars})
 
 class VideosView(BaseView):
     def get(self,request):
@@ -162,3 +173,7 @@ class LogoutView(BaseView):
             return HttpResponseRedirect('/login')
         logout(request)
         return HttpResponseRedirect ('/login')
+
+# API
+# ===
+

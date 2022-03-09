@@ -19,6 +19,18 @@
         {{ people.biography }}
       </p>
 
+      <h2 class="text-gray-800 text-xl sm:text-2xl font-semibold mb-2 md:mb-4">Genre</h2>
+
+      <p class="text-gray-500 sm:text-lg mb-6 md:mb-8">
+        {% if people.gender  == 1 %} Femme {% elif people.gender  == 2 %} Homme {% endif %}
+      </p>
+
+      <h2 class="text-gray-800 text-xl sm:text-2xl font-semibold mb-2 md:mb-4">Date de naissance</h2>
+
+      <p class="text-gray-500 sm:text-lg mb-6 md:mb-8">
+        {{ people.birthday }} {% if people.deathday is not None %} - {{ people.deathday }} {% endif %}
+      </p>
+
       <!-- genres - start -->
       <div class="mb-8 md:mb-10">
         <span class="inline-block text-gray-500 text-sm md:text-base font-semibold mb-3">Alias</span>
@@ -30,6 +42,12 @@
         </div>
       </div>
       <!-- genres - end -->
+
+      {% for popular in list_populars %}
+
+        {{ popular }}
+
+      {% endfor %}
 
       {% else %}
 
@@ -60,7 +78,9 @@
       
             <!-- stat - start -->
             <div class="flex flex-col justify-center items-center bg-gray-100 rounded-lg p-4 md:p-8">
-              <div class="text-indigo-500 text-xl sm:text-2xl md:text-3xl font-bold">{{ movie.budget }}</div>
+              <div class="text-indigo-500 text-xl sm:text-2xl md:text-3xl font-bold">
+                {{ movie.budget }}
+              </div>
               <div class="text-sm sm:text-base font-semibold">Budget</div>
             </div>
             <!-- stat - end -->
