@@ -27,7 +27,7 @@
                 
                 {% url 'movies:peoples' as url %}
                 <a href="{% url 'movies:peoples' %}"
-                    class="{% if request.path == url %} text-indigo-500 text-lg font-semibold {% else %} text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100 {% endif %}">Personnes</a>
+                    class="{% if request.path == url %} text-indigo-500 text-lg font-semibold {% else %} text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100 {% endif %}">Acteurs</a>
                 
                 {% url 'movies:account' as url %}
                 <a href="{% url 'movies:account' %}"

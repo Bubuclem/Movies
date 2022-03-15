@@ -48,11 +48,18 @@ class MoviesView(BaseView):
         movies = tmdb.Movies()
         movies_now_playing = movies.now_playing()
 
-        list_movies = []
-        for movie in movies_now_playing['results']:
-            list_movies.append(movie)
+        return render(request, 'gallery/gallery.html', {'list_movies':movies_now_playing['results']})
 
-        return render(request, 'gallery/gallery.html', {'list_movies':list_movies})
+    def post(self, request):
+        if self.isNotauthenticated(request) == False:
+            return HttpResponseRedirect('/login')
+
+        _page = request.POST['page']
+
+        movies = tmdb.Movies()
+        movies_now_playing = movies.now_playing(page=_page)
+
+        return render(request, 'gallery/gallery.html', {'list_movies':movies_now_playing['results']})
 
 class MovieDetailView(BaseView):
     def get(self,request,movie_id):
@@ -62,7 +69,9 @@ class MovieDetailView(BaseView):
         movie = tmdb.Movies(movie_id)
         response = movie.info(language='fr')
         
-        return render(request, 'content/content.html', {'movie':response})
+        videos = movie.videos(language='fr')
+
+        return render(request, 'content/content.html', { 'movie':response, 'videos':videos['results'] })
 
 class TVView(BaseView):
     def get(self,request):
@@ -72,11 +81,7 @@ class TVView(BaseView):
         tv = tmdb.TV()
         medias_now_playing = tv.on_the_air()
 
-        list_tv = []
-        for movie in medias_now_playing['results']:
-            list_tv.append(movie)
-
-        return render(request, 'gallery/gallery.html', {'list_tv':list_tv})
+        return render(request, 'gallery/gallery.html', {'list_tv':medias_now_playing['results']})
 
 class TVDetailView(BaseView):
     def get(self,request,tv_id):
@@ -100,11 +105,7 @@ class PeoplesView(BaseView):
         peoples = tmdb.People()
         peoples_popular = peoples.popular()
 
-        list_peoples = []
-        for people in peoples_popular['results']:
-            list_peoples.append(people)
-
-        return render(request, 'gallery/gallery.html', {'list_peoples':list_peoples})
+        return render(request, 'gallery/gallery.html', {'list_peoples':peoples_popular['results']})
 
 class PeoplesDetailView(BaseView):
     def get(self,request,people_id):
@@ -116,11 +117,7 @@ class PeoplesDetailView(BaseView):
         
         populars = people.popular(language='fr')
 
-        list_populars = []
-        for popular in populars['results'][0]['known_for']:
-            list_populars.append(popular)
-
-        return render(request, 'content/content.html', {'people':response, 'list_populars':list_populars})
+        return render(request, 'content/content.html', {'people':response, 'list_populars':populars['results'][0]['known_for']})
 
 class VideosView(BaseView):
     def get(self,request):
