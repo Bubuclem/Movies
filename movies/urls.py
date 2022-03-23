@@ -14,6 +14,10 @@ urlpatterns = [
     views.MoviesView.as_view(), 
     name='movies'),
 
+    path('movies/<int:page>', 
+    views.MoviesView.as_view(), 
+    name='movies'),
+
     # URL Films détail
     path('movie/<int:movie_id>', 
     views.MovieDetailView.as_view(), 
@@ -21,6 +25,10 @@ urlpatterns = [
 
     # URL TV
     path('tv', 
+    views.TVView.as_view(), 
+    name='tv'),
+
+    path('tv/<int:page>', 
     views.TVView.as_view(), 
     name='tv'),
 
@@ -39,10 +47,19 @@ urlpatterns = [
     views.PeoplesView.as_view(), 
     name='peoples'),
 
+    path('peoples/<int:page>', 
+    views.PeoplesView.as_view(), 
+    name='peoples'),
+
     # URL Peoples détail
     path('people/<int:people_id>', 
-    views.PeoplesDetailView.as_view(), 
+    views.PeopleDetailView.as_view(), 
     name='people-detail'),
+
+    # URL Poeples
+    path('people/<int:people_id>/images', 
+    views.PeopleImagesView.as_view(), 
+    name='people-images'),
 
     # URL Videos
     path('videos', 

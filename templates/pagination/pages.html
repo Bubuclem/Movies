@@ -1,0 +1,30 @@
+<div class="flex justify-center space-x-1 dark:text-coolGray-100">
+
+    <!-- movies - start -->
+    {% if list_movies%}
+    {% for page in 'total_pages' %}
+    <a type="button" title="Page {{forloop.counter}}" href="{% url 'movies:movies' forloop.counter %}"
+        class="inline-flex items-center justify-center w-8 h-8 text-sm border rounded shadow-md dark:bg-coolGray-900 dark:border-coolGray-800 hover:font-semibold hover:text-indigo-400 hover:border-indigo-400">{{forloop.counter}}</a>
+    {% endfor %}
+    {% endif %}
+    <!-- movies - end -->
+
+    <!-- tv - start -->
+    {% if list_tv%}
+    {% for page in total_pages|make_list %}
+    <a type="button" title="Page {{forloop.counter}}" href="{% url 'movies:tv' forloop.counter %}"
+        class="inline-flex items-center justify-center w-8 h-8 text-sm border rounded shadow-md dark:bg-coolGray-900 dark:border-coolGray-800 hover:font-semibold hover:text-indigo-400 hover:border-indigo-400">{{forloop.counter}}</a>
+    {% endfor %}
+    {% endif %}
+    <!-- tv - end -->
+
+    <!-- tv - start -->
+    {% if list_peoples%}
+    {% for page in total_pages|make_list %}
+    <a type="button" title="Page {{forloop.counter}}" href="{% url 'movies:peoples' forloop.counter %}"
+        class="inline-flex items-center justify-center w-8 h-8 text-sm border rounded shadow-md dark:bg-coolGray-900 dark:border-coolGray-800 hover:font-semibold hover:text-indigo-400 hover:border-indigo-400">{{forloop.counter}}</a>
+    {% endfor %}
+    {% endif %}
+    <!-- tv - end -->
+
+</div>

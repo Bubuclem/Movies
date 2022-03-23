@@ -41,25 +41,14 @@ class MediaView(BaseView):
         return render(request, 'pages/indexview/index.html', {})
 
 class MoviesView(BaseView):
-    def get(self,request):
+    def get(self,request,page=None):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
 
         movies = tmdb.Movies()
-        movies_now_playing = movies.popular()
+        movies_now_playing = movies.popular(language='fr',page=page)
 
-        return render(request, 'pages/mediaview/medias.html', {'list_movies':movies_now_playing['results']})
-
-    def post(self, request):
-        if self.isNotauthenticated(request) == False:
-            return HttpResponseRedirect('/login')
-
-        _page = request.POST['page']
-
-        movies = tmdb.Movies()
-        movies_now_playing = movies.popular(page=_page)
-
-        return render(request, 'pages/mediaview/medias.html', {'list_movies':movies_now_playing['results']})
+        return render(request, 'pages/mediaview/medias.html', { 'list_movies':movies_now_playing['results'], 'total_pages':movies_now_playing['total_pages'] })
 
 class MovieDetailView(BaseView):
     def get(self,request,movie_id):
@@ -76,14 +65,14 @@ class MovieDetailView(BaseView):
         return render(request, 'pages/mediaview/media.html', { 'movie':response, 'credits':credits['cast'][:8], 'videos':videos['results'][:4], 'reviews':reviews['results'] })
 
 class TVView(BaseView):
-    def get(self,request):
+    def get(self,request,page=None):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
 
         tv = tmdb.TV()
-        medias_now_playing = tv.on_the_air()
+        medias_now_playing = tv.popular(language='fr',page=page)
 
-        return render(request, 'pages/mediaview/medias.html', {'list_tv':medias_now_playing['results']})
+        return render(request, 'pages/mediaview/medias.html', {'list_tv':medias_now_playing['results'], 'total_pages':medias_now_playing['total_pages'] })
 
 class TVDetailView(BaseView):
     def get(self,request,tv_id):
@@ -100,16 +89,16 @@ class GenresView(BaseView):
         self.isNotauthenticated()
 
 class PeoplesView(BaseView):
-    def get(self,request):
+    def get(self,request,page=None):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
 
         peoples = tmdb.People()
-        peoples_popular = peoples.popular()
+        peoples_popular = peoples.popular(page=page)
 
-        return render(request, 'pages/mediaview/medias.html', {'list_peoples':peoples_popular['results']})
+        return render(request, 'pages/mediaview/medias.html', { 'list_peoples':peoples_popular['results'], 'total_pages':peoples_popular['total_pages'] })
 
-class PeoplesDetailView(BaseView):
+class PeopleDetailView(BaseView):
     def get(self,request,people_id):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
@@ -120,6 +109,18 @@ class PeoplesDetailView(BaseView):
         populars = people.popular(language='fr')
 
         return render(request, 'pages/mediaview/media.html', {'people':response, 'list_populars':populars['results'][0]['known_for']})
+
+class PeopleImagesView(BaseView):
+    def get(self,request,people_id):
+        if self.isNotauthenticated(request) == False:
+            return HttpResponseRedirect('/login')
+
+        people = tmdb.People(people_id)
+        response = people.info(language='fr')
+        
+        images = people.images()
+
+        return render(request, 'pages/peoplesview/images.html', {'people':response, 'images':images['profiles'] })
 
 class VideosView(BaseView):
     def get(self,request):
