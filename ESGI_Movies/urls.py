@@ -9,5 +9,6 @@ from movies import views
 urlpatterns = [
     path('', include('movies.urls')),
     path('admin/', admin.site.urls),
+    path("__reload__/", include("django_browser_reload.urls")),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

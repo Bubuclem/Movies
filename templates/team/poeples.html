@@ -1,0 +1,31 @@
+<div class="bg-white py-6 sm:py-8 lg:py-12">
+    <div class="max-w-screen-xl px-4 md:px-8 mx-auto">
+        <!-- text - start -->
+        <div class="mb-10 md:mb-16">
+            <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold text-center mb-4 md:mb-6">Acteurs</h2>
+        </div>
+        <!-- text - end -->
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-8">
+
+            {% for actor in credits %}
+
+            <!-- person - start -->
+            <div class="flex flex-col items-center bg-gray-100 rounded-lg p-4 lg:p-8">
+                <div class="w-24 md:w-32 h-24 md:h-32 bg-gray-200 rounded-full overflow-hidden shadow-lg mb-2 md:mb-4">
+                    <img src="https://image.tmdb.org/t/p/w500{{actor.profile_path}}"
+                        loading="lazy" alt="{{actor.original_name}}" class="w-full h-full object-cover object-center" />
+                </div>
+
+                <div>
+                    <div class="text-indigo-500 md:text-lg font-bold text-center">{{actor.name}}</div>
+                    <p class="text-gray-500 text-sm md:text-base text-center mb-3 md:mb-4">{{actor.original_name}}</p>
+                </div>
+            </div>
+            <!-- person - end -->
+
+            {% endfor %}
+
+        </div>
+    </div>
+</div>

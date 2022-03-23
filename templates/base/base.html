@@ -6,16 +6,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% tailwind_css %}
     <title>Movies | {% block title %}Base{% endblock %}</title>
+    {% tailwind_css %}
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
 <body>
-    <!-- content -->
+    <!-- Header -->
+    {% include "base/header/header.html" %}
+    
+    <!-- Content -->
     {% block content %}{% endblock %}
 
-    <!-- footer -->
-    {% include "base/footer.html" %}
+    <!-- Footer -->
+    {% include "base/footer/footer.html" %}
 </body>
 
 </html>
