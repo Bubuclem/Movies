@@ -8,14 +8,14 @@ With framework [**Django**](https://docs.djangoproject.com/fr/4.0/), in [**Pytho
 
 ### Features :computer:
    * Views
-      * List of popular movies
-      * List of current movies
-      * List of upcoming movies
-      * List of highest rated films
-      * List of popular TV shows
-      * List of TV shows broadcast today
-      * List of TV shows currently airing
-      * List of top rated TV shows
-      * List of actors
-   * OAuth2 connection
-   * REST API
+      * :heavy_check_mark: List of popular movies
+      * :x: List of current movies
+      * :x: List of upcoming movies
+      * :x: List of highest rated films
+      * :heavy_check_mark: List of popular TV shows
+      * :x: List of TV shows broadcast today
+      * :x: List of TV shows currently airing
+      * :x: List of top rated TV shows
+      * :heavy_check_mark: List of actors
+   * :x: OAuth2 connection
+   * :x: REST API
