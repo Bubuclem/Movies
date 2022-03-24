@@ -1,5 +1,7 @@
 # Movies :movie_camera:
 
+[![Django CI](https://github.com/Bubuclem/Movies/actions/workflows/django.yml/badge.svg)](https://github.com/Bubuclem/Movies/actions/workflows/django.yml)
+
 School project
 
 We use the API **The Movie Database (TMDb)**, check out the [documentation](https://developers.themoviedb.org/3/getting-started/introduction). :books:
