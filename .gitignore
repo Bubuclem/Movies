@@ -1,7 +1,3 @@
 /.vscode/
 __pycache__
-ESGI_Movies/theme/
-movies/migrations/
-theme/
-/db.sqlite3
-/secret_key.txt
+ESGI_Movies/theme
