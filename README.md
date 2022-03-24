@@ -2,9 +2,13 @@
 
 School project
 
-We use the API **The Movie Database (TMDb)**, check out the [documentation](https://developers.themoviedb.org/3/getting-started/introduction).
+We use the API **The Movie Database (TMDb)**, check out the [documentation](https://developers.themoviedb.org/3/getting-started/introduction). :books:
+
+Use wrapper for The Movie Database API v3, [tmdbsimple](https://github.com/celiao/tmdbsimple). :tv:
 
 With framework [**Django**](https://docs.djangoproject.com/fr/4.0/), in [**Python**](https://github.com/topics/python) :snake: language.
+
+And [django-tailwind](https://github.com/timonweb/django-tailwind) for CSS :green_heart:
 
 ### Features :computer:
    * Views
