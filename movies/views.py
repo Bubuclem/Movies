@@ -16,6 +16,7 @@ from django.conf import settings
 # ==========
 import tmdbsimple as tmdb
 import requests
+from .tmdb import Movies
 
 # Class Base
 # ==========
@@ -45,7 +46,7 @@ class MoviesView(BaseView):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
 
-        movies = tmdb.Movies()
+        movies = Movies()
         movies_now_playing = movies.popular(language='fr',page=page)
 
         return render(request, 'pages/mediaview/medias.html', { 'list_movies':movies_now_playing['results'], 'total_pages':movies_now_playing['total_pages'] })

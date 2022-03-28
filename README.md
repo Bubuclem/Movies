@@ -28,7 +28,10 @@ ___
       * :heavy_check_mark: List of actors
    * :x: OAuth2 connection
    * :x: REST API
-   * :x: Own wrapper TMDb
+   * Own wrapper TMDb
+      * :heavy_check_mark: Movies
+      * :x: TV
+      * :x: Actors
 ___
 
 ### Requirements
