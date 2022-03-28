@@ -30,7 +30,7 @@ ___
    * :x: REST API
    * Own wrapper TMDb
       * :heavy_check_mark: Movies
-      * :x: TV
+      * :heavy_check_mark: TV
       * :x: Actors
 ___
 

@@ -4,8 +4,10 @@ import requests
 from django.conf import settings
 
 from .movies import Movies
+from .tv import TV
 
-__all__ = ['Movies']
+__all__ = ['Movies',
+            'TV']
 
 API_KEY = settings.SECRET_KEY_TMDB
 API_VERSION = '3'
