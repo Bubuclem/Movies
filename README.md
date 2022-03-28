@@ -7,7 +7,7 @@ ___
 
 We use the API **The Movie Database (TMDb)**, check out the [documentation](https://developers.themoviedb.org/3/getting-started/introduction). :books:
 
-Use wrapper for The Movie Database API v3, [tmdbsimple](https://github.com/celiao/tmdbsimple). :tv:
+API wrappe based on [tmdbsimple](https://github.com/celiao/tmdbsimple). :tv:
 
 [Alpine.js](https://github.com/alpinejs/alpine) for JavaScript framework & [django-tailwind](https://github.com/timonweb/django-tailwind) for CSS :green_heart:
 
@@ -31,7 +31,7 @@ ___
    * Own wrapper TMDb
       * :heavy_check_mark: Movies
       * :heavy_check_mark: TV
-      * :x: Actors
+      * :heavy_check_mark: Actors
       * :heavy_check_mark: Search
 ___
 
@@ -42,5 +42,4 @@ Django>=3.0,<4.0
 psycopg2>=2.8
 djangorestframework>=3.1
 django-tailwind>=3.1
-tmdbsimple
 ```
