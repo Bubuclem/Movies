@@ -14,10 +14,7 @@ from django.conf import settings
 
 # Imports
 # ==========
-import tmdbsimple as tmdb
-from .tmdb import Movies, TV, Search
-
-print(res)
+from .tmdb import Movies, TV, Search, People
 
 # Class Base
 # ==========
@@ -54,7 +51,7 @@ class MovieDetailView(BaseView):
             return HttpResponseRedirect('/login')
 
         movie = Movies(movie_id)
-        response = movie.info(language='fr')
+        response = movie.detail(language='fr')
         
         credits = movie.credits()
         videos = movie.videos(language='fr')
@@ -78,7 +75,7 @@ class TVDetailView(BaseView):
             return HttpResponseRedirect('/login')
 
         movie = TV(tv_id)
-        response = movie.info(language='fr')
+        response = movie.detail(language='fr')
         
         return render(request, 'pages/mediaview/media.html', {'tv':response})
 
@@ -91,7 +88,7 @@ class PeoplesView(BaseView):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
 
-        peoples = tmdb.People()
+        peoples = People()
         peoples_popular = peoples.popular(page=page)
 
         return render(request, 'pages/mediaview/medias.html', { 'list_peoples':peoples_popular['results'], 'total_pages':peoples_popular['total_pages'] })
@@ -101,8 +98,8 @@ class PeopleDetailView(BaseView):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
 
-        people = tmdb.People(people_id)
-        response = people.info(language='fr')
+        people = People(people_id)
+        response = people.detail(language='fr')
         
         populars = people.popular(language='fr')
 
@@ -113,8 +110,8 @@ class PeopleImagesView(BaseView):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
 
-        people = tmdb.People(people_id)
-        response = people.info(language='fr')
+        people = People(people_id)
+        response = people.detail(language='fr')
         
         images = people.images()
 

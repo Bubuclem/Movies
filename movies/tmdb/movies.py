@@ -24,7 +24,7 @@ class Movies(TMDB):
         self.id = id
 
     def detail(self, **kwargs): # Détail du film
-        path = self._get_id_path('details')
+        path = self._get_id_path('detail')
 
         response = self._GET(path, kwargs)
         self._set_attrs_to_values(response)
