@@ -32,6 +32,7 @@ ___
       * :heavy_check_mark: Movies
       * :heavy_check_mark: TV
       * :x: Actors
+      * :heavy_check_mark: Search
 ___
 
 ### Requirements

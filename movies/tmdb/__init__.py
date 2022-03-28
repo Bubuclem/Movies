@@ -5,9 +5,11 @@ from django.conf import settings
 
 from .movies import Movies
 from .tv import TV
+from .search import Search
 
 __all__ = ['Movies',
-            'TV']
+            'TV',
+            'Search']
 
 API_KEY = settings.SECRET_KEY_TMDB
 API_VERSION = '3'

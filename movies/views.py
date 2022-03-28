@@ -15,16 +15,13 @@ from django.conf import settings
 # Imports
 # ==========
 import tmdbsimple as tmdb
-import requests
-from .tmdb import Movies, TV
+from .tmdb import Movies, TV, Search
+
+print(res)
 
 # Class Base
 # ==========
 class BaseView(TemplateView):
-            
-    tmdb.API_KEY = settings.SECRET_KEY_TMDB
-    tmdb.REQUESTS_SESSION = requests.Session()
-
     def isNotauthenticated(self,request) -> bool :
         if request.user.is_authenticated:
             return True
@@ -146,7 +143,7 @@ class SearchView(BaseView):
 
     def post(self, request):
         _search = request.POST['search']
-        search = tmdb.Search()
+        search = Search()
         response = search.multi(query=_search)
 
         results = []
