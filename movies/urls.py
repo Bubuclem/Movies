@@ -24,13 +24,13 @@ urlpatterns = [
     name='movie-detail'),
 
     # URL TV
-    path('tv', 
+    path('shows', 
     views.TVView.as_view(), 
-    name='tv'),
+    name='shows'),
 
-    path('tv/<int:page>', 
+    path('shows/<int:page>', 
     views.TVView.as_view(), 
-    name='tv'),
+    name='shows'),
 
     # URL Série détail
     path('tv/<int:tv_id>', 

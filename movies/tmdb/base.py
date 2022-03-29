@@ -25,6 +25,10 @@ class TMDB(object):
     def _get_id_path(self, key): # Get sur un lien avec un ID 
         return self._get_path(key).format(id=self.id)
 
+    def _get_tv_id_season_number_path(self, key):
+        return self._get_path(key).format(
+            tv_id=self.tv_id, season_number=self.season_number)
+
     def _get_complete_url(self, path):
         return '{base_uri}/{path}'.format(base_uri=self.base_uri, path=path)
 

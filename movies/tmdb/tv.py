@@ -23,7 +23,7 @@ class TV(TMDB):
         self.id = id
 
     def detail(self, **kwargs): # Détail de la série
-        path = self._get_tv_id_season_number_path('detail')
+        path = self._get_id_path('detail')
 
         response = self._GET(path, kwargs)
         self._set_attrs_to_values(response)

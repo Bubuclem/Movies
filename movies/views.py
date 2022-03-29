@@ -43,7 +43,7 @@ class MoviesView(BaseView):
         movies = Movies()
         movies_now_playing = movies.popular(language='fr',page=page)
 
-        return render(request, 'pages/mediaview/medias.html', { 'list_movies':movies_now_playing['results'], 'total_pages':movies_now_playing['total_pages'] })
+        return render(request, 'pages/mediaview/medias.html', { 'movies':movies_now_playing['results'], 'total_pages':movies_now_playing['total_pages'] })
 
 class MovieDetailView(BaseView):
     def get(self,request,movie_id):
@@ -67,15 +67,15 @@ class TVView(BaseView):
         tv = TV()
         medias_now_playing = tv.popular(language='fr',page=page)
 
-        return render(request, 'pages/mediaview/medias.html', {'list_tv':medias_now_playing['results'], 'total_pages':medias_now_playing['total_pages'] })
+        return render(request, 'pages/mediaview/medias.html', {'shows':medias_now_playing['results'], 'total_pages':medias_now_playing['total_pages'] })
 
 class TVDetailView(BaseView):
     def get(self,request,tv_id):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
 
-        movie = TV(tv_id)
-        response = movie.detail(language='fr')
+        media = TV(tv_id)
+        response = media.detail(language='fr')
         
         return render(request, 'pages/mediaview/media.html', {'tv':response})
 
@@ -91,7 +91,7 @@ class PeoplesView(BaseView):
         peoples = People()
         peoples_popular = peoples.popular(page=page)
 
-        return render(request, 'pages/mediaview/medias.html', { 'list_peoples':peoples_popular['results'], 'total_pages':peoples_popular['total_pages'] })
+        return render(request, 'pages/peoplesview/peoples.html', { 'peoples':peoples_popular['results'], 'total_pages':peoples_popular['total_pages'] })
 
 class PeopleDetailView(BaseView):
     def get(self,request,people_id):

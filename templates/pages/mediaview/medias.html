@@ -2,8 +2,19 @@
 
 {% block content %}
 
-<!-- gallery -->
-{% include "gallery/gallery.html" %}
+{% if movies %}
+
+<!-- movies -->
+{% include "pages/mediaview/card/card.html" with values=movies url_path="movies:movie-detail" %}
+
+{% endif %}
+
+{% if shows %}
+
+<!-- shows -->
+{% include "pages/mediaview/card/card.html" with values=shows url_path="movies:tv-detail" %}
+
+{% endif %}
 
 <!-- pagination -->
 {% include "pagination/pages.html" %}
