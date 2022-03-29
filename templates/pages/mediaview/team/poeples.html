@@ -13,7 +13,7 @@
             <!-- person - start -->
             <div class="flex flex-col items-center bg-gray-100 rounded-lg p-4 lg:p-8">
                 <div class="w-24 md:w-32 h-24 md:h-32 bg-gray-200 rounded-full overflow-hidden shadow-lg mb-2 md:mb-4">
-                    <img src="https://image.tmdb.org/t/p/w500{{actor.profile_path}}"
+                    <img src="{% if actor.profile_path %}https://image.tmdb.org/t/p/w500{{actor.profile_path}}{%else%}https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-4-user-grey-d8fe957375e70239d6abdd549fd7568c89281b2179b5f4470e2e12895792dfa5.svg{%endif%}"
                         loading="lazy" alt="{{actor.original_name}}" class="w-full h-full object-cover object-center" />
                 </div>
 
@@ -27,5 +27,10 @@
             {% endfor %}
 
         </div>
+
     </div>
+</div>
+
+<div class="flex justify-center space-x-1 text-white">
+    <button type="button" class="px-8 py-3 font-semibold rounded bg-indigo-500">Plus</button>
 </div>

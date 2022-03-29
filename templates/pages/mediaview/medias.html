@@ -16,6 +16,13 @@
 
 {% endif %}
 
+{% if results %}
+
+<!-- search -->
+{% include "pages/mediaview/card/card.html" with values=results %}
+
+{% endif %}
+
 <!-- pagination -->
 {% include "pagination/pages.html" %}
 

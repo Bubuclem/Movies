@@ -57,7 +57,7 @@ class MovieDetailView(BaseView):
         videos = movie.videos(language='fr')
         reviews = movie.reviews(language='fr')
 
-        return render(request, 'pages/mediaview/media.html', { 'movie':response, 'credits':credits['cast'][:8], 'videos':videos['results'][:4], 'reviews':reviews['results'] })
+        return render(request, 'pages/mediaview/media.html', { 'media':response, 'credits':credits['cast'][:8], 'videos':videos['results'][:4], 'reviews':reviews['results'] })
 
 class TVView(BaseView):
     def get(self,request,page=None):
@@ -77,7 +77,11 @@ class TVDetailView(BaseView):
         media = TV(tv_id)
         response = media.detail(language='fr')
         
-        return render(request, 'pages/mediaview/media.html', {'tv':response})
+        credits = media.credits()
+        videos = media.videos(language='fr')
+        reviews = media.reviews(language='fr')
+
+        return render(request, 'pages/mediaview/media.html', {'media':response, 'credits':credits['cast'][:8], 'videos':videos['results'][:4], 'reviews':reviews['results']})
 
 class GenresView(BaseView):
     def get(self,request):
@@ -103,7 +107,7 @@ class PeopleDetailView(BaseView):
         
         populars = people.popular(language='fr')
 
-        return render(request, 'pages/mediaview/media.html', {'people':response, 'list_populars':populars['results'][0]['known_for']})
+        return render(request, 'pages/peoplesview/people.html', {'people':response, 'list_populars':populars['results'][0]['known_for']})
 
 class PeopleImagesView(BaseView):
     def get(self,request,people_id):
@@ -151,7 +155,7 @@ class SearchView(BaseView):
 
 class LoginView(BaseView):
     def get(self,request):
-        return render(request, 'form/login.html', {})
+        return render(request, 'pages/loginview/login.html', {})
 
     def post(self,request):
         _username = request.POST['username']
@@ -160,7 +164,7 @@ class LoginView(BaseView):
         if user is not None:
             login(request, user)
             return HttpResponseRedirect('/')
-        return render(request, 'form/login.html', {})
+        return render(request, 'pages/loginview/login.html', {})
 
 class LogoutView(BaseView):
     def get(self,request):
