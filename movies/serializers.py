@@ -1,15 +1,9 @@
 from rest_framework import serializers
 from django.conf import settings
 
-import tmdbsimple as tmdb
-import requests
+from .models import Movie
 
 class MoviesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = tmdb.Movies
-        fields = ['id', 'title']
-
-    def create(self):
-        tmdb.API_KEY = settings.SECRET_KEY_TMDB
-        tmdb.REQUESTS_SESSION = requests.Session()
-        return tmdb
+        model = Movie
+        fields = ['movie_id', 'title', 'poster_path', 'overview', 'release_date', 'original_title', 'original_language', 'backdrop_path', 'popularity', 'vote_count', 'vote_average', 'adult']

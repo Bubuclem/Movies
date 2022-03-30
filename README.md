@@ -35,6 +35,13 @@ ___
          > :heavy_check_mark: List of actors
    * :x: OAuth2 connection
    * :x: REST API
+      > :x: Movies
+      >
+      > :x: TV
+      >
+      > :x: Actors
+      >
+      > :x: Search
    * Own wrapper TMDb
       > :heavy_check_mark: Movies
       >

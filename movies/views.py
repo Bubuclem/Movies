@@ -1,6 +1,7 @@
 # Django
 # ==========
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from turtle import title
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login, logout
@@ -8,13 +9,14 @@ from django.conf import settings
 
 # API
 # ===
-#from .serializers import MoviesSerializer
-#from rest_framework import viewsets
-#from rest_framework import permissions
+from .serializers import MoviesSerializer
+from rest_framework import viewsets
+from rest_framework import permissions
 
 # Imports
 # ==========
-from .tmdb import Movies, TV, Search, People
+from .tmdb import tmdb_movie, TV, Search, People
+from .models import Movie
 
 # Class Base
 # ==========
@@ -42,7 +44,7 @@ class MoviesView(BaseView):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
 
-        movies = Movies()
+        movies = tmdb_movie()
 
         if type=="": # Populaire
             medias = movies.popular(language='fr',page=page)
@@ -58,7 +60,7 @@ class MovieDetailView(BaseView):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
 
-        movies  = Movies(movie_id)
+        movies  = tmdb_movie(movie_id)
         movie   = movies.detail(language='fr')
         
         credits = movies.credits()
@@ -199,3 +201,13 @@ class LogoutView(BaseView):
 # API
 # ===
 
+class MoviesViewSet(viewsets.ModelViewSet):
+    movies = tmdb_movie()
+    medias = movies.popular(language='fr')
+
+    for movie in medias['results']:
+        Movie.objects.create(movie_id=movie['id'],title=movie['title'],poster_path=movie['poster_path'],overview=movie['overview'],release_date=movie['release_date'],original_title=movie['original_title'],original_language=movie['original_language'],backdrop_path=movie['backdrop_path'],popularity=movie['popularity'],vote_count=movie['vote_count'],vote_average=movie['vote_average'],adult=movie['adult'])
+
+    queryset = Movie.objects.all()
+    serializer_class = MoviesSerializer
+    permission_classes = [permissions.IsAuthenticated]
