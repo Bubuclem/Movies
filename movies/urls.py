@@ -8,40 +8,63 @@ urlpatterns = [
     path('', 
     views.MediaView.as_view(), 
     name='media'),
-
-    # URL Films
-    path('movies', 
+    
+    # Films
+    # =====
+    # URL Films - Populaire
+    path('films', 
     views.MoviesView.as_view(), 
     name='movies'),
 
-    path('movies/<int:page>', 
+    # URL Films - Type
+    path('films/<str:type>', 
     views.MoviesView.as_view(), 
     name='movies'),
 
-    # URL Films détail
-    path('movie/<int:movie_id>', 
+    # URL Films - Populaire - Page
+    path('films/<int:page>', 
+    views.MoviesView.as_view(), 
+    name='movies'),
+
+    # URL Films - Type - Page
+    path('films/<int:page>/<str:type>', 
+    views.MoviesView.as_view(), 
+    name='movies'),
+
+    # URL Films - Détails
+    path('film/<int:movie_id>', 
     views.MovieDetailView.as_view(), 
     name='movie-detail'),
 
-    # URL TV
-    path('shows', 
+    # Séries
+    # =====
+    # URL Séries - Populaire
+    path('séries', 
     views.TVView.as_view(), 
     name='shows'),
 
-    path('shows/<int:page>', 
+    # URL Séries - Type
+    path('séries/<str:type>', 
+    views.TVView.as_view(), 
+    name='shows'),
+
+    # URL Séries - Populaire - Page
+    path('séries/<int:page>', 
+    views.TVView.as_view(), 
+    name='shows'),
+
+    # URL Séries - Type - Page
+    path('séries/<int:page>/<str:type>', 
     views.TVView.as_view(), 
     name='shows'),
 
     # URL Série détail
-    path('tv/<int:tv_id>', 
+    path('série/<int:tv_id>', 
     views.TVDetailView.as_view(), 
     name='tv-detail'),
 
-    # URL Genres
-    path('genres', 
-    views.GenresView.as_view(), 
-    name='genres'),
-
+    # Poeples
+    # =====
     # URL Poeples
     path('peoples', 
     views.PeoplesView.as_view(), 

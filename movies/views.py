@@ -35,39 +35,56 @@ class MediaView(BaseView):
             return HttpResponseRedirect('/login')
         return render(request, 'pages/indexview/index.html', {})
 
+# Class Movies
+# ===========
 class MoviesView(BaseView):
-    def get(self,request,page=None):
+    def get(self,request,page=None,type=""):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
 
         movies = Movies()
-        movies_now_playing = movies.popular(language='fr',page=page)
 
-        return render(request, 'pages/mediaview/medias.html', { 'movies':movies_now_playing['results'], 'total_pages':movies_now_playing['total_pages'] })
+        if type=="": # Populaire
+            medias = movies.popular(language='fr',page=page)
+        elif type=="mieux-notés": # Mieux notées
+            medias = movies.top_rated(language='fr',page=page)
+        elif type=="en-cours-de-diffusion":
+            medias = movies.now_playing(language='fr',page=page)
+
+        return render(request, 'pages/mediaview/medias.html', { 'movies':medias['results'], 'total_pages':medias['total_pages'] })
 
 class MovieDetailView(BaseView):
     def get(self,request,movie_id):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
 
-        movie = Movies(movie_id)
-        response = movie.detail(language='fr')
+        movies  = Movies(movie_id)
+        movie   = movies.detail(language='fr')
         
-        credits = movie.credits()
-        videos = movie.videos(language='fr')
-        reviews = movie.reviews(language='fr')
+        credits = movies.credits()
+        videos  = movies.videos(language='fr')
+        reviews = movies.reviews(language='fr')
 
-        return render(request, 'pages/mediaview/media.html', { 'media':response, 'credits':credits['cast'][:8], 'videos':videos['results'][:4], 'reviews':reviews['results'] })
+        return render(request, 'pages/mediaview/media.html', { 'media':movie, 'credits':credits['cast'][:8], 'videos':videos['results'][:4], 'reviews':reviews['results'] })
+# ===========
 
+# Class Shows
+# ===========
 class TVView(BaseView):
-    def get(self,request,page=None):
+    def get(self,request,page=None,type=""):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
 
         tv = TV()
-        medias_now_playing = tv.popular(language='fr',page=page)
 
-        return render(request, 'pages/mediaview/medias.html', {'shows':medias_now_playing['results'], 'total_pages':medias_now_playing['total_pages'] })
+        if type=="": # Populaire
+            shows = tv.popular(language='fr',page=page)
+        elif type=="mieux-notées": # Mieux notées
+            shows = tv.top_rated(language='fr',page=page)
+        elif type=="en-cours-de-diffusion":
+            shows = tv.on_the_air(language='fr',page=page)
+
+        return render(request, 'pages/mediaview/medias.html', {'shows':shows['results'], 'total_pages':shows['total_pages'] })
 
 class TVDetailView(BaseView):
     def get(self,request,tv_id):
@@ -82,11 +99,10 @@ class TVDetailView(BaseView):
         reviews = media.reviews(language='fr')
 
         return render(request, 'pages/mediaview/media.html', {'media':response, 'credits':credits['cast'][:8], 'videos':videos['results'][:4], 'reviews':reviews['results']})
+# ===========
 
-class GenresView(BaseView):
-    def get(self,request):
-        self.isNotauthenticated()
-
+# Class Peoples
+# ===========
 class PeoplesView(BaseView):
     def get(self,request,page=None):
         if self.isNotauthenticated(request) == False:
@@ -120,10 +136,14 @@ class PeopleImagesView(BaseView):
         images = people.images()
 
         return render(request, 'pages/peoplesview/images.html', {'people':response, 'images':images['profiles'] })
+# ===========
 
+# Class Videos
+# ===========
 class VideosView(BaseView):
     def get(self,request):
         self.isNotauthenticated()
+# ===========
 
 class AccountView(BaseView):
     def get(self,request):
@@ -136,6 +156,8 @@ class UsersView(BaseView):
         if self.isNotauthenticated(request) == False and self.isStaff() == False:
            pass
 
+# Class Search
+# ===========
 class SearchView(BaseView):
     def get(self,request):
         if self.isNotauthenticated(request) == False:
@@ -152,6 +174,7 @@ class SearchView(BaseView):
             results.append(res)
 
         return render(request, 'pages/mediaview/medias.html', {'results':results})
+# ===========
 
 class LoginView(BaseView):
     def get(self,request):
