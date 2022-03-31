@@ -1,6 +1,7 @@
 # Movies :movie_camera:
 
 [![Django CI](https://github.com/Bubuclem/Movies/actions/workflows/django.yml/badge.svg)](https://github.com/Bubuclem/Movies/actions/workflows/django.yml)
+[![Documentation Status](https://readthedocs.org/projects/movies/badge/?version=latest)](https://movies.readthedocs.io/fr/latest/?badge=latest)
 
 ### School project
 ___
