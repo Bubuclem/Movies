@@ -15,6 +15,15 @@ language = "fr"
 
 root_doc = 'index'
 
+multiproject_projects = {
+    "source": {
+        "use_config_file": False,
+        "config": {
+            "project": "Movies documentation",
+        },
+    },
+}
+
 source_suffix = {
     '.rst': 'restructuredtext',
 }
