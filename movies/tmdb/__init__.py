@@ -4,12 +4,12 @@ import requests
 from django.conf import settings
 
 from .movies import tmdb_movie
-from .tv import TV
+from .tv import tmdb_tv
 from .search import Search
 from .people import People
 
 __all__ = ['tmdb_movie',
-            'TV',
+            'tmdb_tv',
             'Search',
             'People']
 

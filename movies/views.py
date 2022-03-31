@@ -9,14 +9,14 @@ from django.conf import settings
 
 # API
 # ===
-from .serializers import MoviesSerializer
+from .serializers import MovieSerializer, ShowSerializer
 from rest_framework import viewsets
 from rest_framework import permissions
 
 # Imports
 # ==========
-from .tmdb import tmdb_movie, TV, Search, People
-from .models import Movie
+from .tmdb import tmdb_movie, tmdb_tv, Search, People
+from .models import Movie, Show
 
 # Class Base
 # ==========
@@ -77,7 +77,7 @@ class TVView(BaseView):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
 
-        tv = TV()
+        tv = tmdb_tv()
 
         if type=="": # Populaire
             shows = tv.popular(language='fr',page=page)
@@ -93,7 +93,7 @@ class TVDetailView(BaseView):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
 
-        media = TV(tv_id)
+        media = tmdb_tv(tv_id)
         response = media.detail(language='fr')
         
         credits = media.credits()
@@ -201,7 +201,7 @@ class LogoutView(BaseView):
 # API
 # ===
 
-class MoviesViewSet(viewsets.ModelViewSet):
+class MovieViewSet(viewsets.ModelViewSet):
     movies = tmdb_movie()
     medias = movies.popular(language='fr')
 
@@ -209,5 +209,16 @@ class MoviesViewSet(viewsets.ModelViewSet):
         Movie.objects.create(movie_id=movie['id'],title=movie['title'],poster_path=movie['poster_path'],overview=movie['overview'],release_date=movie['release_date'],original_title=movie['original_title'],original_language=movie['original_language'],backdrop_path=movie['backdrop_path'],popularity=movie['popularity'],vote_count=movie['vote_count'],vote_average=movie['vote_average'],adult=movie['adult'])
 
     queryset = Movie.objects.all()
-    serializer_class = MoviesSerializer
+    serializer_class = MovieSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class ShowViewSet(viewsets.ModelViewSet):
+    shows = tmdb_tv()
+    medias = shows.popular(language='fr')
+
+    for media in medias['results']:
+        Show.objects.create(tv_id=media['id'],name=media['name'],poster_path=media['poster_path'],overview=media['overview'],original_name=media['original_name'],original_language=media['original_language'],backdrop_path=media['backdrop_path'],popularity=media['popularity'],vote_count=media['vote_count'],vote_average=media['vote_average'])
+
+    queryset = Show.objects.all()
+    serializer_class = ShowSerializer
     permission_classes = [permissions.IsAuthenticated]

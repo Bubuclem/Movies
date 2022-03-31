@@ -4,7 +4,8 @@ from rest_framework import routers
 from movies import views
 
 router = routers.DefaultRouter()
-router.register(r'api-movies', views.MoviesViewSet)
+router.register(r'api-films', views.MovieViewSet)
+router.register(r'api-séries', views.ShowViewSet)
 
 urlpatterns = [
     path('', include('movies.urls')),
