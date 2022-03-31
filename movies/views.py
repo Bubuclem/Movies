@@ -147,11 +147,14 @@ class VideosView(BaseView):
         self.isNotauthenticated()
 # ===========
 
+# Class Account
+# ===========
 class AccountView(BaseView):
     def get(self,request):
         if self.isNotauthenticated(request) == False:
             return HttpResponseRedirect('/login')
         return render(request, 'pages/accountview/account.html', {})
+# ===========
 
 class UsersView(BaseView):
     def get(self,request):
