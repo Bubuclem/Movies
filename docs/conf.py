@@ -11,7 +11,13 @@ version = '0.1.0'
 
 # -- General configuration
 
-master_doc = 'source/index'
+language = "fr"
+
+root_doc = 'index'
+
+source_suffix = {
+    '.rst': 'restructuredtext',
+}
 
 extensions = [
     'sphinx.ext.duration',
