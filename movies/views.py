@@ -156,11 +156,6 @@ class AccountView(BaseView):
         return render(request, 'pages/accountview/account.html', {})
 # ===========
 
-class UsersView(BaseView):
-    def get(self,request):
-        if self.isNotauthenticated(request) == False and self.isStaff() == False:
-           pass
-
 # Class Search
 # ===========
 class SearchView(BaseView):

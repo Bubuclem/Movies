@@ -66,21 +66,22 @@ urlpatterns = [
     # Poeples
     # =====
     # URL Poeples
-    path('peoples', 
+    path('acteurs', 
     views.PeoplesView.as_view(), 
     name='peoples'),
 
-    path('peoples/<int:page>', 
+    # URL Poeples - Page
+    path('acteurs/<int:page>', 
     views.PeoplesView.as_view(), 
     name='peoples'),
 
     # URL Peoples détail
-    path('people/<int:people_id>', 
+    path('acteur/<int:people_id>', 
     views.PeopleDetailView.as_view(), 
     name='people-detail'),
 
     # URL Poeples
-    path('people/<int:people_id>/images', 
+    path('acteur/<int:people_id>/images', 
     views.PeopleImagesView.as_view(), 
     name='people-images'),
 
@@ -93,11 +94,6 @@ urlpatterns = [
     path('account', 
     views.AccountView.as_view(), 
     name='account'),
-
-    # URL Utilisateurs
-    path('users', 
-    views.UsersView.as_view(), 
-    name='users'),
 
     # URL Search
     path('search', 
