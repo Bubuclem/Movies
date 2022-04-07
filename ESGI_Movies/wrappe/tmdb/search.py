@@ -1,6 +1,6 @@
 from .base import TMDB
 
-class Search(TMDB):
+class tmdb_search(TMDB):
     BASE_PATH = 'search'
     URLS = {
         'multi': '/multi',

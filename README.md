@@ -33,7 +33,7 @@ ___
          >
          > :heavy_check_mark: List of top rated TV shows
          >
-         > :heavy_check_mark: List of actors
+      * Actors
    * :x: OAuth2 connection
    * :x: REST API
       > :x: Movies

@@ -1,6 +1,6 @@
 from .base import TMDB
 
-class People(TMDB):
+class tmdb_people(TMDB):
     BASE_PATH = 'person'
     URLS = {
         'detail': '/{id}',
@@ -14,7 +14,7 @@ class People(TMDB):
     }
 
     def __init__(self, id=0):
-        super(People, self).__init__()
+        super(tmdb_people, self).__init__()
         self.id = id
 
     def detail(self, **kwargs): # Fiche d'un acteur

@@ -1,3 +1,4 @@
+{% load static %}
 {% load tailwind_tags %}
 
 <!doctype html>
@@ -9,9 +10,10 @@
     <title>Movies</title>
     {% tailwind_css %}
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dist/custom.css' %}">
 </head>
 
-<body>
+<body class="BodyWrapper">
     <!-- Header -->
     {% include "base/header/header.html" %}
     

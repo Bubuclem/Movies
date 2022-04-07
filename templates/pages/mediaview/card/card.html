@@ -1,22 +1,47 @@
+<script>
+    let test = false
+
+    function testEnter(id) {
+        let card = document.getElementById('CardBoxFilm'+id)
+        card.style.filter = 'blur(2px) grayscale(1)'
+
+        let elem = document.getElementById('CardBtnFilm'+id)
+        elem.style.zIndex = 100
+    }
+
+    function testOut(id) {
+        let card = document.getElementById('CardBoxFilm'+id)
+        card.style.filter = 'none'
+
+        let elem = document.getElementById('CardBtnFilm'+id)
+        elem.style.zIndex = 1
+    }
+</script>
+
 <div class="bg-white py-6 sm:py-8 lg:py-12">
     <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
 
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 xl:gap-8">
+        <div class="MainBox">
             {% for value in values %}
 
-            <div class="max-w-xs rounded-md shadow-md dark:bg-coolGray-900 dark:text-coolGray-100">
-                <a href="{% if url_path %}{% url url_path value.id%}{% endif %}">
-                    <img src="https://image.tmdb.org/t/p/w500{{value.poster_path}}" alt=""
-                        class="object-cover object-center w-full rounded-t-md h-120 dark:bg-coolGray-500">
-                    <div class="flex flex-col justify-between p-6 space-y-8">
-                        <div class="space-y-2">
-                            <h2 class="text-3xl font-semibold tracking-wide">{{value.title}}{{value.name}}</h2>
-                            <p class="dark:text-coolGray-100">{{value.overview|truncatechars:300}}
-                            </p>
+                    <div style="width: fit-content; margin: auto;" onmouseenter="testEnter('{{value.id}}')" onmouseleave="testOut('{{value.id}}')">
+                        <div class="CardBox">
+                            <div class="ImgCardBox">
+                                <img id='CardBoxFilm{{value.id}}' class="MovieImgCard" src="https://image.tmdb.org/t/p/w500{{value.poster_path}}" width="220"/>
+                                <span class="DateCardBox">{{value.release_date}}</span>
+                            </div>
+                            <div class="TxtCardBox">
+                                <div style="display: flex;flex-direction: column;justify-content: center;max-width: 160px;">
+                                    <p style="font-size: 19px;margin: 0;">{{value.title}}{{value.name}}</p>
+                                    <span class='GenreBox'>{{value.genre_ids|slice:":1"}}</span>
+                                </div>
+                                <div style="display: flex;justify-content: center;">
+                                    <span class="NoteCard">{% widthratio value.vote_average 1 10 %}%</span>
+                                </div>
+                            </div>
                         </div>
+                        <a id="CardBtnFilm{{value.id}}" class="CardBtn" href="{% if url_path %}{% url url_path value.id%}{% endif %}">Voir l'affiche</a>
                     </div>
-                </a>
-            </div>
 
             {% endfor %}
         </div>

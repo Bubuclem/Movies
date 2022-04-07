@@ -2,6 +2,20 @@
 
 {% block content %}
 
+<div style="display: flex;flex-direction: column;justify-content: center;">
+    <h1 style="text-align: center;font-size: 50px;margin-bottom: 0;">Films</h1>
+    <span class="HeaderLine"></span>
+</div>
+
+<div class="SearchBar">
+    <input class="SearchInput" placeholder="Rechercher" />
+    <div class="SearchIconeBox">
+        <i class="fa-solid fa-magnifying-glass SearchIcone"></i>
+    </div>
+</div>
+
+</div>
+
 {% if movies %}
 
 <!-- movies -->
@@ -12,7 +26,7 @@
 {% if shows %}
 
 <!-- shows -->
-{% include "pages/mediaview/card/card.html" with values=shows url_path="movies:tv-detail" %}
+{% include "pages/mediaview/card/card.html" with values=shows url_path="shows:show-detail" %}
 
 {% endif %}
 

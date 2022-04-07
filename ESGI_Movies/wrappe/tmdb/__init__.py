@@ -1,17 +1,16 @@
-import os
-import requests
-
 from django.conf import settings
 
 from .movies import tmdb_movie
 from .tv import tmdb_tv
-from .search import Search
-from .people import People
+from .search import tmdb_search
+from .people import tmdb_people
+from .genres import tmdb_genres
 
 __all__ = ['tmdb_movie',
             'tmdb_tv',
-            'Search',
-            'People']
+            'tmdb_search',
+            'tmdb_people',
+            'tmdb_genres']
 
 API_KEY = settings.SECRET_KEY_TMDB
 API_VERSION = '3'
