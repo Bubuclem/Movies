@@ -1,58 +1,41 @@
 from django.urls import path
 
-from . import views
+from .views import PopularPageView, NowPlayingPageView, UpcomingPageView, MoviePageView, CreditsPageView, VideosPageView, ReviewsPageView
 
 app_name = 'movies'
 urlpatterns = [
-    # URL Films - Page principal
-    path('', 
-    views.MoviesView.as_view(), 
-    name='movies'),
-    
-    # Films
-    # =====
-    # URL Films - Populaire
-    path('films', 
-    views.MoviesView.as_view(), 
-    name='movies'),
+    # URL des films populaires
+    path('populaires/', 
+    PopularPageView.as_view(), 
+    name='popular'),
 
-    # URL Films - Type
-    path('films/<str:type>', 
-    views.MoviesView.as_view(), 
-    name='movies'),
+    # URL des films du moment
+    path('du-moment/', 
+    NowPlayingPageView.as_view(), 
+    name='nowplaying'),
 
-    # URL Films - Populaire - Page
-    path('films/<int:page>', 
-    views.MoviesView.as_view(), 
-    name='movies'),
+    # URL des films à venir
+    path('a-venir/', 
+    UpcomingPageView.as_view(), 
+    name='upcoming'),
 
-    # URL Films - Type - Page
-    path('films/<int:page>/<str:type>', 
-    views.MoviesView.as_view(), 
-    name='movies'),
+    # URL du détail d'un film
+    path('<int:movie_id>/', 
+    MoviePageView.as_view(), 
+    name='detail'),
 
-    # URL Films - Détails
-    path('film/<int:movie_id>', 
-    views.MovieDetailView.as_view(), 
-    name='movie-detail'),
-    
-    # URL Profile
-    path('account', 
-    views.AccountView.as_view(), 
-    name='account'),
+    # URL des crédits d'un film
+    path('<int:movie_id>/credits/', 
+    CreditsPageView.as_view(), 
+    name='credits'),
 
-    # URL Search
-    path('search', 
-    views.SearchView.as_view(), 
-    name='search'),
+    # URL des vidéos d'un film
+    path('<int:movie_id>/videos/', 
+    VideosPageView.as_view(), 
+    name='videos'),
 
-    # URL Login
-    path('login', 
-    views.LoginView.as_view(), 
-    name='login'),
-
-    # URL logout
-    path('logout', 
-    views.LogoutView.as_view(), 
-    name='logout')
+    # URL des avis d'un film
+    path('<int:movie_id>/avis/', 
+    ReviewsPageView.as_view(), 
+    name='reviews')
 ]

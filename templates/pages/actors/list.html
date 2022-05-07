@@ -1,0 +1,44 @@
+<script>
+    let test = false
+
+    function testEnter(id) {
+        let card = document.getElementById('CardBoxFilm'+id)
+        card.style.filter = 'blur(2px) grayscale(1)'
+
+        let elem = document.getElementById('CardBtnFilm'+id)
+        elem.style.zIndex = 100
+    }
+
+    function testOut(id) {
+        let card = document.getElementById('CardBoxFilm'+id)
+        card.style.filter = 'none'
+
+        let elem = document.getElementById('CardBtnFilm'+id)
+        elem.style.zIndex = 1
+    }
+</script>
+
+<div class="bg-white py-6 sm:py-8 lg:py-12">
+    <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
+
+        <div class="MainBox">
+            {% for actor in actors %}
+
+            <div style="width: fit-content; margin: auto;" onmouseenter="testEnter('{{actor.id}}')"
+                onmouseleave="testOut('{{actor.id}}')">
+                <div class="CardBox">
+                    <div class="ImgCardBox">
+                        <img id='CardBoxFilm{{actor.id}}' class="MovieImgCard"
+                        
+                            src="https://image.tmdb.org/t/p/w500{{actor.profile_path}}" width="220" />
+                    </div>
+                </div>
+                <a id="CardBtnFilm{{actor.id}}" class="CardBtn"
+                    href="{% url 'actors:detail' actor.id%}">Voir l'acteur</a>
+            </div>
+
+            {% endfor %}
+        </div>
+
+    </div>
+</div>

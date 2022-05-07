@@ -1,0 +1,54 @@
+<script>
+    let test = false
+
+    function testEnter(id) {
+        let card = document.getElementById('CardBoxFilm'+id)
+        card.style.filter = 'blur(2px) grayscale(1)'
+
+        let elem = document.getElementById('CardBtnFilm'+id)
+        elem.style.zIndex = 100
+    }
+
+    function testOut(id) {
+        let card = document.getElementById('CardBoxFilm'+id)
+        card.style.filter = 'none'
+
+        let elem = document.getElementById('CardBtnFilm'+id)
+        elem.style.zIndex = 1
+    }
+</script>
+
+<div class="bg-white py-6 sm:py-8 lg:py-12">
+    <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
+
+        <div class="MainBox">
+            {% for movie in movies %}
+
+            <div style="width: fit-content; margin: auto;" onmouseenter="testEnter('{{movie.id}}')"
+                onmouseleave="testOut('{{movie.id}}')">
+                <div class="CardBox">
+                    <div class="ImgCardBox">
+                        <img id='CardBoxFilm{{movie.id}}' class="MovieImgCard"
+                        
+                            src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" width="220" />
+                        <span class="DateCardBox">{{movie.release_date}}</span>
+                    </div>
+                    <div class="TxtCardBox">
+                        <div style="display: flex;flex-direction: column;justify-content: center;max-width: 160px;">
+                            <p style="font-size: 19px;margin: 0;">{{movie.title}}</p>
+                            <span class='GenreBox'>{{movie.genre_ids|slice:":1"}}</span>
+                        </div>
+                        <div style="display: flex;justify-content: center;">
+                            <span class="NoteCard">{% widthratio movie.vote_average 1 10 %}%</span>
+                        </div>
+                    </div>
+                </div>
+                <a id="CardBtnFilm{{movie.id}}" class="CardBtn"
+                    href="{% url 'movies:detail' movie.id %}">Voir l'affiche</a>
+            </div>
+
+            {% endfor %}
+        </div>
+
+    </div>
+</div>

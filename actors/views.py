@@ -1,32 +1,29 @@
-from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from ESGI_Movies.wrappe.tmdb import tmdb_people
 
-# Class Actors
-# ===========
-class ActorsView(TemplateView):
-    def get(self,request,page=None):
-        peoples = tmdb_people()
-        peoples_popular = peoples.popular(page=page)
+TEMPLATE_BASE = 'pages/actors/'
 
-        return render(request, 'pages/peoplesview/peoples.html', { 'peoples':peoples_popular['results'], 'total_pages':peoples_popular['total_pages'] })
+class BasePageView(TemplateView):
+    template_name = TEMPLATE_BASE + 'actors.html'
 
-class ActorDetailView(TemplateView):
-    def get(self,request,people_id):
-        people = tmdb_people(people_id)
-        response = people.detail(language='fr')
+# Class des acteurs
+class PopularPageView(BasePageView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         
-        populars = people.popular(language='fr')
+        actors = tmdb_people()
+        context['actors'] = actors.popular(language='fr')['results']
+        return context
 
-        return render(request, 'pages/peoplesview/people.html', {'people':response, 'list_populars':populars['results'][0]['known_for']})
+# Class du détail d'un films
+class ActorPageView(TemplateView):
 
-class ActorImagesView(TemplateView):
-    def get(self,request,people_id):
-        people = tmdb_people(people_id)
-        response = people.detail(language='fr')
+    template_name = TEMPLATE_BASE + 'actor.html'
+
+    def get_context_data(self, actor_id, **kwargs):
+        context = super().get_context_data(**kwargs)
         
-        images = people.images()
-
-        return render(request, 'pages/peoplesview/images.html', {'people':response, 'images':images['profiles'] })
-# ===========
+        actor = tmdb_people(actor_id)
+        context['actor'] = actor.detail(language='fr')
+        return context

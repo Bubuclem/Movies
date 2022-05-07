@@ -9,9 +9,9 @@ router = routers.DefaultRouter()
 # router.register(r'api-series', views.ShowsViewSet)
 
 urlpatterns = [
-    path('', include('movies.urls')),
-    path('séries', include('shows.urls')),
-    path('acteurs', include('actors.urls')),
+    path('films/', include('movies.urls')),
+    path('series/', include('shows.urls')),
+    path('acteurs/', include('actors.urls')),
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
     path('api/', include(router.urls)),

@@ -1,32 +1,36 @@
 from django.urls import path
 
-from . import views
+from .views import PopularPageView, NowPlayingPageView, ShowPageView, CreditsPageView, VideosPageView, ReviewsPageView
 
 app_name = 'shows'
 urlpatterns = [    
-    # Shows - Page principal
-    # =====
-    path('', 
-    views.ShowsView.as_view(), 
-    name='shows'),
+    # URL des séries populaires
+    path('populaires/', 
+    PopularPageView.as_view(), 
+    name='popular'),
+    
+    # URL des séries du moment
+    path('du-moment/', 
+    NowPlayingPageView.as_view(), 
+    name='nowplaying'),
 
-    # URL Séries - Type
-    path('/<str:type>', 
-    views.ShowsView.as_view(), 
-    name='shows'),
+    # URL du détail d'une série
+    path('<int:show_id>/', 
+    ShowPageView.as_view(), 
+    name='detail'),
 
-    # URL Séries - Populaire - Page
-    path('/<int:page>', 
-    views.ShowsView.as_view(), 
-    name='shows'),
+    # URL des crédits d'un film
+    path('<int:show_id>/credits/', 
+    CreditsPageView.as_view(), 
+    name='credits'),
 
-    # URL Séries - Type - Page
-    path('/<int:page>/<str:type>', 
-    views.ShowsView.as_view(), 
-    name='shows'),
+    # URL des vidéos d'un film
+    path('<int:show_id>/videos/', 
+    VideosPageView.as_view(), 
+    name='videos'),
 
-    # URL Série détail
-    path('/<int:tv_id>', 
-    views.ShowDetailView.as_view(), 
-    name='show-detail')
+    # URL des avis d'un film
+    path('<int:show_id>/avis/', 
+    ReviewsPageView.as_view(), 
+    name='reviews')
 ]

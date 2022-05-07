@@ -1,114 +1,93 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.views.generic import TemplateView
-from django.contrib.auth import authenticate, login, logout
 
 from ESGI_Movies.wrappe.tmdb import tmdb_movie, tmdb_search, tmdb_genres
 
-# Class Base
-# ==========
-class BaseView(TemplateView):
-    def isNotauthenticated(self,request) -> bool :
-        return request.user.is_authenticated
+TEMPLATE_BASE = 'pages/movies/'
 
-    def isStaff(self,request) -> bool:
-        return request.user.is_staff
+class BasePageView(TemplateView):
+    template_name = TEMPLATE_BASE + 'movies.html'
 
-# Class Movies
-# ===========
-class MoviesView(BaseView):
-    def get(self,request,page=None,type=""):
-        movies = tmdb_movie()
-
-        if type=="": # Populaire
-            medias = movies.popular(language='fr',page=page)
-        elif type=="mieux-notés": # Mieux notées
-            medias = movies.top_rated(language='fr',page=page)
-        elif type=="en-cours-de-diffusion":
-            medias = movies.now_playing(language='fr',page=page)
-
-        genres = tmdb_genres()
-
-        return render(request, 'pages/mediaview/medias.html', { 'movies':medias['results'], 'total_pages':medias['total_pages'], 'genres':genres })
-
-class MovieDetailView(BaseView):
-    def get(self,request,movie_id):
-        movies  = tmdb_movie(movie_id)
-        movie   = movies.detail(language='fr')
+# Class des films populaires
+class PopularPageView(BasePageView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         
-        credits = movies.credits()
-        videos  = movies.videos(language='fr')
-        reviews = movies.reviews(language='fr')
+        movies = tmdb_movie()
+        context['movies'] = movies.popular(language='fr')['results']
+        return context
 
-        return render(request, 'pages/mediaview/media.html', { 'media':movie, 'credits':credits['cast'][:8], 'videos':videos['results'][:4], 'reviews':reviews['results'] })
-# ===========
+# Class des films du moment
+class NowPlayingPageView(BasePageView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        movies = tmdb_movie()
+        context['movies'] = movies.now_playing(language='fr')['results']
+        return context
 
-# Class Account
-# ===========
-class AccountView(BaseView):
-    def get(self,request):
-        if self.isNotauthenticated(request) == False:
-            return HttpResponseRedirect('/login')
-        return render(request, 'pages/accountview/account.html', {})
-# ===========
+# Class des films à venir
+class UpcomingPageView(BasePageView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        movies = tmdb_movie()
+        context['movies'] = movies.upcoming(language='fr')['results']
+        return context
 
-# Class Search
-# ===========
-class SearchView(BaseView):
-    def get(self,request):
-        return render(request, 'pages/mediaview/medias.html', {})
+# Class du détail d'un films
+class MoviePageView(TemplateView):
 
-    def post(self, request):
-        _search = request.POST['search']
-        search = tmdb_search()
-        response = search.multi(query=_search)
+    template_name = TEMPLATE_BASE + 'movie.html'
 
-        results = []
-        for res in response['results']:
-            results.append(res)
+    def get_context_data(self, movie_id, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        movie = tmdb_movie(movie_id)
+        context['movie'] = movie.detail(language='fr')
+        context['credits'] = movie.credits(language='fr')['cast'][:8]
+        context['videos'] = movie.videos(language='fr')['results'][:4]
+        context['reviews'] = movie.reviews(language='fr')['results'][:5]
 
-        return render(request, 'pages/mediaview/medias.html', {'results':results})
-# ===========
+        return context
 
-# Class Login
-# ===========
-class LoginView(BaseView):
-    def get(self,request):
-        return render(request, 'pages/loginview/login.html', {})
+# Class des crédits d'un films
+class CreditsPageView(TemplateView):
 
-    def post(self,request):
-        _username = request.POST['username']
-        _password = request.POST['password']
-        user = authenticate(request,username=_username,password=_password)
-        if user is not None:
-            login(request, user)
-            return HttpResponseRedirect('/')
-        return render(request, 'pages/loginview/login.html', {})
-# ===========
+    template_name = TEMPLATE_BASE + 'credits/credits.html'
 
-# Class Logout
-# ===========
-class LogoutView(BaseView):
-    def get(self,request):
-        if self.isNotauthenticated(request) == False:
-            return HttpResponseRedirect('/login')
-        logout(request)
-        return HttpResponseRedirect ('/login')
-# ===========
+    def get_context_data(self, movie_id, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        movie = tmdb_movie(movie_id)
+        context['movie'] = movie.detail(language='fr')
+        context['credits'] = movie.credits(language='fr')['cast']
+        
+        return context
 
-# API
-# ===
-# from rest_framework import viewsets
-# from rest_framework import views
-# from rest_framework.response import Response
-# 
-# from .serializers import MovieSerializer, ShowSerializer, shows
+# Class des vidéos d'un films
+class VideosPageView(TemplateView):
 
-# class ShowsViewSet(viewsets.ViewSet):
-#     
-#     serializer_class = ShowSerializer
-# 
-#     def list(self, request):
-#         serializer = ShowSerializer(
-#             instance=shows.values(), many=True)
-#         return Response(serializer.data)
+    template_name = TEMPLATE_BASE + 'videos/videos.html'
+
+    def get_context_data(self, movie_id, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        movie = tmdb_movie(movie_id)
+        context['movie'] = movie.detail(language='fr')
+        context['videos'] = movie.videos(language='fr')['results']
+        
+        return context
+
+# Class des avis d'un films
+class ReviewsPageView(TemplateView):
+
+    template_name = TEMPLATE_BASE + 'reviews/reviews.html'
+
+    def get_context_data(self, movie_id, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        movie = tmdb_movie(movie_id)
+        context['movie'] = movie.detail(language='fr')
+        context['reviews'] = movie.reviews(language='fr')['results']
+        
+        return context
