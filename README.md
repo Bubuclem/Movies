@@ -14,44 +14,41 @@ API wrappe based on [tmdbsimple](https://github.com/celiao/tmdbsimple). :tv:
 
 With framework [**Django**](https://docs.djangoproject.com/fr/4.0/), in [**Python**](https://github.com/topics/python) :snake: language.
 
-___
+# Sommaire
+- [Movies](#Movies)
+- [Shows](#Shows)
+- [Actors](#Actors)
+- [API](#API)
+- [Oauth2](#Oauth2)
 
-### Features :computer:
-   * Views
-      * Movies
-         > :heavy_check_mark: List of popular movies
-         >
-         > :heavy_check_mark: List of current movies
-         >
-         > :x: List of upcoming movies
-         >
-         > :heavy_check_mark: List of highest rated films
-      * TV shows
-         > :heavy_check_mark: List of popular TV shows
-         >
-         > :heavy_check_mark: List of TV shows currently airing
-         >
-         > :heavy_check_mark: List of top rated TV shows
-         >
-      * Actors
-   * :x: OAuth2 connection
-   * :x: REST API
-      > :x: Movies
-      >
-      > :x: TV
-      >
-      > :x: Actors
-      >
-      > :x: Search
-   * Own wrapper TMDb
-      > :heavy_check_mark: Movies
-      >
-      > :heavy_check_mark: TV
-      >
-      > :heavy_check_mark: Actors
-      >
-      > :heavy_check_mark: Search
-___
+## Movies <a name="Movies"></a>
+
+  :heavy_check_mark: Popular
+  
+  :heavy_check_mark: Now Playing
+  
+  :heavy_check_mark: Upcoming
+  
+  :x: Top Rated
+
+## Shows <a name="Shows"></a>
+
+  :heavy_check_mark: Popular
+  
+  :heavy_check_mark: Airing Today
+  
+  :x: On TV
+  
+  :x: Top Rated
+
+## Actors <a name="Actors"></a>
+
+  :heavy_check_mark: Popular People
+
+
+## API <a name="API"></a>
+
+## Oauth2 <a name="Oauth2"></a>
 
 ### Requirements
 
