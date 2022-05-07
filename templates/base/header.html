@@ -3,13 +3,18 @@
     <div>
         {% url 'movies:popular' as url %}
         <a href="{% url 'movies:popular' %}" class="navTxt {% if request.path == url %}navTxtActive{%endif%}">Films</a>
-        
+
         {% url 'shows:popular' as url %}
         <a href="{% url 'shows:popular' %}" class="navTxt {% if request.path == url %}navTxtActive{%endif%}">Séries</a>
-        
-        {% url 'actors:popular' as url %}
-        <a href="{% url 'actors:popular' %}" class="navTxt {% if request.path == url %}navTxtActive{%endif%}">Acteurs</a>
 
-        <a class="navBtn">Inscription</a>
+        {% url 'actors:popular' as url %}
+        <a href="{% url 'actors:popular' %}"
+            class="navTxt {% if request.path == url %}navTxtActive{%endif%}">Acteurs</a>
+
+        {% if user.is_authenticated %}
+        <a href="{% url 'management:account' %}" class="navBtn">{{user.username}}</a>
+        {% else %}
+        <a href="{% url 'management:login' %}" class="navBtn">Connexion</a>
+        {% endif %}
     </div>
 </div>

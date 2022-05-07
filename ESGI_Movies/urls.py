@@ -1,14 +1,14 @@
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-from movies import views
-from shows import views
-from actors import views
+from api import views
 
 router = routers.DefaultRouter()
-# router.register(r'api-series', views.ShowsViewSet)
+router.register(r'users', views.UserViewSet)
+router.register(r'groups', views.GroupViewSet)
 
 urlpatterns = [
+    path('', include('management.urls')),
     path('films/', include('movies.urls')),
     path('series/', include('shows.urls')),
     path('acteurs/', include('actors.urls')),
