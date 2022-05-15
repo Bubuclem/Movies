@@ -1,7 +1,24 @@
 {% extends '../../base/base.html' %}
 
+{% block title %}{{actor.name}}{% endblock %}
+
 {% block content %}
 
+<div class="bg-white py-6 sm:py-8 lg:py-12">
+    <div class="max-w-screen-md px-4 md:px-8 mx-auto">
+        <h1 class="text-gray-800 text-2xl sm:text-3xl font-bold text-center mb-4 md:mb-6">{{actor.name}}</h1>
 
+        <div class="bg-gray-100 overflow-hidden rounded-lg shadow-lg relative mb-6 md:mb-8">
+            <img src="https://image.tmdb.org/t/p/w500{{actor.profile_path}}"
+                loading="lazy" alt="Photo of {{actor.name}}" class="w-full h-full object-cover object-center" />
+        </div>
+
+        <h2 class="text-gray-800 text-xl sm:text-2xl font-semibold mb-2 md:mb-4">Biographie</h2>
+
+        <p class="text-gray-500 sm:text-lg mb-6 md:mb-8">{{actor.biography}}</p>
+    </div>
+</div>
+
+{% include './images/list.html' %}
 
 {% endblock %}

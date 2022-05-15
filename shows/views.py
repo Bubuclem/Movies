@@ -49,6 +49,7 @@ class CreditsPageView(TemplateView):
         context = super().get_context_data(**kwargs)
         
         show = tmdb_tv(show_id)
+        context['show'] = show.detail(language='fr')
         context['movie'] = show.detail(language='fr')
         context['credits'] = show.credits(language='fr')['cast']
         
