@@ -7,8 +7,11 @@ TEMPLATE_BASE = 'pages/shows/'
 class BasePageView(TemplateView):
     template_name = TEMPLATE_BASE + 'shows.html'
 
-# Class des séries populaires
 class PopularPageView(BasePageView):
+    """
+    Class des séries populaires.
+    Retourne la liste des séries populaires.
+    """
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -16,8 +19,11 @@ class PopularPageView(BasePageView):
         context['shows'] = shows.popular(language='fr')['results']
         return context
 
-# Class des séries du moment
 class NowPlayingPageView(BasePageView):
+    """
+    Class des séries du moment.
+    Retourne la liste des séries du moment.
+    """
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -25,9 +31,11 @@ class NowPlayingPageView(BasePageView):
         context['shows'] = shows.on_the_air(language='fr')['results']
         return context
 
-# Class du détail d'une série
 class ShowPageView(TemplateView):
-
+    """
+    Class du détail d'une série.
+    Retourne le détail, acteurs, vidéos et avis d'une série.
+    """
     template_name = TEMPLATE_BASE + 'show.html'
 
     def get_context_data(self, show_id, **kwargs):
@@ -40,9 +48,11 @@ class ShowPageView(TemplateView):
         context['reviews'] = show.reviews(language='fr')['results'][:5]
         return context
 
-# Class des crédits d'une série
 class CreditsPageView(TemplateView):
-
+    """
+    Class des acteurs d'une série.
+    Retourne le détail, acteurs d'une série.
+    """
     template_name = TEMPLATE_BASE + 'credits/credits.html'
 
     def get_context_data(self, show_id, **kwargs):
@@ -50,14 +60,15 @@ class CreditsPageView(TemplateView):
         
         show = tmdb_tv(show_id)
         context['show'] = show.detail(language='fr')
-        context['movie'] = show.detail(language='fr')
         context['credits'] = show.credits(language='fr')['cast']
         
         return context
 
-# Class des vidéos d'une série
 class VideosPageView(TemplateView):
-
+    """
+    Class des vidéos d'une série.
+    Retourne le détail, vidéos d'une série.
+    """
     template_name = TEMPLATE_BASE + 'videos/videos.html'
 
     def get_context_data(self, show_id, **kwargs):
@@ -69,9 +80,11 @@ class VideosPageView(TemplateView):
         
         return context
 
-# Class des avis d'une série
 class ReviewsPageView(TemplateView):
-
+    """
+    Class des avis d'une série.
+    Retourne le détail, avis d'une série.
+    """
     template_name = TEMPLATE_BASE + 'reviews/reviews.html'
 
     def get_context_data(self, show_id, **kwargs):

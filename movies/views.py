@@ -7,8 +7,11 @@ TEMPLATE_BASE = 'pages/movies/'
 class BasePageView(TemplateView):
     template_name = TEMPLATE_BASE + 'movies.html'
 
-# Class des films populaires
 class PopularPageView(BasePageView):
+    """
+    Class des films populaires.
+    Retourne la liste des films populaires en francais.
+    """
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -16,8 +19,11 @@ class PopularPageView(BasePageView):
         context['movies'] = movies.popular(language='fr')['results']
         return context
 
-# Class des films du moment
 class NowPlayingPageView(BasePageView):
+    """
+    Class des films du moment.
+    Retourne la liste des films du moment en francais.
+    """
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -25,8 +31,11 @@ class NowPlayingPageView(BasePageView):
         context['movies'] = movies.now_playing(language='fr')['results']
         return context
 
-# Class des films à venir
 class UpcomingPageView(BasePageView):
+    """
+    Class des films à venir.
+    Retourne la liste des films à venir en francais.
+    """
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -34,9 +43,11 @@ class UpcomingPageView(BasePageView):
         context['movies'] = movies.upcoming(language='fr')['results']
         return context
 
-# Class du détail d'un films
 class MoviePageView(TemplateView):
-
+    """
+    Class du détail d'un film.
+    Retourne les détails, 8 acteurs, 4 vidéos, 5 avis du film.
+    """
     template_name = TEMPLATE_BASE + 'movie.html'
 
     def get_context_data(self, movie_id, **kwargs):
@@ -50,9 +61,11 @@ class MoviePageView(TemplateView):
 
         return context
 
-# Class des crédits d'un films
 class CreditsPageView(TemplateView):
-
+    """
+    Class des crédits d'un film.
+    Retourne les détails, acteurs du film.
+    """
     template_name = TEMPLATE_BASE + 'credits/credits.html'
 
     def get_context_data(self, movie_id, **kwargs):
@@ -64,9 +77,11 @@ class CreditsPageView(TemplateView):
         
         return context
 
-# Class des vidéos d'un films
 class VideosPageView(TemplateView):
-
+    """
+    Class des vidéos d'un film.
+    Retourne les détails, vidéos du film.
+    """
     template_name = TEMPLATE_BASE + 'videos/videos.html'
 
     def get_context_data(self, movie_id, **kwargs):
@@ -78,9 +93,11 @@ class VideosPageView(TemplateView):
         
         return context
 
-# Class des avis d'un films
 class ReviewsPageView(TemplateView):
-
+    """
+    Class des avis d'un film.
+    Retourne les détails, avis du film.
+    """
     template_name = TEMPLATE_BASE + 'reviews/reviews.html'
 
     def get_context_data(self, movie_id, **kwargs):

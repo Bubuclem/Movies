@@ -7,8 +7,11 @@ TEMPLATE_BASE = 'pages/actors/'
 class BasePageView(TemplateView):
     template_name = TEMPLATE_BASE + 'actors.html'
 
-# Class des acteurs
 class PopularPageView(BasePageView):
+    """
+    Class des acteurs
+    Retourne la liste des acteurs
+    """
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -16,9 +19,11 @@ class PopularPageView(BasePageView):
         context['actors'] = actors.popular(language='fr')['results']
         return context
 
-# Class du détail d'un films
 class ActorPageView(TemplateView):
-
+    """
+    Class du détail d'un acteur
+    Retourn les détails d'un acteur
+    """
     template_name = TEMPLATE_BASE + 'actor.html'
 
     def get_context_data(self, actor_id, **kwargs):
