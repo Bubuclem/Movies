@@ -1,6 +1,9 @@
 from django.views.generic import TemplateView
+from django.shortcuts import render
+from django.views import View
 
 from ESGI_Movies.wrappe.tmdb import tmdb_movie, tmdb_search, tmdb_genres
+from .forms import SearchForm
 
 TEMPLATE_BASE = 'pages/movies/'
 
@@ -17,6 +20,7 @@ class PopularPageView(BasePageView):
         
         movies = tmdb_movie()
         context['movies'] = movies.popular(language='fr')['results']
+        context['form'] = SearchForm()
         return context
 
 class NowPlayingPageView(BasePageView):
@@ -42,6 +46,20 @@ class UpcomingPageView(BasePageView):
         movies = tmdb_movie()
         context['movies'] = movies.upcoming(language='fr')['results']
         return context
+
+class SearchPageView(View):
+    """
+    Class recherche d'un film.
+    Hérite de la class View car la class TemplateView ne gère pas les méthodes POST.
+    Retourne la liste des films de la recherche.
+    """
+    def post(self, request):
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            search = tmdb_search()
+            context = {'movies': search.movie(query=form.cleaned_data['search'])['results'],'form': form}
+            return render(request, TEMPLATE_BASE + 'movies.html', context)
+        return render(request, TEMPLATE_BASE + 'movies.html', {})
 
 class MoviePageView(TemplateView):
     """

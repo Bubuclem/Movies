@@ -1,6 +1,9 @@
 from django.views.generic import TemplateView
+from django.shortcuts import render
+from django.views import View
 
-from ESGI_Movies.wrappe.tmdb import tmdb_tv
+from ESGI_Movies.wrappe.tmdb import tmdb_tv, tmdb_search
+from .forms import SearchForm
 
 TEMPLATE_BASE = 'pages/shows/'
 
@@ -17,6 +20,7 @@ class PopularPageView(BasePageView):
         
         shows = tmdb_tv()
         context['shows'] = shows.popular(language='fr')['results']
+        context['form'] = SearchForm()
         return context
 
 class NowPlayingPageView(BasePageView):
@@ -30,6 +34,20 @@ class NowPlayingPageView(BasePageView):
         shows = tmdb_tv()
         context['shows'] = shows.on_the_air(language='fr')['results']
         return context
+
+class SearchPageView(View):
+    """
+    Class recherche d'une série.
+    Hérite de la class View car la class TemplateView ne gère pas les méthodes POST.
+    Retourne la liste des séries de la recherche.
+    """
+    def post(self, request):
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            search = tmdb_search()
+            context = {'shows': search.show(query=form.cleaned_data['search'])['results'],'form': form}
+            return render(request, TEMPLATE_BASE + 'shows.html', context)
+        return render(request, TEMPLATE_BASE + 'shows.html', {})
 
 class ShowPageView(TemplateView):
     """

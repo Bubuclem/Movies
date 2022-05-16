@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import PopularPageView, ActorPageView
+from .views import PopularPageView, ActorPageView, SearchPageView
 
 app_name = 'actors'
 urlpatterns = [
@@ -8,6 +8,11 @@ urlpatterns = [
     path('populaires/', 
     PopularPageView.as_view(), 
     name='popular'),
+
+    # URL de recherche d'acteurs
+    path('recherche/',
+    SearchPageView.as_view(),
+    name='search'),
 
     # URL du détail d'un acteur
     path('<int:actor_id>/', 

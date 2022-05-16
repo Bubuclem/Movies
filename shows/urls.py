@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import PopularPageView, NowPlayingPageView, ShowPageView, CreditsPageView, VideosPageView, ReviewsPageView
+from .views import PopularPageView, NowPlayingPageView, ShowPageView, CreditsPageView, VideosPageView, ReviewsPageView, SearchPageView
 
 app_name = 'shows'
 urlpatterns = [    
@@ -13,6 +13,11 @@ urlpatterns = [
     path('du-moment/', 
     NowPlayingPageView.as_view(), 
     name='nowplaying'),
+
+    # URL de recherche de séries
+    path('recherche/',
+    SearchPageView.as_view(),
+    name='search'),
 
     # URL du détail d'une série
     path('<int:show_id>/', 

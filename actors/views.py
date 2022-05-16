@@ -1,6 +1,9 @@
 from django.views.generic import TemplateView
+from django.shortcuts import render
+from django.views import View
 
-from ESGI_Movies.wrappe.tmdb import tmdb_people
+from ESGI_Movies.wrappe.tmdb import tmdb_people, tmdb_search
+from .forms import SearchForm
 
 TEMPLATE_BASE = 'pages/actors/'
 
@@ -17,7 +20,22 @@ class PopularPageView(BasePageView):
         
         actors = tmdb_people()
         context['actors'] = actors.popular(language='fr')['results']
+        context['form'] = SearchForm()
         return context
+
+class SearchPageView(View):
+    """
+    Class recherche d'un acteur.
+    Hérite de la class View car la class TemplateView ne gère pas les méthodes POST.
+    Retourne la liste des acteurs de la recherche.
+    """
+    def post(self, request):
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            search = tmdb_search()
+            context = {'actors': search.show(query=form.cleaned_data['search'])['results'],'form': form}
+            return render(request, TEMPLATE_BASE + 'actors.html', context)
+        return render(request, TEMPLATE_BASE + 'actors.html', {})
 
 class ActorPageView(TemplateView):
     """

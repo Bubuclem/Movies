@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import PopularPageView, NowPlayingPageView, UpcomingPageView, MoviePageView, CreditsPageView, VideosPageView, ReviewsPageView
+from .views import PopularPageView, NowPlayingPageView, UpcomingPageView, MoviePageView, CreditsPageView, VideosPageView, ReviewsPageView, SearchPageView
 
 app_name = 'movies'
 urlpatterns = [
@@ -18,6 +18,11 @@ urlpatterns = [
     path('a-venir/', 
     UpcomingPageView.as_view(), 
     name='upcoming'),
+
+    # URL de recherche de films
+    path('recherche/',
+    SearchPageView.as_view(),
+    name='search'),
 
     # URL du détail d'un film
     path('<int:movie_id>/', 
