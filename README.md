@@ -1,7 +1,6 @@
 # Movies :movie_camera:
 
 [![Django CI](https://github.com/Bubuclem/Movies/actions/workflows/django.yml/badge.svg)](https://github.com/Bubuclem/Movies/actions/workflows/django.yml)
-[![Documentation Status](https://readthedocs.org/projects/movies/badge/?version=latest)](https://movies.readthedocs.io/fr/latest/?badge=latest)
 
 ### School project
 ___
@@ -9,8 +8,6 @@ ___
 We use the API **The Movie Database (TMDb)**, check out the [documentation](https://developers.themoviedb.org/3/getting-started/introduction). :books:
 
 API wrappe based on [tmdbsimple](https://github.com/celiao/tmdbsimple). :tv:
-
-[Alpine.js](https://github.com/alpinejs/alpine) for JavaScript framework & [django-tailwind](https://github.com/timonweb/django-tailwind) for CSS :green_heart:
 
 With framework [**Django**](https://docs.djangoproject.com/fr/4.0/), in [**Python**](https://github.com/topics/python) :snake: language.
 
