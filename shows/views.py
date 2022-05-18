@@ -1,6 +1,4 @@
 from django.views.generic import TemplateView
-from django.shortcuts import render
-from django.views import View
 
 from ESGI_Movies.wrappe.tmdb import tmdb_tv, tmdb_search
 from .forms import SearchForm
