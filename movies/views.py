@@ -47,19 +47,17 @@ class UpcomingPageView(BasePageView):
         context['movies'] = movies.upcoming(language='fr')['results']
         return context
 
-class SearchPageView(View):
+class SearchPageView(BasePageView):
     """
     Class recherche d'un film.
-    Hérite de la class View car la class TemplateView ne gère pas les méthodes POST.
     Retourne la liste des films de la recherche.
     """
-    def post(self, request):
-        form = SearchForm(request.POST)
-        if form.is_valid():
-            search = tmdb_search()
-            context = {'movies': search.movie(query=form.cleaned_data['search'])['results'],'form': form}
-            return render(request, TEMPLATE_BASE + 'movies.html', context)
-        return render(request, TEMPLATE_BASE + 'movies.html', {})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        movie = tmdb_search()
+        context['movies'] = movie.movie(query=self.request.GET.get("q"))['results']
+        return context
 
 class MoviePageView(TemplateView):
     """

@@ -35,19 +35,17 @@ class NowPlayingPageView(BasePageView):
         context['shows'] = shows.on_the_air(language='fr')['results']
         return context
 
-class SearchPageView(View):
+class SearchPageView(BasePageView):
     """
     Class recherche d'une série.
-    Hérite de la class View car la class TemplateView ne gère pas les méthodes POST.
     Retourne la liste des séries de la recherche.
     """
-    def post(self, request):
-        form = SearchForm(request.POST)
-        if form.is_valid():
-            search = tmdb_search()
-            context = {'shows': search.show(query=form.cleaned_data['search'])['results'],'form': form}
-            return render(request, TEMPLATE_BASE + 'shows.html', context)
-        return render(request, TEMPLATE_BASE + 'shows.html', {})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        shows = tmdb_search()
+        context['shows'] = shows.show(query=self.request.GET.get("q"))['results']
+        return context
 
 class ShowPageView(TemplateView):
     """
