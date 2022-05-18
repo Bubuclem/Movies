@@ -1,7 +1,6 @@
 from django.views.generic import TemplateView
 
-from ESGI_Movies.wrappe.tmdb import tmdb_tv, tmdb_search
-from .forms import SearchForm
+from ESGI_Movies.wrappe.tmdb import tmdb_tv, tmdb_search, tmdb_genres
 
 TEMPLATE_BASE = 'pages/shows/'
 
@@ -18,7 +17,10 @@ class PopularPageView(BasePageView):
         
         shows = tmdb_tv()
         context['shows'] = shows.popular(language='fr')['results']
-        context['form'] = SearchForm()
+
+        genres = tmdb_genres()
+        context['genres'] = genres.movie_list(language='fr')['genres']
+
         return context
 
 class NowPlayingPageView(BasePageView):
@@ -31,6 +33,10 @@ class NowPlayingPageView(BasePageView):
         
         shows = tmdb_tv()
         context['shows'] = shows.on_the_air(language='fr')['results']
+
+        genres = tmdb_genres()
+        context['genres'] = genres.movie_list(language='fr')['genres']
+
         return context
 
 class SearchPageView(BasePageView):

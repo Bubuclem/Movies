@@ -4,7 +4,7 @@
 
 {% block content %}
 
-{% include "generic/search.html" with link='movies:search' %}
+{% include "generic/search.html" with categorie='Films' link_search='movies:search' link_popular='movies:popular' link_nowplaying='movies:nowplaying' link_upcoming='movies:upcoming' %}
 
 {% include "./list.html" %}
 
