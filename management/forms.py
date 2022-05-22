@@ -1,5 +1,7 @@
-from django.forms import ModelForm, EmailInput, PasswordInput, TextInput
+from django.forms import ModelForm, EmailInput, PasswordInput, TextInput, Textarea
 from django.contrib.auth.models import User
+
+from management.models import Review
 
 ATTRS_CLASS = 'w-full px-4 py-3 rounded-md dark:border-coolGray-700 dark:bg-coolGray-900 dark:text-coolGray-100'
 
@@ -27,4 +29,15 @@ class RegistreAccountForm(ModelForm):
         'last_name' : TextInput(attrs={'class':ATTRS_CLASS}),
         'email' : EmailInput(attrs={'class':ATTRS_CLASS}),
         'password' : PasswordInput(attrs={'class':ATTRS_CLASS}),
+        }
+
+class ReviewForm(ModelForm):
+    class Meta:
+        model = Review
+        fields = ['content']
+        labels = {
+        'content': 'Commentaire'
+        }
+        widgets = {
+        'content': Textarea(attrs={'class':ATTRS_CLASS}),
         }

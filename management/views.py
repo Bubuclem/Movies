@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 from .forms import LoginForm, AccountForm, RegistreAccountForm
+from movies.views import PopularPageView
 
 TEMPLATE_BASE = 'pages/management/'
 
@@ -14,9 +15,12 @@ class LoginPageView(TemplateView):
     template_name = TEMPLATE_BASE + 'login/login.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = LoginForm()
-        return context
+        if self.request.user.is_authenticated:
+            return redirect('/films/populaires')
+        else:
+            context = super().get_context_data(**kwargs)
+            context['form'] = LoginForm()
+            return context
 
     def post(self,request):
         form = LoginForm(request.POST)

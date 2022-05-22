@@ -1,6 +1,9 @@
+from django.shortcuts import render
+from django.views import View
 from django.views.generic import TemplateView
 
 from ESGI_Movies.wrappe.tmdb import tmdb_movie, tmdb_search, tmdb_genres
+from management.forms import ReviewForm
 
 TEMPLATE_BASE = 'pages/movies/'
 
@@ -64,7 +67,7 @@ class SearchPageView(BasePageView):
         context = super().get_context_data(**kwargs)
         
         movie = tmdb_search()
-        context['movies'] = movie.movie(query=self.request.GET.get("q"))['results']
+        context['movies'] = movie.movie(language='fr',query=self.request.GET.get("q"))['results']
         return context
 
 class MoviePageView(TemplateView):
@@ -122,7 +125,7 @@ class ReviewsPageView(TemplateView):
     Class des avis d'un film.
     Retourne les détails, avis du film.
     """
-    template_name = TEMPLATE_BASE + 'reviews/reviews.html'
+    template_name = 'generic/reviews/reviews.html'
 
     def get_context_data(self, movie_id, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -132,3 +135,22 @@ class ReviewsPageView(TemplateView):
         context['reviews'] = movie.reviews(language='fr')['results']
         
         return context
+
+class WriteReviewPageView(View):
+    '''
+    Class pour rédiger un avis sur un film.
+    get() :
+    Retourne le formulaire pour rédiger un avis.
+    post() :
+    Enregistre le formulaire si il est valide.
+    '''
+    def get(self,request,movie_id):
+        form = ReviewForm()
+
+        movie = tmdb_movie(movie_id)
+        movie_detail = movie.detail(language='fr')
+
+        return render(request,'generic/reviews/write.html',{'form': form, 'movie': movie_detail})
+
+    def post():
+        pass

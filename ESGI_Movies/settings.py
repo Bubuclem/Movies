@@ -23,6 +23,8 @@ INTERNAL_IPS = IPS
 
 INSTALLED_APPS = [
     'movies',
+    'shows',
+    'management',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

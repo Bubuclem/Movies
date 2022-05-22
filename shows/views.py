@@ -1,6 +1,10 @@
+from django.shortcuts import redirect, render
+from django.views import View
 from django.views.generic import TemplateView
 
 from ESGI_Movies.wrappe.tmdb import tmdb_tv, tmdb_search, tmdb_genres
+from management.forms import ReviewForm
+from management.models import Review
 
 TEMPLATE_BASE = 'pages/shows/'
 
@@ -48,7 +52,7 @@ class SearchPageView(BasePageView):
         context = super().get_context_data(**kwargs)
         
         shows = tmdb_search()
-        context['shows'] = shows.show(query=self.request.GET.get("q"))['results']
+        context['shows'] = shows.show(language='fr',query=self.request.GET.get("q"))['results']
         return context
 
 class ShowPageView(TemplateView):
@@ -105,7 +109,7 @@ class ReviewsPageView(TemplateView):
     Class des avis d'une série.
     Retourne le détail, avis d'une série.
     """
-    template_name = TEMPLATE_BASE + 'reviews/reviews.html'
+    template_name = 'generic/reviews/reviews.html'
 
     def get_context_data(self, show_id, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -115,3 +119,34 @@ class ReviewsPageView(TemplateView):
         context['reviews'] = show.reviews(language='fr')['results']
         
         return context
+
+class WriteReviewPageView(View):
+    '''
+    Class pour rédiger un avis sur un film.
+    get() :
+    Retourne le formulaire pour rédiger un avis.
+    post() :
+    Enregistre le formulaire si il est valide.
+    '''
+    def get(self,request,show_id):
+        if self.request.user.is_authenticated:
+            form = ReviewForm()
+
+            show = tmdb_tv(show_id)
+            show_detail = show.detail(language='fr')
+
+            return render(request,'generic/reviews/write.html',{'form': form, 'show': show_detail})
+        return redirect('/authentification/')
+
+    def post(self,request,show_id):
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = Review()
+            review.user = self.request.user
+            review.content = form.cleaned_data['content']
+            review.media_id = show_id
+            review.media_type = Review.MediaType.Show
+
+            review.save()
+
+        return redirect(ReviewsPageView.as_view)

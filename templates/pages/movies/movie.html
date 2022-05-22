@@ -34,6 +34,6 @@
         class="px-8 py-3 font-semibold rounded bg-indigo-500">Plus</a>
 </div>
 
-{% include './reviews/list.html' %}
+{% include 'generic/reviews/list.html' with vote_count=movie.vote_count vote_average=movie.vote_average actual_link='movies:detail' more_link='movies:reviews' write_link='movies:writereview' id=movie.id %}
 
 {% endblock %}

@@ -1,0 +1,7 @@
+<h1 class="text-transparent bg-clip-text text-4xl sm:text-5xl md:text-6xl font-bold mb-8 md:mb-12">{{title}}</h1>
+<p>Rédiger un avis sur "{{title}}"</p>
+<form method="post" role="form" class="max-w-lg mx-auto" action="{% url submit_link id %}">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">Envoyer</button>
+</form>

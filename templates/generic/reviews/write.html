@@ -1,0 +1,11 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+{% if movie %}
+    {% include './form.html' with title=movie.title submit_link='movies:writereview' id=movie.id%}
+{% elif show %}
+    {% include './form.html' with title=show.name submit_link='shows:writereview' id=show.id%}
+{% endif %}
+
+{% endblock %}
