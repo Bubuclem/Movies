@@ -8,10 +8,11 @@ from movies.views import PopularPageView
 
 TEMPLATE_BASE = 'pages/management/'
 
-# Class de connexion
-# ===========
 class LoginPageView(TemplateView):
-
+    '''
+    Class des connexions.
+    Retourne la page de connexion
+    '''
     template_name = TEMPLATE_BASE + 'login/login.html'
 
     def get_context_data(self, **kwargs):
@@ -36,10 +37,11 @@ class LoginPageView(TemplateView):
                 return redirect('/films/populaires/')
         return redirect('/authentification/')
 
-# Class de déconnexion
-# ===========
 class LogoutPageView(TemplateView):
-
+    '''
+    Class des déconnexion.
+    Retourne la page de déconnexion
+    '''
     template_name = TEMPLATE_BASE + 'logout/logout.html'
 
     def get_context_data(self, **kwargs):
@@ -48,9 +50,11 @@ class LogoutPageView(TemplateView):
 
         return context
 
-# Class de création de compte
 class RegisterAccountPageView(TemplateView):
-    
+    '''
+    Class de création de compte.
+    Retourne le formulaire d'inscription
+    '''
     template_name = TEMPLATE_BASE + 'register/register.html'
 
     def get_context_data(self, **kwargs):
@@ -58,9 +62,11 @@ class RegisterAccountPageView(TemplateView):
         context['form'] = RegistreAccountForm()
         return context
 
-# Class du profil utilisateur
 class AccountPageView(TemplateView):
-    
+    '''
+    Class du profil utilisateur.
+    Retourne le formulaire du profile utilisateur
+    '''
     template_name = TEMPLATE_BASE + 'account/account.html'
 
     def get_context_data(self, **kwargs):
