@@ -1,4 +1,6 @@
-from django.shortcuts import redirect
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+from django.views import View
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -16,12 +18,9 @@ class LoginPageView(TemplateView):
     template_name = TEMPLATE_BASE + 'login/login.html'
 
     def get_context_data(self, **kwargs):
-        if self.request.user.is_authenticated:
-            return redirect('/films/populaires')
-        else:
-            context = super().get_context_data(**kwargs)
-            context['form'] = LoginForm()
-            return context
+        context = super().get_context_data(**kwargs)
+        context['form'] = LoginForm()
+        return context
 
     def post(self,request):
         form = LoginForm(request.POST)
@@ -73,3 +72,7 @@ class AccountPageView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['form'] = AccountForm()
         return context
+
+class SuccesPageView(View):
+    def get(self, request):
+        return render(request,'generic/succes.html',{})

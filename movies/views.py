@@ -7,14 +7,13 @@ from management.forms import ReviewForm
 
 TEMPLATE_BASE = 'pages/movies/'
 
-class BasePageView(TemplateView):
-    template_name = TEMPLATE_BASE + 'movies.html'
-
-class PopularPageView(BasePageView):
+class PopularPageView(TemplateView):
     """
     Class des films populaires.
     Retourne la liste des films populaires en francais.
     """
+    template_name = TEMPLATE_BASE + 'movies.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -26,11 +25,13 @@ class PopularPageView(BasePageView):
 
         return context
 
-class NowPlayingPageView(BasePageView):
+class NowPlayingPageView(TemplateView):
     """
     Class des films du moment.
     Retourne la liste des films du moment en francais.
     """
+    template_name = TEMPLATE_BASE + 'movies.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -42,11 +43,13 @@ class NowPlayingPageView(BasePageView):
 
         return context
 
-class UpcomingPageView(BasePageView):
+class UpcomingPageView(TemplateView):
     """
     Class des films à venir.
     Retourne la liste des films à venir en francais.
     """
+    template_name = TEMPLATE_BASE + 'movies.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -58,11 +61,13 @@ class UpcomingPageView(BasePageView):
 
         return context
 
-class SearchPageView(BasePageView):
+class SearchPageView(TemplateView):
     """
     Class recherche d'un film.
     Retourne la liste des films de la recherche.
     """
+    template_name = TEMPLATE_BASE + 'movies.html'
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
