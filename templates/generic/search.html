@@ -14,16 +14,22 @@
         </div>
 
         <div class="SearchResolutionBox">
+            {% url 'movies:popular' as url_movie %}
+            {% url 'shows:popular' as url_show %}
             {% if link_popular is not None %}
-            <a class="SearchResolutionItem" href="{% url link_popular %}">Populaires</a>
+            <a class="SearchResolutionItem {% if request.path == url_movie or request.path == url_show %}navTxtActive{%endif%}" href="{% url link_popular %}">Populaires</a>
             {% endif %}
 
+            {% url 'movies:nowplaying' as url_movie %}
+            {% url 'shows:nowplaying' as url_show %}
             {% if link_nowplaying is not None %}
-            <a class="SearchResolutionItem" href="{% url link_nowplaying %}">Du moment</a>
+            <a class="SearchResolutionItem {% if request.path == url_movie or request.path == url_show %}navTxtActive{%endif%}" href="{% url link_nowplaying %}">Du moment</a>
             {% endif %}
 
+            {% url 'movies:upcoming' as url_movie %}
+            {% url 'shows:upcoming' as url_show %}
             {% if link_upcoming is not None %}
-            <a class="SearchResolutionItem" href="{% url link_upcoming %}">A venir</a>
+            <a class="SearchResolutionItem {% if request.path == url_movie or request.path == url_show %}navTxtActive{%endif%}" href="{% url link_upcoming %}">A venir</a>
             {% endif %}
         </div>
     </div>
