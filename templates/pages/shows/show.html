@@ -18,6 +18,11 @@
     </div>
 </section>
 
+<form method="post" role="form" class="max-w-lg mx-auto" action="{% url 'shows:detail' show.id %}">
+    {% csrf_token %}
+    <input type="checkbox" id="watched" name="watched" onclick="this.form.submit();" {% if watch is not None%} checked {% endif%}>Visualisé</input>
+</form>
+
 {% include 'generic/detail/synopsis.html' with overview=show.overview %}
 
 {% include './credits/list.html' %}

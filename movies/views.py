@@ -87,7 +87,7 @@ class MoviePageView(View):
     template_name = TEMPLATE_BASE + 'movie.html'
 
     def get(self, request, movie_id):
-        context =  self._get(request, movie_id)
+        context =  self._get(movie_id)
         
         try:
             watch = Watched.objects.get(media_id=movie_id,media_type=Watched.MediaType.Movie)
@@ -99,7 +99,7 @@ class MoviePageView(View):
         return render(request,TEMPLATE_BASE + 'movie.html',context)
 
     def post(self, request, movie_id):
-        context =  self._get(request, movie_id)
+        context =  self._get(movie_id)
 
         try:
             watch = Watched.objects.get(media_id=movie_id,media_type=Watched.MediaType.Movie)
@@ -117,7 +117,7 @@ class MoviePageView(View):
 
         return render(request,TEMPLATE_BASE + 'movie.html',context)
 
-    def _get(self, request, movie_id):
+    def _get(self, movie_id):
         data = tmdb_movie(movie_id)
         movie = data.detail(language='fr')
         credits = data.credits(language='fr')['cast'][:8]

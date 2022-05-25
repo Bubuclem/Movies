@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 from ESGI_Movies.wrappe.tmdb import tmdb_tv, tmdb_search, tmdb_genres
 from management.forms import ReviewForm
-from management.models import Review
+from management.models import Watched, Review
 
 TEMPLATE_BASE = 'pages/shows/'
 
@@ -55,21 +55,53 @@ class SearchPageView(BasePageView):
         context['shows'] = shows.show(language='fr',query=self.request.GET.get("q"))['results']
         return context
 
-class ShowPageView(TemplateView):
+class ShowPageView(View):
     """
     Class du détail d'une série.
     Retourne le détail, acteurs, vidéos et avis d'une série.
     """
     template_name = TEMPLATE_BASE + 'show.html'
 
-    def get_context_data(self, show_id, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get(self, request, show_id):
+        context = self._get(show_id)
+
+        try:
+            watch = Watched.objects.get(media_id=show_id,media_type=Watched.MediaType.Show)
+        except:
+            watch = None
+
+        context['watch'] = watch
+
+        return render(request,TEMPLATE_BASE + 'show.html',context)
+
+    def post(self, request, show_id):
+        context =  self._get(show_id)
+
+        try:
+            watch = Watched.objects.get(media_id=show_id,media_type=Watched.MediaType.Show)
+            watch.delete()
+            watch = None
+        except:
+            watch = Watched()
+            watch.user = self.request.user
+            watch.name = context.get('show').get('name')
+            watch.media_id = show_id
+            watch.media_type = Watched.MediaType.Show
+            watch.save()
+
+        context['watch'] = watch
+
+        return render(request,TEMPLATE_BASE + 'show.html',context)
+
+    def _get(self, show_id):
+        data = tmdb_tv(show_id)
+        show = data.detail(language='fr')
+        credits = data.credits(language='fr')['cast'][:8]
+        videos = data.videos(language='fr')['results'][:4]
+        reviews = data.reviews(language='fr')['results'][:5]
         
-        show = tmdb_tv(show_id)
-        context['show'] = show.detail(language='fr')
-        context['credits'] = show.credits(language='fr')['cast'][:8]
-        context['videos'] = show.videos(language='fr')['results'][:4]
-        context['reviews'] = show.reviews(language='fr')['results'][:5]
+        context = {'show': show,'credits': credits,'videos': videos,'reviews': reviews}
+
         return context
 
 class CreditsPageView(TemplateView):
