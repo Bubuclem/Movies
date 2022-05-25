@@ -3,6 +3,8 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from .serializers import UserSerializer, GroupSerializer
 
+from ESGI_Movies.wrappe.tmdb import tmdb_movie
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
