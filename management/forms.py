@@ -1,7 +1,7 @@
 from django.forms import ModelForm, EmailInput, PasswordInput, TextInput, Textarea
 from django.contrib.auth.models import User
 
-from management.models import Review
+from management.models import Watched, Review
 
 ATTRS_CLASS = 'w-full px-4 py-3 rounded-md dark:border-coolGray-700 dark:bg-coolGray-900 dark:text-coolGray-100'
 

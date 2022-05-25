@@ -19,10 +19,10 @@ class TMDB(object):
         self.session = REQUESTS_SESSION
         self.timeout = REQUESTS_TIMEOUT
     
-    def _get_path(self, key): # Get sur un lien
+    def _get_path(self, key):
         return self.BASE_PATH + self.URLS[key]
 
-    def _get_id_path(self, key): # Get sur un lien avec un ID 
+    def _get_id_path(self, key):
         return self._get_path(key).format(id=self.id)
 
     def _get_tv_id_season_number_path(self, key):
@@ -74,7 +74,7 @@ class TMDB(object):
         response.encoding = 'utf-8'
         return response.json()
 
-    def _GET(self, path, params=None): # Demande de GET
+    def _GET(self, path, params=None):
         return self._request('GET', path, params=params)
 
     def _set_attrs_to_values(self, response={}):
