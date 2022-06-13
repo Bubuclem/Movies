@@ -1,19 +1,23 @@
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 from .forms import LoginForm, AccountForm, RegistreAccountForm
-from movies.views import PopularPageView
+from movies.models import Movie
+from shows.models import Show
 
 TEMPLATE_BASE = 'pages/management/'
 
+''''
+Connexion class
+'''
 class LoginPageView(TemplateView):
     '''
-    Class des connexions.
-    Retourne la page de connexion
+    Method Get login page
+    if user is logged, redirect to the class view of the popular movies
+    return connexion page with form
     '''
     template_name = TEMPLATE_BASE + 'login/login.html'
 
@@ -22,6 +26,10 @@ class LoginPageView(TemplateView):
         context['form'] = LoginForm()
         return context
 
+    '''
+    Method Post login page
+    return to the main page /popular if the connexion is ok
+    '''
     def post(self,request):
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -36,10 +44,13 @@ class LoginPageView(TemplateView):
                 return redirect('/films/populaires/')
         return redirect('/authentification/')
 
+''''
+Logout class
+'''
 class LogoutPageView(TemplateView):
     '''
-    Class des déconnexion.
-    Retourne la page de déconnexion
+    Method Get logout page
+    logout the user and return to the login page
     '''
     template_name = TEMPLATE_BASE + 'logout/logout.html'
 
@@ -76,3 +87,49 @@ class AccountPageView(TemplateView):
 class SuccesPageView(View):
     def get(self, request):
         return render(request,'generic/succes.html',{})
+
+class MoviesPageView(ListView):
+    '''
+    Class : Movies list
+    Description : Manage movies
+    '''
+    template_name = TEMPLATE_BASE + 'back/movies.html'
+    model = Movie
+    paginate_by = 15
+    context_object_name = 'movies'
+
+class MoviePageView(DetailView):
+    '''
+    Class : Detail view for movie
+    Description : Edit movie
+    '''
+    template_name = TEMPLATE_BASE + 'back/movie.html'
+
+    model = Movie
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class ShowsPageView(ListView):
+    '''
+    Class : Shows list
+    Description : Manage shows
+    '''
+    template_name = TEMPLATE_BASE + 'back/shows.html'
+    model = Show
+    paginate_by = 15
+    context_object_name = 'shows'
+
+class ShowPageView(DetailView):
+    '''
+    Class : Detail view for show
+    Description : Edit show
+    '''
+    template_name = TEMPLATE_BASE + 'back/show.html'
+
+    model = Show
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

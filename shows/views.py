@@ -1,49 +1,72 @@
+from datetime import datetime, timedelta
+
 from django.shortcuts import redirect, render
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
 from ESGI_Movies.wrappe.tmdb import tmdb_tv, tmdb_search, tmdb_genres
+from .models import Show
 from management.forms import ReviewForm
 from management.models import Watched, Review
 
 TEMPLATE_BASE = 'pages/shows/'
 
-class BasePageView(TemplateView):
-    template_name = TEMPLATE_BASE + 'shows.html'
-
-class PopularPageView(BasePageView):
+class PopularPageView(ListView):
     """
     Class des séries populaires.
     Retourne la liste des séries populaires.
     """
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        shows = tmdb_tv()
-        context['shows'] = shows.popular(language='fr')['results']
+    model = Show
+    paginate_by = 20
+    context_object_name = 'shows'
+    ordering = ['-popularity']
+    template_name = TEMPLATE_BASE + 'shows.html'
 
-        genres = tmdb_genres()
-        context['genres'] = genres.movie_list(language='fr')['genres']
-
-        return context
-
-class NowPlayingPageView(BasePageView):
+class NowPlayingPageView(ListView):
     """
     Class des séries du moment.
     Retourne la liste des séries du moment.
     """
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        shows = tmdb_tv()
-        context['shows'] = shows.on_the_air(language='fr')['results']
+    model = Show
+    paginate_by = 20
+    context_object_name = 'shows'
+    template_name = TEMPLATE_BASE + 'shows.html'
 
-        genres = tmdb_genres()
-        context['genres'] = genres.movie_list(language='fr')['genres']
+    '''
+    Check if release date is curent month
+    '''
+    def get_queryset(self):
+        return Show.objects.filter(status='Returning Series').filter(first_air_date__gte=datetime.now() - timedelta(days=30))
 
-        return context
+class TopRatedPageView(ListView):
+    '''
+    Top rated shows class
+    Return the top rated shows order by vote average with 500 vote_count minimum
+    '''
+    model = Show
+    paginate_by = 20
+    context_object_name = 'shows'
+    ordering = ['-vote_average']
+    template_name = TEMPLATE_BASE + 'shows.html'
 
-class SearchPageView(BasePageView):
+    def get_queryset(self):
+        return Show.objects.all().filter(vote_count__gte=500).order_by('-vote_average', '-vote_count')
+
+class LastestPageView(ListView):
+    """
+    Class des séries les plus récentes.
+    Retourne la liste des séries les plus récentes.
+    """
+    model = Show
+    paginate_by = 20
+    context_object_name = 'shows'
+    ordering = ['-first_air_date']
+    template_name = TEMPLATE_BASE + 'shows.html'
+
+    def get_queryset(self):
+        return Show.objects.filter(status='Returning Series').filter(first_air_date__gte=datetime.now() - timedelta(days=30))
+
+class SearchPageView(TemplateView):
     """
     Class recherche d'une série.
     Retourne la liste des séries de la recherche.

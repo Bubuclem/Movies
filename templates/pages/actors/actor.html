@@ -4,19 +4,71 @@
 
 {% block content %}
 
-<div class="bg-white py-6 sm:py-8 lg:py-12">
-    <div class="max-w-screen-md px-4 md:px-8 mx-auto">
-        <h1 class="text-gray-800 text-2xl sm:text-3xl font-bold text-center mb-4 md:mb-6">{{actor.name}}</h1>
-
-        <div class="bg-gray-100 overflow-hidden rounded-lg shadow-lg relative mb-6 md:mb-8">
-            <img src="https://image.tmdb.org/t/p/w500{{actor.profile_path}}"
-                loading="lazy" alt="Photo of {{actor.name}}" class="w-full h-full object-cover object-center" />
+<div class="TopBannerActor">
+    <img src="{{actor.get_profile_path}}" class="Poster">
+    <div class="mainInfoActor">
+        <h1 class="mainTitleActor">{{actor.name}}</h1>
+        <div>
+            <h3 style="margin: 0;">Biographie</h3>
+            <p style="max-width: 850px;font-family: sans-serif;margin-top: 4px;">
+                {{actor.biography}}
+            </p>
         </div>
-
-        <h2 class="text-gray-800 text-xl sm:text-2xl font-semibold mb-2 md:mb-4">Biographie</h2>
-
-        <p class="text-gray-500 sm:text-lg mb-6 md:mb-8">{{actor.biography}}</p>
     </div>
 </div>
+
+<div class="carousel-wrapper">
+    <div class="carousel">
+        <h3 style="margin: 0;margin-left: 45px;position: relative;top: 30px;font-size: 25px;color: white;">Filmographie
+        </h3>
+        <div class="slider" id="slider" tabindex="0">
+            <div class="slide">
+                <img draggable="false"
+                    style="border-radius: 5px 5px 0px 0px;width: 192px; height: 250px; object-fit: cover"
+                    src="./poster.jpg">
+                <span class="movieTxt">Doctor Strange in the Multiverse of Madness</span>
+            </div>
+            <div class="slide">
+                <img draggable="false"
+                    style="border-radius: 5px 5px 0px 0px;width: 192px; height: 250px; object-fit: cover"
+                    src="./poster.jpg">
+                <span class="movieTxt">Doctor Strange in the Multiverse of Madness</span>
+            </div>
+            <div class="slide">
+                <img draggable="false"
+                    style="border-radius: 5px 5px 0px 0px;width: 192px; height: 250px; object-fit: cover"
+                    src="./poster.jpg">
+                <span class="movieTxt">Doctor Strange in the Multiverse of Madness</span>
+            </div>
+            <div class="slide">
+                <img draggable="false"
+                    style="border-radius: 5px 5px 0px 0px;width: 192px; height: 250px; object-fit: cover"
+                    src="./poster.jpg">
+                <span class="movieTxt">Doctor Strange in the Multiverse of Madness</span>
+            </div>
+            <div class="slide">
+                <img draggable="false"
+                    style="border-radius: 5px 5px 0px 0px;width: 192px; height: 250px; object-fit: cover"
+                    src="./poster.jpg">
+                <span class="movieTxt">Doctor Strange in the Multiverse of Madness</span>
+            </div>
+        </div>
+        <button class="slider-control arrow-left hide" id="btn-prev"><svg xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24"
+                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <polyline points="15 6 9 12 15 18"></polyline>
+            </svg></button>
+        <button class="slider-control arrow-right" id="btn-next"><svg xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24"
+                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <polyline points="9 6 15 12 9 18"></polyline>
+            </svg></button>
+    </div>
+</div>
+
+{% load static %}
+<script type="text/javascript" src="{% static 'js/carousel.js' %}"></script>
 
 {% endblock %}

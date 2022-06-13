@@ -27,10 +27,17 @@
             {% endif %}
 
             {% url 'movies:upcoming' as url_movie %}
-            {% url 'shows:upcoming' as url_show %}
+            {% url 'shows:lastest' as url_show %}
             {% if link_upcoming is not None %}
             <a class="SearchResolutionItem {% if request.path == url_movie or request.path == url_show %}navTxtActive{%endif%}" href="{% url link_upcoming %}">A venir</a>
             {% endif %}
+            
+            {% url 'movies:toprated' as url_movie %}
+            {% url 'shows:toprated' as url_show %}
+            {% if link_toprated is not None %}
+            <a class="SearchResolutionItem {% if request.path == url_movie or request.path == url_show %}navTxtActive{%endif%}" href="{% url link_toprated %}">Les mieux notés</a>
+            {% endif %}
+
         </div>
     </div>
 
@@ -39,7 +46,7 @@
             <input name="q" type="text" placeholder="Recherche" class="SearchInput">
         </form>
         <div class="SearchIconeBox">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 SearchIcone" fill="none" viewBox="0 0 24 24"
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 SearchIcone" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>

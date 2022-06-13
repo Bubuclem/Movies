@@ -321,3 +321,250 @@
     background: white;
     height: 100px;
 }
+
+body {
+    padding: 0;
+    margin: 0;
+  }
+  
+  @font-face {
+    font-family: MainFont;
+    src: url(Staatliches-Regular.ttf);
+  }
+  .TopBanner {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 45vh;
+    background-color: #202020;
+    justify-content: center;
+    padding: 30px 0;
+  }
+  
+  .TopBanner::before {
+    content: "";
+    background-image: url(./backban.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.15;
+    top: 0;
+    left: 0;
+    bottom: 55vh;
+    right: 0;
+    position: absolute;
+    z-index: 1;
+    background-position: center;
+  }
+  
+  .TopBannerActor {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 45vh;
+    background-color: #ffffff;
+    justify-content: center;
+    padding: 30px 0;
+  }
+  
+  .TopBannerActor::before {
+    content: "";
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.15;
+    top: 0;
+    left: 0;
+    bottom: 55vh;
+    right: 0;
+    position: absolute;
+    z-index: 1;
+    background-position: center;
+  }
+  
+  .Poster {
+    border-radius: 8px;
+    position: relative;
+    z-index: 10;
+    margin-right: 50px;
+  }
+  
+  .mainTitle {
+    color: white;
+    margin: 0;
+    font-family: MainFont;
+    font-size: 28px;
+    margin-bottom: 5px;
+  }
+  
+  .mainInfo {
+    position: relative;
+    z-index: 10;
+    padding: 15px 0;
+    color: white;
+    font-family: MainFont;
+  }
+  
+  .mainTitleActor {
+    color: rgb(39, 39, 39);
+    margin: 0;
+    font-family: MainFont;
+    font-size: 28px;
+    margin-bottom: 5px;
+  }
+  
+  .mainInfoActor {
+    position: relative;
+    z-index: 10;
+    padding: 15px 0;
+    color: rgb(39, 39, 39);
+    font-family: MainFont;
+  }
+  
+  .genreTxt {
+    padding: 2px 8px;
+    background: #a55eea;
+    border-radius: 20px;
+    margin: 0 3px;
+  }
+  
+  .noteBox {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: fit-content;
+    background: #27ae60;
+    padding: 8px 8px;
+    border-radius: 10px;
+    font-size: 25px;
+  }
+  
+  .castingBox {
+    display: flex;
+    justify-content: center;
+    font-family: "MainFont";
+    background: #a55eea;
+    flex-direction: column;
+  }
+  
+  .actorTxt {
+    background: white;
+    padding: 5px 17px 10px 17px;
+    border-radius: 0px 0px 5px 5px;
+    font-size: 18.9px;
+  }
+  
+  .movieTxt {
+    background: white;
+    padding: 5px 17px 10px 17px;
+    border-radius: 0px 0px 5px 5px;
+    font-size: 18.9px;
+    max-width: 159px;
+  }
+  
+  /*------------- Slider -------------*/
+  .carousel-wrapper {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    background: #a55eea;
+    font-family: "MainFont";
+  }
+  
+  .carousel {
+    display: block;
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    margin: auto;
+    position: relative;
+  }
+  
+  .slider {
+    display: flex;
+    width: auto;
+    max-width: none;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 0;
+    overflow-x: hidden;
+    align-items: stretch;
+    touch-action: pan-x;
+    border-radius: 0px;
+    justify-content: flex-start;
+  }
+  
+  .slider-control {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    background-color: #fff;
+    border: none;
+    border-radius: 999px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    transition: box-shadow 0.12s ease;
+  }
+  .slider-control.arrow-right {
+    right: 0;
+    transform: translate(50%, -50%);
+  }
+  .slider-control.arrow-left {
+    left: 0;
+    transform: translate(-50%, -50%);
+  }
+  .slider-control:not(:disabled) {
+    cursor: pointer;
+  }
+  .slider-control:not(:disabled):hover, .slider-control:not(:disabled):focus {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
+  .slider-control:not(:disabled):active {
+    background-color: #f1f1f1;
+  }
+  .slider-control:disabled {
+    cursor: not-allowed;
+  }
+  .slider-control.hide {
+    display: none;
+  }
+  
+  .slide {
+    display: inline-flex;
+    min-width: 100%;
+    height: 360px;
+    margin-right: 20px;
+    font-size: 20vw;
+    font-weight: 700;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    border-radius: 8px;
+    background-blend-mode: multiply;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    flex-direction: column;
+  }
+  .slide.has-image {
+    color: #fff;
+  }
+  .slide:last-child {
+    margin-right: 0;
+  }
+  @media screen and (min-width: 577px) {
+    .slide {
+      min-width: calc(50% - 10px);
+    }
+  }
+  @media screen and (min-width: 769px) {
+    .slide {
+      min-width: calc(33.3333333333% - 13.3333333333px);
+    }
+  }
+  @media screen and (min-width: 1025px) {
+    .slide {
+      min-width: calc(19.4% - 15px);
+    }
+  }

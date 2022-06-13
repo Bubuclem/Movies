@@ -2,18 +2,18 @@
     let test = false
 
     function testEnter(id) {
-        let card = document.getElementById('CardBoxFilm'+id)
+        let card = document.getElementById('CardBoxFilm' + id)
         card.style.filter = 'blur(2px) grayscale(1)'
 
-        let elem = document.getElementById('CardBtnFilm'+id)
+        let elem = document.getElementById('CardBtnFilm' + id)
         elem.style.zIndex = 100
     }
 
     function testOut(id) {
-        let card = document.getElementById('CardBoxFilm'+id)
+        let card = document.getElementById('CardBoxFilm' + id)
         card.style.filter = 'none'
 
-        let elem = document.getElementById('CardBtnFilm'+id)
+        let elem = document.getElementById('CardBtnFilm' + id)
         elem.style.zIndex = 1
     }
 </script>
@@ -28,27 +28,50 @@
                 onmouseleave="testOut('{{show.id}}')">
                 <div class="CardBox">
                     <div class="ImgCardBox">
+                        {% if show.poster_path %}
                         <img id='CardBoxFilm{{show.id}}' class="MovieImgCard"
-                        
                             src="https://image.tmdb.org/t/p/w500{{show.poster_path}}" width="220" />
+                        {% else %}
+                        <svg id="glyphicons-basic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="220">
+                            <path fill="#b5b5b5" id="picture"
+                                d="M27.5,5H4.5A1.50008,1.50008,0,0,0,3,6.5v19A1.50008,1.50008,0,0,0,4.5,27h23A1.50008,1.50008,0,0,0,29,25.5V6.5A1.50008,1.50008,0,0,0,27.5,5ZM26,18.5l-4.79425-5.2301a.99383.99383,0,0,0-1.44428-.03137l-5.34741,5.34741L19.82812,24H17l-4.79291-4.793a1.00022,1.00022,0,0,0-1.41418,0L6,24V8H26Zm-17.9-6a2.4,2.4,0,1,1,2.4,2.4A2.40005,2.40005,0,0,1,8.1,12.5Z" />
+                        </svg>
+                        {% endif %}
                         <span class="DateCardBox">{{show.first_air_date}}</span>
                     </div>
                     <div class="TxtCardBox">
                         <div style="display: flex;flex-direction: column;justify-content: center;max-width: 160px;">
                             <p style="font-size: 19px;margin: 0;">{{show.name}}</p>
-                            <span class='GenreBox'>{{show.genre_ids|slice:":1"}}</span>
+                            <span class='GenreBox'>{{show.get_first_genre}}</span>
                         </div>
                         <div style="display: flex;justify-content: center;">
                             <span class="NoteCard">{% widthratio show.vote_average 1 10 %}%</span>
                         </div>
                     </div>
                 </div>
-                <a id="CardBtnFilm{{show.id}}" class="CardBtn"
-                    href="{% url 'shows:detail' show.id %}">Voir l'affiche</a>
+                <a id="CardBtnFilm{{show.id}}" class="CardBtn" href="{% url 'shows:detail' show.id %}">Voir
+                    l'affiche</a>
             </div>
 
             {% endfor %}
         </div>
 
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; début</a>
+                <a href="?page={{ page_obj.previous_page_number }}">précedent</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Suivant</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">fin &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     </div>
 </div>

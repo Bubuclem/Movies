@@ -1,73 +1,70 @@
+from datetime import datetime, timedelta
+
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, DetailView
 
-from ESGI_Movies.wrappe.tmdb import tmdb_movie, tmdb_search, tmdb_genres
+from ESGI_Movies.wrappe.tmdb import tmdb_movie, tmdb_search
 from management.forms import ReviewForm
 from management.models import Watched
+from .models import Movie
 
 TEMPLATE_BASE = 'pages/movies/'
-
-class PopularPageView(TemplateView, View):
+ 
+class PopularPageView(ListView):
     """
     Class des films populaires.
     Retourne la liste des films populaires en francais.
     """
+    model = Movie
+    paginate_by = 20
+    context_object_name = 'movies'
+    ordering = ['-popularity']
     template_name = TEMPLATE_BASE + 'movies.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        movies = tmdb_movie()
-        context['movies'] = movies.popular(language='fr')['results']
-        
-        genres = tmdb_genres()
-        context['genres'] = genres.movie_list(language='fr')['genres']
-
-        return context
-    
-    def post(self,**kwargs):
-        print('Post')
-
-class NowPlayingPageView(TemplateView):
-    """
-    Class des films du moment.
+class NowPlayingPageView(ListView):
+    """Class des films du moment.
     Retourne la liste des films du moment en francais.
     """
+    model = Movie
+    paginate_by = 20
+    context_object_name = 'movies'
     template_name = TEMPLATE_BASE + 'movies.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        movies = tmdb_movie()
-        context['movies'] = movies.now_playing(language='fr')['results']
+    def get_queryset(self):
+        '''Check if release date is among the current month
+        '''
+        return Movie.objects.filter(status='Released').filter(release_date__gte=datetime.now() - timedelta(days=30))
 
-        genres = tmdb_genres()
-        context['genres'] = genres.movie_list(language='fr')['genres']
-
-        return context
-
-class UpcomingPageView(TemplateView):
-    """
-    Class des films à venir.
+class UpcomingPageView(ListView):
+    """Class des films à venir.
     Retourne la liste des films à venir en francais.
     """
+    model = Movie
+    paginate_by = 20
+    context_object_name = 'movies'
     template_name = TEMPLATE_BASE + 'movies.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        movies = tmdb_movie()
-        context['movies'] = movies.upcoming(language='fr')['results']
+    def get_queryset(self):
+        '''Check if release date is among the next days
+        '''
+        return Movie.objects.filter(status='Post Production').filter(release_date__gte=datetime.now() + timedelta(days=1))
 
-        genres = tmdb_genres()
-        context['genres'] = genres.movie_list(language='fr')['genres']
+class TopRatedPageView(ListView):
+    """Class des films les mieux notés.
+    Retourne la liste des films les mieux notés en francais.
+    """
+    model = Movie
+    paginate_by = 20
+    context_object_name = 'movies'
+    ordering = ['-vote_average']
+    template_name = TEMPLATE_BASE + 'movies.html'
 
-        return context
+    def get_queryset(self):
+        return Movie.objects.filter(vote_count__gte=500).order_by('-vote_average', '-vote_count')
 
 class SearchPageView(TemplateView):
-    """
-    Class recherche d'un film.
+    """Class recherche d'un film.
     Retourne la liste des films de la recherche.
     """
     template_name = TEMPLATE_BASE + 'movies.html'
@@ -79,53 +76,41 @@ class SearchPageView(TemplateView):
         context['movies'] = movie.movie(language='fr',query=self.request.GET.get("q"))['results']
         return context
 
-class MoviePageView(View):
-    """
-    Class du détail d'un film.
-    Retourne les détails, 8 acteurs, 4 vidéos, 5 avis du film.
+class MoviePageView(TemplateView):
+    """Movie view.
+    Get movie by id, get or update movie in database
     """
     template_name = TEMPLATE_BASE + 'movie.html'
 
-    def get(self, request, movie_id):
-        context =  self._get(movie_id)
-        
-        try:
-            watch = Watched.objects.get(media_id=movie_id,media_type=Watched.MediaType.Movie)
-        except:
-            watch = None
+    def get_context_data(self, movie_id,**kwargs):
+        context = super().get_context_data(**kwargs)
 
-        context['watch'] = watch
-
-        return render(request,TEMPLATE_BASE + 'movie.html',context)
-
-    def post(self, request, movie_id):
-        context =  self._get(movie_id)
+        movie = tmdb_movie(movie_id)
+        tmdb_data = movie.detail(language='fr')
 
         try:
-            watch = Watched.objects.get(media_id=movie_id,media_type=Watched.MediaType.Movie)
-            watch.delete()
-            watch = None
-        except:
-            watch = Watched()
-            watch.user = self.request.user
-            watch.name = context.get('movie').get('title')
-            watch.media_id = movie_id
-            watch.media_type = Watched.MediaType.Movie
-            watch.save()
-
-        context['watch'] = watch
-
-        return render(request,TEMPLATE_BASE + 'movie.html',context)
-
-    def _get(self, movie_id):
-        data = tmdb_movie(movie_id)
-        movie = data.detail(language='fr')
-        credits = data.credits(language='fr')['cast'][:8]
-        videos = data.videos(language='fr')['results'][:4]
-        reviews = data.reviews(language='fr')['results'][:5]
+            movie : Movie = Movie.objects.get(id=movie_id)
+            movie.vote_average=tmdb_data['vote_average']
+            movie.vote_count=tmdb_data['vote_count']
+            movie.popularity=tmdb_data['popularity']
+            movie.save()
+        except Movie.DoesNotExist:
+            movie = Movie.objects.create(
+                id=tmdb_data['id'],
+                title=tmdb_data['title'],
+                overview=tmdb_data['overview'],
+                release_date=tmdb_data['release_date'],
+                poster_path=tmdb_data['poster_path'],
+                vote_average=tmdb_data['vote_average'],
+                vote_count=tmdb_data['vote_count'],
+                popularity=tmdb_data['popularity'],
+                adult=tmdb_data['adult'],
+                original_language=tmdb_data['original_language'],
+                original_title=tmdb_data['original_title'],
+                genre_ids=tmdb_data['genre_ids']
+            )
         
-        context = {'movie': movie,'credits': credits,'videos': videos,'reviews': reviews}
-
+        context['movie'] = movie
         return context
 
 class CreditsPageView(TemplateView):

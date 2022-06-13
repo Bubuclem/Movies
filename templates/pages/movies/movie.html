@@ -4,41 +4,84 @@
 
 {% block content %}
 
-<section
-    class="min-h-96 flex justify-center items-center flex-1 shrink-0 bg-gray-100 overflow-hidden relative py-16 md:py-20 xl:py-48">
-
-    <img src="https://image.tmdb.org/t/p/original{{movie.backdrop_path}}" loading="lazy"
-        alt="Photo by Fakurian Design" class="w-full h-full object-cover object-center absolute inset-0" />
-
-    <div class="bg-zinc-400 mix-blend-multiply absolute inset-0"></div>
-
-    <div class="sm:max-w-xl flex flex-col items-center relative p-4">
-        <h1
-            class="text-transparent bg-clip-text text-4xl sm:text-5xl md:text-6xl font-bold mb-8 md:mb-12">{{movie.title}}</h1>
+<div class="TopBanner">
+    <img src="{{movie.get_poster_url}}" class="Poster">
+    <div class="mainInfo">
+        <h1 class="mainTitle">{{movie.title}}</h1>
+        <div style="display: flex;align-items: center;">
+            <span style="margin-right: 20px;">{{movie.release_date}}</span>
+            
+            <span class="genreTxt">genre</span>
+            
+            <span style="margin-left: 20px;margin-top: 3px;">({{movie.get_runtime}})</span>
+        </div>
+        <div class="noteBox">
+            <span>{{movie.get_percent_average}}%</span>
+        </div>
+        <div>
+            <h3 style="margin: 0;">Synopsis</h3>
+            <p style="max-width: 450px;font-family: sans-serif;margin-top: 4px;">
+                {{movie.overview}}
+            </p>
+        </div>
+        <span><span style="color: rgb(177, 177, 177);">Réalisateur:</span> Sam Raimi</span>
     </div>
-</section>
-
-<form method="post" role="form" class="max-w-lg mx-auto" action="{% url 'movies:detail' movie.id %}">
-    {% csrf_token %}
-    <input type="checkbox" id="watched" name="watched" onclick="this.form.submit();" {% if watch is not None%} checked {% endif%}>Visualisé</input>
-</form>
-
-{% include 'generic/detail/synopsis.html' with overview=movie.overview %}
-
-{% include './credits/list.html' %}
-
-<div class="flex justify-center space-x-1 text-white">
-    <a type="button" href="{% url 'movies:credits' movie.id%}"
-        class="px-8 py-3 font-semibold rounded bg-indigo-500">Plus</a>
 </div>
 
-{% include './videos/list.html' %}
-
-<div class="flex justify-center space-x-1 text-white">
-    <a type="button" href="{% url 'movies:videos' movie.id%}"
-        class="px-8 py-3 font-semibold rounded bg-indigo-500">Plus</a>
+<div class="carousel-wrapper">
+    <div class="carousel">
+        <div class="slider" id="slider" tabindex="0">
+            <div class="slide">
+                <img draggable="false"
+                    style="border-radius: 5px 5px 0px 0px;width: 192px; height: 250px; object-fit: cover"
+                    src="./actor.jpg">
+                <span class="actorTxt">Benedict Cumberbatch <br><span
+                        style="font-family: sans-serif;font-size: 12px">Dr. Stephen Strange</span></span>
+            </div>
+            <div class="slide">
+                <img draggable="false"
+                    style="border-radius: 5px 5px 0px 0px;width: 192px; height: 250px; object-fit: cover"
+                    src="./actor.jpg">
+                <span class="actorTxt">Benedict Cumberbatch <br><span
+                        style="font-family: sans-serif;font-size: 12px">Dr. Stephen Strange</span></span>
+            </div>
+            <div class="slide">
+                <img draggable="false"
+                    style="border-radius: 5px 5px 0px 0px;width: 192px; height: 250px; object-fit: cover"
+                    src="./actor.jpg">
+                <span class="actorTxt">Benedict Cumberbatch <br><span
+                        style="font-family: sans-serif;font-size: 12px">Dr. Stephen Strange</span></span>
+            </div>
+            <div class="slide">
+                <img draggable="false"
+                    style="border-radius: 5px 5px 0px 0px;width: 192px; height: 250px; object-fit: cover"
+                    src="./actor.jpg">
+                <span class="actorTxt">Benedict Cumberbatch <br><span
+                        style="font-family: sans-serif;font-size: 12px">Dr. Stephen Strange</span></span>
+            </div>
+            <div class="slide">
+                <img draggable="false"
+                    style="border-radius: 5px 5px 0px 0px; width: 192px; height: 250px; object-fit: cover;"
+                    src="./actor.jpg">
+                <span class="actorTxt">Benedict Cumberbatch <br><span
+                        style="font-family: sans-serif;font-size: 12px">Dr. Stephen Strange</span></span>
+            </div>
+        </div>
+        <button class="slider-control arrow-left hide" id="btn-prev"><svg xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24"
+                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <polyline points="15 6 9 12 15 18"></polyline>
+            </svg></button>
+        <button class="slider-control arrow-right" id="btn-next"><svg xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24"
+                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <polyline points="9 6 15 12 9 18"></polyline>
+            </svg></button>
+    </div>
 </div>
 
-{% include 'generic/reviews/list.html' with vote_count=movie.vote_count vote_average=movie.vote_average actual_link='movies:detail' more_link='movies:reviews' write_link='movies:writereview' id=movie.id %}
-
+{% load static %}
+<script type="text/javascript" src="{% static 'js/carousel.js' %}"></script>
 {% endblock %}
