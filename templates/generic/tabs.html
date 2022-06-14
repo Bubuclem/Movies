@@ -1,0 +1,43 @@
+<div class="pt-8 place-self-center">
+    <div class="sm:hidden">
+        <label for="tabs" class="sr-only">Select a tab</label>
+        <select id="tabs" name="tabs"
+            class="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
+            <option>My Account</option>
+
+            <option>Company</option>
+
+            <option selected>Team Members</option>
+
+            <option>Billing</option>
+        </select>
+    </div>
+    <div class="hidden sm:block">
+        <nav class="flex space-x-4" aria-label="Tabs">
+            {% url request.resolver_match.app_name|add:':popular' as url_popular %}
+            <a href="{% url request.resolver_match.app_name|add:':popular' %}"
+                class="{% if request.path == url_popular %}bg-indigo-100 text-indigo-700{%else%}text-gray-500{%endif%} hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md">
+                Populaires
+            </a>
+
+            {% url request.resolver_match.app_name|add:':nowplaying' as url_nowplaying %}
+            <a href="{% url request.resolver_match.app_name|add:':nowplaying' %}"
+                class="{% if request.path == url_nowplaying %}bg-indigo-100 text-indigo-700{%else%}text-gray-500{%endif%} hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md">
+                Du moment
+            </a>
+
+            {% url request.resolver_match.app_name|add:':upcoming' as url_upcoming %}
+            <a href="{% url request.resolver_match.app_name|add:':upcoming' %}"
+                class="{% if request.path == url_upcoming %}bg-indigo-100 text-indigo-700{%else%}text-gray-500{%endif%} hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md"
+                aria-current="page">
+                A venir
+            </a>
+
+            {% url request.resolver_match.app_name|add:':toprated' as url_toprated %}
+            <a href="{% url request.resolver_match.app_name|add:':toprated' %}"
+                class="{% if request.path == url_toprated %}bg-indigo-100 text-indigo-700{%else%}text-gray-500{%endif%} hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md">
+                Les mieux notés
+            </a>
+        </nav>
+    </div>
+</div>

@@ -1,3 +1,7 @@
-/.vscode/
+/.vscode
+/db.sqlite3
+/static
+/theme
+/venv
 __pycache__
 ESGI_Movies/theme

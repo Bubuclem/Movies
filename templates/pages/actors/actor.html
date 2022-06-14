@@ -4,18 +4,83 @@
 
 {% block content %}
 
-<div class="bg-white py-6 sm:py-8 lg:py-12">
-    <div class="max-w-screen-md px-4 md:px-8 mx-auto">
-        <h1 class="text-gray-800 text-2xl sm:text-3xl font-bold text-center mb-4 md:mb-6">{{actor.name}}</h1>
+<div class="bg-white">
+    <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+        <div class="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
+            <div class="flex flex-col-reverse">
 
-        <div class="bg-gray-100 overflow-hidden rounded-lg shadow-lg relative mb-6 md:mb-8">
-            <img src="https://image.tmdb.org/t/p/w500{{actor.profile_path}}"
-                loading="lazy" alt="Photo of {{actor.name}}" class="w-full h-full object-cover object-center" />
+                <div class="w-full aspect-w-1 aspect-h-1">
+                    <div id="tabs-1-panel-1" aria-labelledby="tabs-1-tab-1" role="tabpanel" tabindex="0">
+                        <img src="{{actor.get_profile_path}}" alt=""
+                            class="w-full h-full object-center object-contain sm:rounded-lg">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
+                <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">{{actor.name}}</h1>
+
+                <div class="mt-3">
+                    <h2 class="sr-only">Note</h2>
+                    <p class="text-3xl text-gray-900">{{actor.known_for_department}}</p>
+                </div>
+
+                <div class="mt-6">
+                    <h3 class="sr-only">Description</h3>
+
+                    <div class="text-base text-gray-700 space-y-6">
+                        <p>{{actor.biography}}</p>
+                    </div>
+                </div>
+
+                <form class="mt-6">
+                    <div>
+                        <h3 class="text-sm text-gray-600">Anniversaire</h3>
+
+                        <fieldset class="mt-2">
+                            <div class="flex items-center space-x-3">
+                                {% if actor.birthday %}
+                                <label
+                                    class="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-700">
+
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
+                                        {{actor.birthday}}
+                                    </span>
+                                    {% endif %}
+                                </label>
+                                
+                                {% if actor.deathday %}
+                                <label
+                                    class="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-700">
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
+                                        {{actor.deathday}}
+                                    </span>
+                                </label>
+                                {% endif %}
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="mt-10 flex sm:flex-col1">
+                        <button type="submit"
+                            class="max-w-xs flex-1 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full">Ajouter
+                            à ma liste</button>
+
+                        <button type="button"
+                            class="ml-4 py-3 px-3 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500">
+                            <svg class="h-6 w-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                            <span class="sr-only">Favoris</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <h2 class="text-gray-800 text-xl sm:text-2xl font-semibold mb-2 md:mb-4">Biographie</h2>
-
-        <p class="text-gray-500 sm:text-lg mb-6 md:mb-8">{{actor.biography}}</p>
     </div>
 </div>
 

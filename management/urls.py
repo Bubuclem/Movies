@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import LoginPageView, LogoutPageView, RegisterAccountPageView,AccountPageView
+from .views import LoginPageView, LogoutPageView, RegisterAccountPageView,AccountPageView, MoviesPageView, MoviePageView, ShowsPageView, ShowPageView
 
 app_name = 'management'
 urlpatterns = [
@@ -28,4 +28,20 @@ urlpatterns = [
     path('profile/', 
     AccountPageView.as_view(), 
     name='account'),
+
+    path('dashboard/films/',
+    MoviesPageView.as_view(),
+    name='movies'),
+
+    path('dashboard/film/<int:pk>/',
+    MoviePageView.as_view(),
+    name='movie'),
+
+    path('dashboard/shows/',
+    ShowsPageView.as_view(),
+    name='shows'),
+
+    path('dashboard/show/<int:pk>/',
+    ShowPageView.as_view(),
+    name='show'),
 ]
