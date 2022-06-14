@@ -4,9 +4,18 @@ from rest_framework import routers
 from api import views
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
-# router.register(r'movies', views.MovieViewSet)
+router.register(r'popular-movies', views.MoviesPopularViewSet,basename='popular-movies')
+router.register(r'top-rated-movies', views.MoviesTopRatedViewSet,basename='top-rated-movies')
+router.register(r'upcoming-movies', views.MoviesUpcomingViewSet,basename='upcoming-movies')
+router.register(r'now-playing-movies', views.MoviesNowPlayingViewSet,basename='now-playing-movies')
+router.register(r'lastest-movies', views.MoviesLastestViewSet,basename='lastest-movies')
+router.register(r'movie', views.MovieViewSet,basename='movie')
+router.register(r'popular-shows', views.ShowsPopularViewSet,basename='popular-shows')
+router.register(r'top-rated-shows', views.ShowsTopRatedViewSet,basename='top-rated-shows')
+router.register(r'on-the-air-shows', views.ShowsOnTheAirViewSet,basename='upcoming-shows')
+router.register(r'lastest-shows', views.ShowsLastestViewSet,basename='lastest-shows')
+router.register(r'show', views.ShowViewSet,basename='show')
+router.register(r'actors', views.ActorsViewSet,basename='actors')
 
 urlpatterns = [
     path('', include('management.urls')),

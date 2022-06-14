@@ -15,15 +15,15 @@ SECRET_KEY_TMDB = '907eefe505cd622142ef9afae861393d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-IPS = ["*"]
-ALLOWED_HOSTS = IPS
-INTERNAL_IPS = IPS
+ALLOWED_HOSTS = ["*"]
+INTERNAL_IPS = ALLOWED_HOSTS
 
 # Application definition
 
 INSTALLED_APPS = [
     'movies',
     'shows',
+    'actors',
     'management',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_extensions',
     'tailwind',
     'theme',
     'django_browser_reload'

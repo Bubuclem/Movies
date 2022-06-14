@@ -9,19 +9,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
     {% tailwind_css %}
+    <link rel="icon" href="{% static 'ico/movie-64.ico' %}">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/dist/custom.css' %}">
 </head>
 
 <body class="BodyWrapper">
-    <!-- Header -->
+    {% if request.resolver_match.app_name is not management %}
     {% include "./header.html" %}
+    {% endif %}
     
     <!-- Content -->
     {% block content %}{% endblock %}
 
-    <!-- Footer -->
+    {% if request.resolver_match.app_name is not 'management' %}
     {% include "./footer.html" %}
+    {% endif %}
 </body>
 
 </html>
