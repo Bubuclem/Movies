@@ -96,6 +96,19 @@ class Show(models.Model):
             self.save() # Save the show before adding the genre
             self.genres.add(Genre.objects.get(id=genre['id']))
 
+    def get_poster_url(self) -> str:
+        '''
+        Get url of poster.
+        '''
+        if self.poster_path:
+            return 'https://image.tmdb.org/t/p/w500/{}'.format(self.poster_path)
+
+    def get_percent_average(self) -> int:
+        '''
+        Return % average of the movie
+        '''
+        return int(self.vote_average * 10)
+
     def get_first_genre(self) -> str:
         if self.genres.count() > 0:
             return self.genres.first().name
