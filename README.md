@@ -54,5 +54,5 @@ Django>=3.0,<4.0
 psycopg2>=2.8
 djangorestframework>=3.1
 django-tailwind>=3.1
-django-extensions
+django-extensions>3.1
 ```
