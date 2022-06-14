@@ -22,7 +22,7 @@ urlpatterns = [
     # URL des séries à venir
     path('a-venir/',
     LastestPageView.as_view(),
-    name='lastest'),
+    name='upcoming'),
 
     # URL de recherche de séries
     path('recherche/',

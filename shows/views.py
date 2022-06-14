@@ -78,53 +78,42 @@ class SearchPageView(TemplateView):
         context['shows'] = shows.show(language='fr',query=self.request.GET.get("q"))['results']
         return context
 
-class ShowPageView(View):
+class ShowPageView(TemplateView):
     """
     Class du détail d'une série.
     Retourne le détail, acteurs, vidéos et avis d'une série.
     """
     template_name = TEMPLATE_BASE + 'show.html'
 
-    def get(self, request, show_id):
-        context = self._get(show_id)
+    def get_context_data(self, show_id,**kwargs):
+        context = super().get_context_data(**kwargs)
+
+        show = tmdb_tv(show_id)
+        tmdb_data = show.detail(language='fr')
 
         try:
-            watch = Watched.objects.get(media_id=show_id,media_type=Watched.MediaType.Show)
-        except:
-            watch = None
+            show : Show = Show.objects.get(id=show_id)
+            show.vote_average=tmdb_data['vote_average']
+            show.vote_count=tmdb_data['vote_count']
+            show.popularity=tmdb_data['popularity']
+            show.save()
+        except Show.DoesNotExist:
+            show = Show.objects.create(
+                id=tmdb_data['id'],
+                name=tmdb_data['name'],
+                overview=tmdb_data['overview'],
+                first_air_date=tmdb_data['first_air_date'],
+                last_air_date=tmdb_data['last_air_date'],
+                poster_path=tmdb_data['poster_path'],
+                vote_average=tmdb_data['vote_average'],
+                vote_count=tmdb_data['vote_count'],
+                popularity=tmdb_data['popularity'],
+                adult=tmdb_data['adult'],
+                original_language=tmdb_data['original_language'],
+                original_title=tmdb_data['original_title']
+            )
 
-        context['watch'] = watch
-
-        return render(request,TEMPLATE_BASE + 'show.html',context)
-
-    def post(self, request, show_id):
-        context =  self._get(show_id)
-
-        try:
-            watch = Watched.objects.get(media_id=show_id,media_type=Watched.MediaType.Show)
-            watch.delete()
-            watch = None
-        except:
-            watch = Watched()
-            watch.user = self.request.user
-            watch.name = context.get('show').get('name')
-            watch.media_id = show_id
-            watch.media_type = Watched.MediaType.Show
-            watch.save()
-
-        context['watch'] = watch
-
-        return render(request,TEMPLATE_BASE + 'show.html',context)
-
-    def _get(self, show_id):
-        data = tmdb_tv(show_id)
-        show = data.detail(language='fr')
-        credits = data.credits(language='fr')['cast'][:8]
-        videos = data.videos(language='fr')['results'][:4]
-        reviews = data.reviews(language='fr')['results'][:5]
-        
-        context = {'show': show,'credits': credits,'videos': videos,'reviews': reviews}
-
+        context['show'] = show
         return context
 
 class CreditsPageView(TemplateView):
