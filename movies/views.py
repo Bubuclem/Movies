@@ -106,10 +106,9 @@ class MoviePageView(TemplateView):
                 popularity=tmdb_data['popularity'],
                 adult=tmdb_data['adult'],
                 original_language=tmdb_data['original_language'],
-                original_title=tmdb_data['original_title'],
-                genre_ids=tmdb_data['genre_ids']
+                original_title=tmdb_data['original_title']
             )
-        
+
         context['movie'] = movie
         return context
 

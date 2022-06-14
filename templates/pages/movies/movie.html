@@ -4,84 +4,76 @@
 
 {% block content %}
 
-<div class="TopBanner">
-    <img src="{{movie.get_poster_url}}" class="Poster">
-    <div class="mainInfo">
-        <h1 class="mainTitle">{{movie.title}}</h1>
-        <div style="display: flex;align-items: center;">
-            <span style="margin-right: 20px;">{{movie.release_date}}</span>
-            
-            <span class="genreTxt">genre</span>
-            
-            <span style="margin-left: 20px;margin-top: 3px;">({{movie.get_runtime}})</span>
+<div class="bg-white">
+    <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+        <div class="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
+            <div class="flex flex-col-reverse">
+
+                <div class="w-full aspect-w-1 aspect-h-1">
+                    <div id="tabs-1-panel-1" aria-labelledby="tabs-1-tab-1" role="tabpanel" tabindex="0">
+                        <img src="{{movie.get_poster_url}}" alt=""
+                            class="w-full h-full object-center object-contain sm:rounded-lg">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
+                <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">{{movie.title}}</h1>
+
+                <div class="mt-3">
+                    <h2 class="sr-only">Note</h2>
+                    <p class="text-3xl text-gray-900">{{movie.get_percent_average}}%</p>
+                </div>
+
+                <div class="mt-6">
+                    <h3 class="sr-only">Description</h3>
+
+                    <div class="text-base text-gray-700 space-y-6">
+                        <p>{{movie.overview}}</p>
+                    </div>
+                </div>
+
+                <form class="mt-6">
+                    <div>
+                        <h3 class="text-sm text-gray-600">Genres</h3>
+
+                        <fieldset class="mt-2">
+                            <legend class="sr-only">
+                                Choose a color
+                            </legend>
+
+                            <div class="flex items-center space-x-3">
+                                {% for genre in movie.genres.all %}
+                                <label
+                                    class="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-700">
+                                    
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
+                                        {{genre.name}}
+                                      </span>
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="mt-10 flex sm:flex-col1">
+                        <button type="submit"
+                            class="max-w-xs flex-1 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full">Ajouter à ma liste</button>
+
+                        <button type="button"
+                            class="ml-4 py-3 px-3 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500">
+                            <svg class="h-6 w-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                            <span class="sr-only">Favoris</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="noteBox">
-            <span>{{movie.get_percent_average}}%</span>
-        </div>
-        <div>
-            <h3 style="margin: 0;">Synopsis</h3>
-            <p style="max-width: 450px;font-family: sans-serif;margin-top: 4px;">
-                {{movie.overview}}
-            </p>
-        </div>
-        <span><span style="color: rgb(177, 177, 177);">Réalisateur:</span> Sam Raimi</span>
     </div>
 </div>
 
-<div class="carousel-wrapper">
-    <div class="carousel">
-        <div class="slider" id="slider" tabindex="0">
-            <div class="slide">
-                <img draggable="false"
-                    style="border-radius: 5px 5px 0px 0px;width: 192px; height: 250px; object-fit: cover"
-                    src="./actor.jpg">
-                <span class="actorTxt">Benedict Cumberbatch <br><span
-                        style="font-family: sans-serif;font-size: 12px">Dr. Stephen Strange</span></span>
-            </div>
-            <div class="slide">
-                <img draggable="false"
-                    style="border-radius: 5px 5px 0px 0px;width: 192px; height: 250px; object-fit: cover"
-                    src="./actor.jpg">
-                <span class="actorTxt">Benedict Cumberbatch <br><span
-                        style="font-family: sans-serif;font-size: 12px">Dr. Stephen Strange</span></span>
-            </div>
-            <div class="slide">
-                <img draggable="false"
-                    style="border-radius: 5px 5px 0px 0px;width: 192px; height: 250px; object-fit: cover"
-                    src="./actor.jpg">
-                <span class="actorTxt">Benedict Cumberbatch <br><span
-                        style="font-family: sans-serif;font-size: 12px">Dr. Stephen Strange</span></span>
-            </div>
-            <div class="slide">
-                <img draggable="false"
-                    style="border-radius: 5px 5px 0px 0px;width: 192px; height: 250px; object-fit: cover"
-                    src="./actor.jpg">
-                <span class="actorTxt">Benedict Cumberbatch <br><span
-                        style="font-family: sans-serif;font-size: 12px">Dr. Stephen Strange</span></span>
-            </div>
-            <div class="slide">
-                <img draggable="false"
-                    style="border-radius: 5px 5px 0px 0px; width: 192px; height: 250px; object-fit: cover;"
-                    src="./actor.jpg">
-                <span class="actorTxt">Benedict Cumberbatch <br><span
-                        style="font-family: sans-serif;font-size: 12px">Dr. Stephen Strange</span></span>
-            </div>
-        </div>
-        <button class="slider-control arrow-left hide" id="btn-prev"><svg xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24"
-                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <polyline points="15 6 9 12 15 18"></polyline>
-            </svg></button>
-        <button class="slider-control arrow-right" id="btn-next"><svg xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24"
-                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <polyline points="9 6 15 12 9 18"></polyline>
-            </svg></button>
-    </div>
-</div>
-
-{% load static %}
-<script type="text/javascript" src="{% static 'js/carousel.js' %}"></script>
 {% endblock %}
