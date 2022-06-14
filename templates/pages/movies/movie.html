@@ -33,6 +33,13 @@
                     </div>
                 </div>
 
+                {% if movie.homepage %}
+                <div class="flex mt-6">
+                    <a href="{{movie.homepage}}" target="_blank"
+                        class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Site internet</a>
+                </div>
+                {% endif %}
+
                 <form class="mt-6">
                     <div>
                         <h3 class="text-sm text-gray-600">Genres</h3>
@@ -42,10 +49,11 @@
                                 {% for genre in movie.genres.all %}
                                 <label
                                     class="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-700">
-                                    
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
+
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
                                         {{genre.name}}
-                                      </span>
+                                    </span>
                                 </label>
                                 {% endfor %}
                             </div>
@@ -54,7 +62,8 @@
 
                     <div class="mt-10 flex sm:flex-col1">
                         <button type="submit"
-                            class="max-w-xs flex-1 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full">Ajouter à ma liste</button>
+                            class="max-w-xs flex-1 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full">Ajouter
+                            à ma liste</button>
 
                         <button type="button"
                             class="ml-4 py-3 px-3 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500">
@@ -67,6 +76,33 @@
                         </button>
                     </div>
                 </form>
+
+                <section aria-labelledby="details-heading" class="mt-12">
+                    <h2 id="details-heading" class="sr-only">Additional details</h2>
+
+                    <div class="border-t divide-y divide-gray-200">
+                        <div>
+                            <h3>
+                                <div class="group relative w-full py-6 flex justify-between items-center text-left"
+                                    aria-controls="disclosure-1" aria-expanded="false">
+                                    <span class="text-gray-900 text-sm font-medium">
+                                        Informations
+                                    </span>
+                                </div>
+                            </h3>
+                            <div class="pb-6 prose prose-sm" id="disclosure-1">
+                                <ul role="list">
+                                    <li>Durée ({{movie.get_runtime}})</li>
+                                    
+                                    <li>Budget {{movie.budget}} $</li>
+                                    
+                                    <li>Recette {{movie.revenue}} $</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
             </div>
         </div>
     </div>

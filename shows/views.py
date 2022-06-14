@@ -66,17 +66,36 @@ class LastestPageView(ListView):
     def get_queryset(self):
         return Show.objects.filter(status='Returning Series').filter(first_air_date__gte=datetime.now() - timedelta(days=30))
 
-class SearchPageView(TemplateView):
+class SearchPageView(ListView):
     """
     Class recherche d'une série.
     Retourne la liste des séries de la recherche.
     """
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        shows = tmdb_search()
-        context['shows'] = shows.show(language='fr',query=self.request.GET.get("q"))['results']
-        return context
+    model = Show
+    paginate_by = 20
+    context_object_name = 'shows'
+    template_name = TEMPLATE_BASE + 'shows.html'
+
+    def get_queryset(self):
+        shows = tmdb_search().show(language='fr',query=self.request.GET.get("q"))['results']
+
+        shows_ids = []
+        for show in shows:
+            shows_ids.append(show['id'])
+
+            if Show.objects.filter(id=show['id']).exists() is False:
+                Show.objects.create(
+                    id=show['id'],
+                    name=show['name'],
+                    overview=show['overview'],
+                    poster_path=show['poster_path'],
+                    vote_average=show['vote_average'],
+                    vote_count=show['vote_count'],
+                    popularity=show['popularity'],
+                    original_language=show['original_language']
+                )
+
+        return Show.objects.filter(id__in=shows_ids).order_by('-popularity')
 
 class ShowPageView(TemplateView):
     """

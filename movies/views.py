@@ -2,11 +2,10 @@ from datetime import datetime, timedelta
 
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView
 
 from ESGI_Movies.wrappe.tmdb import tmdb_movie, tmdb_search
 from management.forms import ReviewForm
-from management.models import Watched
 from .models import Movie
 
 TEMPLATE_BASE = 'pages/movies/'
@@ -63,18 +62,37 @@ class TopRatedPageView(ListView):
     def get_queryset(self):
         return Movie.objects.filter(vote_count__gte=500).order_by('-vote_average', '-vote_count')
 
-class SearchPageView(TemplateView):
+class SearchPageView(ListView):
     """Class recherche d'un film.
     Retourne la liste des films de la recherche.
     """
+    model = Movie
+    paginate_by = 20
+    context_object_name = 'movies'
     template_name = TEMPLATE_BASE + 'movies.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        movie = tmdb_search()
-        context['movies'] = movie.movie(language='fr',query=self.request.GET.get("q"))['results']
-        return context
+
+    def get_queryset(self):        
+        movies = tmdb_search().movie(language='fr',query=self.request.GET.get("q"))['results']
+
+        movies_ids = []
+        for movie in movies:
+            movies_ids.append(movie['id'])
+
+            if Movie.objects.filter(id=movie['id']).exists() is False:
+                Movie.objects.create(
+                    id=movie['id'],
+                    title=movie['title'],
+                    overview=movie['overview'],
+                    poster_path=movie['poster_path'],
+                    vote_average=movie['vote_average'],
+                    vote_count=movie['vote_count'],
+                    popularity=movie['popularity'],
+                    adult=movie['adult'],
+                    original_language=movie['original_language'],
+                    original_title=movie['original_title']
+                )
+
+        return Movie.objects.filter(id__in=movies_ids).order_by('-popularity')
 
 class MoviePageView(TemplateView):
     """Movie view.

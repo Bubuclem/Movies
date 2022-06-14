@@ -36,7 +36,7 @@ class Show(models.Model):
 
     first_air_date = models.DateField(blank=True, null=True)
     last_air_date = models.DateField(blank=True, null=True)
-    in_production = models.BooleanField(blank=True)
+    in_production = models.BooleanField(blank=True, null=True)
     status = models.CharField(max_length=255, choices=StatusType.choices, blank=True, null=True)
 
     popularity = models.FloatField(blank=True)

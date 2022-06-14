@@ -5,9 +5,6 @@ from .models import Actor
 
 TEMPLATE_BASE = 'pages/actors/'
 
-class BasePageView(TemplateView):
-    template_name = TEMPLATE_BASE + 'actors.html'
-
 class PopularPageView(ListView):
     """
     Class des acteurs
@@ -19,17 +16,33 @@ class PopularPageView(ListView):
     ordering = ['-popularity']
     template_name = TEMPLATE_BASE + 'actors.html'
 
-class SearchPageView(BasePageView):
+class SearchPageView(ListView):
     """
     Class recherche d'un acteur.
     Retourne la liste des acteurs de la recherche.
     """
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        person = tmdb_search()
-        context['actors'] = person.person(query=self.request.GET.get("q"))['results']
-        return context
+    model = Actor
+    paginate_by = 20
+    context_object_name = 'actors'
+    template_name = TEMPLATE_BASE + 'actors.html'
+
+    def get_queryset(self):
+        persons = tmdb_search().person(language='fr',query=self.request.GET.get("q"))['results']
+
+        persons_ids = []
+        for person in persons:
+            persons_ids.append(person['id'])
+
+            if Actor.objects.filter(id=person['id']).exists() is False:
+                Actor.objects.create(
+                    id=person['id'],
+                    name=person['name'],
+                    profile_path=person['profile_path'],
+                    popularity=person['popularity'],
+                    adult=person['adult']
+                )
+
+        return Actor.objects.filter(id__in=persons_ids).order_by('-popularity')
 
 class ActorPageView(TemplateView):
     """

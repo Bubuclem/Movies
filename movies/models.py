@@ -47,7 +47,7 @@ class Movie(models.Model):
     runtime = models.IntegerField(blank=True, null=True)
     revenue = models.IntegerField(blank=True, null=True)
     budget = models.IntegerField(blank=True, null=True)
-    video = models.BooleanField()
+    video = models.BooleanField(null=True)
 
     poster_path = models.TextField(blank=True, null=True)
     backdrop_path = models.TextField(blank=True, null=True)
