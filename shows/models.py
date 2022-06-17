@@ -1,5 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 from django.db import models
+from management.models import SpokenLanguage
 
 class StatusType(models.TextChoices):
         Rumored = 'Rumored', _('Rumeur')
@@ -32,7 +33,7 @@ class Show(models.Model):
     homepage = models.CharField(max_length=255, blank=True)
     tagline = models.CharField(max_length=255, blank=True)
     type = models.CharField(max_length=255, blank=True)
-    languages = models.TextField(blank=True)
+    languages = models.ManyToManyField(SpokenLanguage, blank=True)
 
     first_air_date = models.DateField(blank=True, null=True)
     last_air_date = models.DateField(blank=True, null=True)
@@ -68,12 +69,6 @@ class Show(models.Model):
         self.tagline = json_show['tagline']
         self.type = json_show['type']
 
-        for language in json_show['languages']:
-            if self.languages:
-                self.languages = '{},{}'.format(str(self.languages), language)
-            else:
-                self.languages = language
-
         self.first_air_date = json_show['first_air_date']
         self.last_air_date = json_show['last_air_date']
         self.in_production = json_show['in_production']
@@ -91,6 +86,18 @@ class Show(models.Model):
 
         self.original_language = json_show['original_language']
         self.original_name = json_show['original_name']
+
+        for language in json_show['spoken_languages']:
+            self.save() # Save the show before adding the genre
+            
+            try :
+                _language = SpokenLanguage.objects.get(iso_639_1=language['iso_639_1'])
+            except SpokenLanguage.DoesNotExist:
+                _language = SpokenLanguage.objects.create(iso_639_1=language['iso_639_1'], name=language['name'])
+                _language.save()
+
+            
+            self.languages.add(_language)
 
         for genre in json_show['genres']:
             self.save() # Save the show before adding the genre

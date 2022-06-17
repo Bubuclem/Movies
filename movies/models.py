@@ -1,6 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 from datetime import datetime
 from django.db import models
+from management.models import SpokenLanguage
 
 class StatusType(models.TextChoices):
         Rumored = 'Rumored', _('Rumeur')
@@ -31,6 +32,7 @@ class Movie(models.Model):
     overview = models.TextField(blank=True)
     homepage = models.CharField(max_length=255, blank=True)
     tagline = models.CharField(max_length=255, blank=True)
+    languages = models.ManyToManyField(SpokenLanguage, blank=True)
     
     original_language = models.CharField(max_length=255, blank=True)
     original_title = models.CharField(max_length=255, blank=True)
@@ -85,6 +87,16 @@ class Movie(models.Model):
 
         self.poster_path = json_movie['poster_path']
         self.backdrop_path = json_movie['backdrop_path']
+
+        for language in json_movie['spoken_languages']:
+            self.save() # Save the movie before adding the genre
+            
+            try :
+                _language = SpokenLanguage.objects.get(iso_639_1=language['iso_639_1'])
+                self.languages.add(_language)
+            except SpokenLanguage.DoesNotExist:
+                _language = SpokenLanguage.objects.create(iso_639_1=language['iso_639_1'], name=language['name'])
+                _language.save()
 
         for genre in json_movie['genres']:
             self.save() # On enregistre le film avant de lui assigner un genre

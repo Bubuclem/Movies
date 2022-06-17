@@ -13,14 +13,32 @@
         </a>
         {% endif %}
     </div>
+
+    {% if page_obj.number|add:'-4' > 1 %}
+    <a class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium"
+        href="?page={{ page_obj.number|add:'-5' }}">&hellip;</a>
+    {% endif %}
+
     {% for page in page_obj.paginator.page_range %}
     <div class="hidden md:-mt-px md:flex">
+        {% if page == page_obj.number %}
         <a href="?page={{ page }}"
             class="{% if page == page_obj.number %}border-indigo-500 text-indigo-600{%endif%}border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium">
             {{page}}
         </a>
+        {% elif page > page_obj.number|add:'-5' and page < page_obj.number|add:'5' %}
+        <a href="?page={{ page }}"
+            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium">
+            {{page}}
+        </a>
+        {% endif %}
     </div>
     {% endfor %}
+
+    {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+    <a class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium"
+        href="?page={{ page_obj.number|add:'5' }}">&hellip;</a>
+    {% endif %}
 
     <div class="-mt-px w-0 flex-1 flex justify-end">
         {% if page_obj.has_next %}

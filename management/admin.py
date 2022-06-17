@@ -1,6 +1,11 @@
 from django.contrib import admin
 
-from .models import Watched, Review, Credit, Cast, Crew
+from .models import Watched, Review, Credit, Cast, Crew, SpokenLanguage
+
+class SpokenLanguageAdmin(admin.ModelAdmin):
+    list_display = ('iso_639_1', 'name')
+
+admin.site.register(SpokenLanguage,SpokenLanguageAdmin)
 
 admin.site.register(Watched)
 

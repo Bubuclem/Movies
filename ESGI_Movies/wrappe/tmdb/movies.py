@@ -8,6 +8,7 @@ class tmdb_movie(TMDB):
         'external_ids': '/{id}/external_ids',
         'images': '/{id}/images',
         'release_dates': '/{id}/release_dates',
+        'recommendations' : '/{id}/recommendations',
         'reviews': '/{id}/reviews',
         'similar_movies': '/{id}/similar_movies',
         'videos': '/{id}/videos',
@@ -68,6 +69,16 @@ class tmdb_movie(TMDB):
         Dates de sortie d'un films dans les pays
         '''
         path = self._get_id_path('release_dates')
+
+        response = self._GET(path, kwargs)
+        self._set_attrs_to_values(response)
+        return response
+
+    def recommendations(self, **kwargs):
+        '''
+        Liste des films recommandés
+        '''
+        path = self._get_id_path('recommendations')
 
         response = self._GET(path, kwargs)
         self._set_attrs_to_values(response)

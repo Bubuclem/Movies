@@ -133,6 +133,18 @@ class ShowPageView(TemplateView):
             )
 
         context['show'] = show
+
+        show_cast = tmdb_tv(show_id).credits(language='fr')['cast']
+        # Sort by popularity
+        context['cast'] = sorted(show_cast, key=lambda k: k['popularity'], reverse=True)[:8]
+
+        show_reviews = tmdb_tv(show_id).reviews(language='fr')['results']
+        # Sort by date created
+        context['reviews'] = sorted(show_reviews, key=lambda k: k['created_at'], reverse=True)[:5]
+
+        # Sort by vote average
+        context['similars'] = tmdb_tv(show_id).recommendations(language='fr')['results'][:8]
+
         return context
 
 class CreditsPageView(TemplateView):

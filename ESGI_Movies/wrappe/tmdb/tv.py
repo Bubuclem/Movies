@@ -10,6 +10,7 @@ class tmdb_tv(TMDB):
         'images': '/{id}/images',
         'reviews': '/{id}/reviews',
         'similar': '/{id}/similar',
+        'recommendations': '/{id}/recommendations',
         'videos': '/{id}/videos',
         'watch_providers': '/{id}/watch/providers',
         'latest': '/latest',
@@ -69,7 +70,14 @@ class tmdb_tv(TMDB):
 
         response = self._GET(path, kwargs)
         self._set_attrs_to_values(response)
-        return 
+        return response
+
+    def recommendations(self, **kwargs): # Séries recommandées
+        path = self._get_id_path('recommendations')
+
+        response = self._GET(path, kwargs)
+        self._set_attrs_to_values(response)
+        return response
 
     def videos(self, **kwargs): # Bandes annonces de la série
         path = self._get_id_path('videos')

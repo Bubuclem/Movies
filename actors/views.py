@@ -88,4 +88,9 @@ class ActorPageView(TemplateView):
             )
         context['actor'] = actor
 
+        actor_photos = tmdb_people(actor_id)
+        actor_photos = actor_photos.images()
+        # Sort photos by vote average
+        context['photos'] = sorted(actor_photos['profiles'], key=lambda k: k['vote_average'], reverse=True)
+
         return context

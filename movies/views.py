@@ -128,6 +128,22 @@ class MoviePageView(TemplateView):
             )
 
         context['movie'] = movie
+
+        movie_credits = tmdb_movie(movie_id)
+        movie_credits = movie_credits.credits(language='fr')
+        # Sort by popularity
+        context['cast'] = sorted(movie_credits['cast'], key=lambda k: k['popularity'], reverse=True)[:8]
+
+        movie_reviews = tmdb_movie(movie_id)
+        movie_reviews = movie_reviews.reviews(language='fr')
+        # Sort by date created
+        context['reviews'] = sorted(movie_reviews['results'], key=lambda k: k['created_at'], reverse=True)[:5]
+
+        movies_similar = tmdb_movie(movie_id)
+        movies_similar = movies_similar.recommendations(language='fr')
+        # Sort by vote average
+        context['similars'] = movies_similar['results'][:8]
+
         return context
 
 class CreditsPageView(TemplateView):

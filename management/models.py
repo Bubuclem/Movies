@@ -10,6 +10,17 @@ class MediaType(models.TextChoices):
         Show = 'tv',
         Both = 'both'
 
+class SpokenLanguage(models.Model):
+    iso_639_1 = models.CharField(max_length=2, primary_key=True)
+    name = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name = "Language parlé"
+        verbose_name_plural = "Languages parlés"
+
+    def __str__(self):
+        return self.name
+
 class Watched(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -17,6 +28,11 @@ class Watched(models.Model):
     media_id = models.IntegerField()
     media_type = models.CharField(max_length=5,choices=MediaType.choices,default=MediaType.Movie)
     pub_date = models.DateTimeField('date published',auto_now=True)
+
+    class Meta:
+        verbose_name = "Visionnage"
+        verbose_name_plural = "Visionnés"
+
     def __str__(self) -> str:
         return self.name
 
@@ -30,6 +46,11 @@ class Review(models.Model):
     media_id = models.IntegerField()
     media_type = models.CharField(max_length=5,choices=MediaType.choices,default=MediaType.Movie)
     pub_date = models.DateTimeField('date published')
+
+    class Meta:
+        verbose_name = "Commentaire"
+        verbose_name_plural = "Commentaires"
+
     def __str__(self) -> str:
         return self.content
 

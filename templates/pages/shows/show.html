@@ -4,6 +4,8 @@
 
 {% block content %}
 
+{% include 'generic/divider.html' with title='Détails' %}
+
 <div class="bg-white">
     <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
         <div class="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
@@ -22,7 +24,9 @@
 
                 <div class="mt-3">
                     <h2 class="sr-only">Note</h2>
-                    <p class="text-3xl {% if show.get_percent_average > 60 %}text-green-800{%else%}text-red-800{%endif%}">{{show.get_percent_average}}%</p>
+                    <p
+                        class="text-3xl {% if show.get_percent_average > 60 %}text-green-800{%else%}text-red-800{%endif%}">
+                        {{show.get_percent_average}}%</p>
                 </div>
 
                 <div class="mt-6">
@@ -73,5 +77,116 @@
         </div>
     </div>
 </div>
+
+{% include 'generic/divider.html' with title='Acteurs' %}
+
+<div class="bg-white">
+    <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+        <h2 class="sr-only">Products</h2>
+        <div class="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+
+            {% for actor in cast %}
+            <a href="{% url 'actors:detail' actor.id %}" class="group">
+                <div
+                    class="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
+                    <img src="https://image.tmdb.org/t/p/w500{{actor.profile_path}}" alt=""
+                        class="w-full h-full object-center object-cover group-hover:opacity-75">
+                </div>
+                <h3 class="mt-4 text-sm text-gray-700">
+                    {{actor.original_name}}
+                </h3>
+                <p class="mt-1 text-lg font-medium text-gray-900">
+                    {{actor.character}}
+                </p>
+            </a>
+            {% endfor %}
+        </div>
+        <a href="#" type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Plus d'acteurs<span
+                aria-hidden="true"> &rarr;</span></a>
+    </div>
+</div>
+
+{% include 'generic/divider.html' with title='Commentaires' %}
+
+<div class="bg-white">
+    <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+        <h2 class="text-lg font-medium text-gray-900">Avis récents</h2>
+        <div class="mt-6 pb-10 border-t border-b border-gray-200 divide-y divide-gray-200 space-y-10">
+
+            {% if reviews %}
+
+            {% for comment in reviews %}
+            <div class="pt-10 lg:grid lg:grid-cols-12 lg:gap-x-8">
+                <div
+                    class="lg:col-start-5 lg:col-span-8 xl:col-start-4 xl:col-span-9 xl:grid xl:grid-cols-3 xl:gap-x-8 xl:items-start">
+                    <div class="flex items-center xl:col-span-1"></div>
+
+                    <div class="mt-4 lg:mt-6 xl:mt-0 xl:col-span-2">
+                        <h3 class="text-sm font-medium text-gray-900">Commentaire</h3>
+
+                        <div class="mt-3 space-y-6 text-sm text-gray-500">
+                            <p>{{comment.content}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="mt-6 flex items-center text-sm lg:mt-0 lg:col-start-1 lg:col-span-4 lg:row-start-1 lg:flex-col lg:items-start xl:col-span-3">
+                    <p class="font-medium text-gray-900">{{comment.author}}</p>
+                    <time datetime="2021-01-06"
+                        class="ml-4 border-l border-gray-200 pl-4 text-gray-500 lg:ml-0 lg:mt-2 lg:border-0 lg:pl-0">{{comment.created_at}}</time>
+                </div>
+            </div>
+
+            {% endfor %}
+
+            {% else %}
+            <div>
+                <p class="text-gray-500">Aucun commentaires pour le moment ...</p>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% if similars %}
+{% include 'generic/divider.html' with title='Recommandations' %}
+
+<div class="bg-white">
+    <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+        <div class="mt-6 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4">
+
+            {% for similar in similars %}
+
+            <div class="relative group">
+                <div class="aspect-w-4 aspect-h-3 rounded-lg overflow-hidden bg-gray-100">
+                    <img src="https://image.tmdb.org/t/p/w500/{{similar.poster_path}}" alt=""
+                        class="object-center object-cover">
+                    <div class="flex items-end opacity-0 p-4 group-hover:opacity-100" aria-hidden="true">
+                        <div
+                            class="w-full bg-white bg-opacity-75 backdrop-filter backdrop-blur py-2 px-4 rounded-md text-sm font-medium text-gray-900 text-center">
+                            Plus de détails
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 flex items-center justify-between text-base font-medium text-gray-900 space-x-8">
+                    <h3>
+                        <a href="{% url 'shows:detail' similar.id %}">
+                            <span aria-hidden="true" class="absolute inset-0"></span>
+                            {{similar.name}}
+                        </a>
+                    </h3>
+                    <p>{% widthratio similar.vote_average 1 10 %}%</p>
+                </div>
+            </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+{% endif %}
 
 {% endblock %}
