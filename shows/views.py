@@ -107,29 +107,27 @@ class ShowPageView(TemplateView):
     def get_context_data(self, show_id,**kwargs):
         context = super().get_context_data(**kwargs)
 
-        show = tmdb_tv(show_id)
-        tmdb_data = show.detail(language='fr')
+        show = tmdb_tv(show_id).detail(language='fr')
 
         try:
             show : Show = Show.objects.get(id=show_id)
-            show.vote_average=tmdb_data['vote_average']
-            show.vote_count=tmdb_data['vote_count']
-            show.popularity=tmdb_data['popularity']
+            show.vote_average=show['vote_average']
+            show.vote_count=show['vote_count']
+            show.popularity=show['popularity']
             show.save()
         except Show.DoesNotExist:
             show = Show.objects.create(
-                id=tmdb_data['id'],
-                name=tmdb_data['name'],
-                overview=tmdb_data['overview'],
-                first_air_date=tmdb_data['first_air_date'],
-                last_air_date=tmdb_data['last_air_date'],
-                poster_path=tmdb_data['poster_path'],
-                vote_average=tmdb_data['vote_average'],
-                vote_count=tmdb_data['vote_count'],
-                popularity=tmdb_data['popularity'],
-                adult=tmdb_data['adult'],
-                original_language=tmdb_data['original_language'],
-                original_title=tmdb_data['original_title']
+                id=show['id'],
+                name=show['name'],
+                overview=show['overview'],
+                first_air_date=show['first_air_date'],
+                last_air_date=show['last_air_date'],
+                poster_path=show['poster_path'],
+                vote_average=show['vote_average'],
+                vote_count=show['vote_count'],
+                popularity=show['popularity'],
+                original_language=show['original_language'],
+                original_name=show['original_name']
             )
 
         context['show'] = show
