@@ -61,8 +61,8 @@
                         {% csrf_token %}
 
                         <button type="submit"
-                            class="max-w-xs flex-1 {% if watched %} bg-gray-300 hover:bg-red-700 focus:ring-red-500 {% else %} bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 {% endif %} border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">{% if watched %}Enlever
-                            de ma liste{% else %}Ajouter à ma liste{% endif %}</button>
+                            class="max-w-xs flex-1 {% if watched %} bg-gray-300 hover:bg-red-700 focus:ring-red-500 {% else %} bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 {% endif %} border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">{%if watched %}Enlever
+                            de ma liste{%else%}Ajouter à ma liste{% endif %}</button>
 
                     </form>
 
@@ -83,6 +83,59 @@
             </div>
         </div>
     </div>
+</div>
+
+{% include 'generic/divider.html' with title='Saisons' %}
+
+<div class="bg-white shadow overflow-hidden p-8 sm:rounded-md">
+    <ul role="list" class="divide-y divide-gray-200">
+
+        {% for season in show.seasons.all %}
+
+        <li>
+            <a href="#" class="block hover:bg-gray-50">
+                <div class="flex items-center px-4 py-4 sm:px-6">
+                    <div class="min-w-0 flex-1 flex items-center">
+                        <div class="flex-shrink-0">
+                            <img class="object-cover h-64 w-48 rounded-lg"
+                                src="{{season.get_poster_url}}" alt="" />
+                        </div>
+                        <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
+                            <div>
+                                <p class="text-sm font-medium text-indigo-600 truncate">{{season.name}}</p>
+                                <p class="mt-2 flex items-center text-sm text-gray-500">
+                                    <span class="text-ellipsis overflow-hidden">{{season.overview}}</span>
+                                </p>
+                            </div>
+                            <div class="hidden md:block">
+                                <div>
+                                    <p class="text-sm text-gray-900">
+                                        Diffusé le
+                                        <time datetime="2020-01-07">{{season.air_date}}</time>
+                                    </p>
+                                    <p class="mt-2 flex items-center text-sm text-gray-500">
+                                        {{season.episode_count}} épisodes
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- Heroicon name: solid/chevron-right -->
+                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                            fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+        </li>
+
+        {% endfor %}
+
+    </ul>
 </div>
 
 {% include 'generic/divider.html' with title='Acteurs' %}

@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import TemplateView, ListView
 
-from ESGI_Movies.wrappe.tmdb import tmdb_tv, tmdb_search, tmdb_genres
+from ESGI_Movies.wrappe.tmdb import tmdb_tv, tmdb_search, tmdb_tv_season
 from .models import Show
 from management.forms import ReviewForm
 from management.models import Watched, Review

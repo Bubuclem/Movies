@@ -23,6 +23,41 @@ class Genre(models.Model):
     def __str__(self) -> str:
         return self.name
 
+class LastEpisode(models.Model):
+    '''
+    Dernier épisode de la série
+    '''
+    air_date = models.DateField()
+    season_number = models.IntegerField()
+    episode_number = models.IntegerField()
+    name = models.CharField(max_length=255)
+    overview = models.TextField()
+    production_code = models.CharField(max_length=255)
+    still_path = models.CharField(max_length=255,blank=True,null=True)
+    vote_average = models.FloatField()
+    vote_count = models.IntegerField()
+
+    def __str__(self) -> str:
+        return self.name
+
+class Season(models.Model):
+    '''
+    Saison de la série
+    '''
+    air_date = models.DateField(blank=True,null=True)
+    episode_count = models.IntegerField()
+    season_number = models.IntegerField()
+    name = models.CharField(max_length=255)
+    overview = models.TextField()
+    poster_path = models.CharField(max_length=255,blank=True,null=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+    def get_poster_url(self):
+        if self.poster_path is not None:
+            return 'https://image.tmdb.org/t/p/w500{}'.format(self.poster_path)
+
 class Show(models.Model):
     """
     Show model
@@ -53,6 +88,9 @@ class Show(models.Model):
     original_language = models.CharField(max_length=255, blank=True)
     original_name = models.CharField(max_length=255, blank=True)
     
+    last_episode = models.OneToOneField(LastEpisode, on_delete=models.CASCADE, blank=True, null=True)
+    seasons = models.ManyToManyField(Season, blank=True)
+
     genres = models.ManyToManyField(Genre, blank=True)
 
     def __str__(self):
@@ -86,6 +124,28 @@ class Show(models.Model):
 
         self.original_language = json_show['original_language']
         self.original_name = json_show['original_name']
+
+        self.last_episode = LastEpisode.objects.create(
+            air_date=json_show['last_episode_to_air']['air_date'],
+            season_number=json_show['last_episode_to_air']['season_number'],
+            episode_number=json_show['last_episode_to_air']['episode_number'],
+            name=json_show['last_episode_to_air']['name'],
+            overview=json_show['last_episode_to_air']['overview'],
+            production_code=json_show['last_episode_to_air']['production_code'],
+            still_path=json_show['last_episode_to_air']['still_path'],
+            vote_average=json_show['last_episode_to_air']['vote_average'],
+            vote_count=json_show['last_episode_to_air']['vote_count']
+        )
+
+        for season in json_show['seasons']:
+            self.seasons.add(Season.objects.create(
+                air_date=season['air_date'],
+                episode_count=season['episode_count'],
+                season_number=season['season_number'],
+                name=season['name'],
+                overview=season['overview'],
+                poster_path=season['poster_path']
+            ))
 
         for language in json_show['spoken_languages']:
             self.save() # Save the show before adding the genre
