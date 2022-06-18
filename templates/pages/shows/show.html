@@ -61,8 +61,8 @@
                         {% csrf_token %}
 
                         <button type="submit"
-                            class="max-w-xs flex-1 {% if watched %} bg-gray-300 hover:bg-red-700 focus:ring-red-500 {% else %} bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 {% endif %} border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">{%if watched %}Enlever
-                            de ma liste{%else%}Ajouter à ma liste{% endif %}</button>
+                            class="max-w-xs flex-1 {% if watched %} bg-gray-300 hover:bg-red-700 focus:ring-red-500 {% else %} bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 {% endif %} border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">
+                            {%if watched %}Enlever de ma liste{%else%}Ajouter à ma liste{% endif %}</button>
 
                     </form>
 
@@ -79,6 +79,32 @@
                         </button>
                     </form>
                 </div>
+
+                <section aria-labelledby="details-heading" class="mt-12">
+                    <h2 id="details-heading" class="sr-only">Additional details</h2>
+
+                    <div class="border-t divide-y divide-gray-200">
+
+                        <div>
+                            <h3>
+                                <div class="group relative w-full py-6 flex justify-between items-center text-left"
+                                    aria-controls="disclosure-1" aria-expanded="false">
+                                    <span class="text-gray-900 text-sm font-medium">
+                                        Informations
+                                    </span>
+                                </div>
+                            </h3>
+                            <div class="pb-6 prose prose-sm" id="disclosure-1">
+                                <ul role="list">
+                                    <li>{{show.last_episode.season_number}} Saisons</li>
+
+                                    <li>publié le {{show.last_episode.air_date|date}}</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
 
             </div>
         </div>
@@ -97,8 +123,7 @@
                 <div class="flex items-center px-4 py-4 sm:px-6">
                     <div class="min-w-0 flex-1 flex items-center">
                         <div class="flex-shrink-0">
-                            <img class="object-cover h-64 w-48 rounded-lg"
-                                src="{{season.get_poster_url}}" alt="" />
+                            <img class="object-cover h-64 w-48 rounded-lg" src="{{season.get_poster_url}}" alt="" />
                         </div>
                         <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                             <div>
