@@ -156,6 +156,8 @@ class ShowPageView(TemplateView):
             except Favorite.DoesNotExist:
                 context['favorite'] = None
 
+            context['form_review'] = ReviewForm()
+
         return context
 
     def post(self, request, show_id, **kwargs):
@@ -174,6 +176,16 @@ class ShowPageView(TemplateView):
                 favorite_movie.delete()
             except Favorite.DoesNotExist:
                 Favorite.objects.create(user=request.user, name=show.name, media_id=show_id, media_type='show')
+
+        form_review = ReviewForm(request.POST)
+        if form_review.is_valid():
+            Review.objects.create(
+                user=request.user,
+                media_id=show_id,
+                name=show.name,
+                media_type='show',
+                content=form_review.cleaned_data['content']
+            )
 
         return redirect('/series/{}'.format(show_id))
 
