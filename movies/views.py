@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, ListView
 
 from ESGI_Movies.wrappe.tmdb import tmdb_movie, tmdb_search
 from management.forms import ReviewForm
-from management.models import Watched
+from management.models import Watched, Favorite
 from .models import Movie
 
 TEMPLATE_BASE = 'pages/movies/'
@@ -149,17 +149,30 @@ class MoviePageView(TemplateView):
             context['watched'] = Watched.objects.get(user=self.request.user, media_id=movie.id,media_type='movie')
         except Watched.DoesNotExist:
             context['watched'] = None
+            
+        try :
+            context['favorite'] = Favorite.objects.get(user=self.request.user, media_id=movie.id,media_type='movie')
+        except Favorite.DoesNotExist:
+            context['favorite'] = None
 
         return context
 
     def post(self, request, movie_id, **kwargs):
         movie = Movie.objects.get(id=movie_id)
 
-        try :
-            watched_movie = Watched.objects.get(user=request.user, media_id=movie.id,media_type='movie')
-            watched_movie.delete()
-        except Watched.DoesNotExist:
-            Watched.objects.create(user=request.user, name=movie.title, media_id=movie.id, media_type='movie')
+        if 'watched' in request.POST:
+            try :
+                watched_movie = Watched.objects.get(user=request.user, media_id=movie.id,media_type='movie')
+                watched_movie.delete()
+            except Watched.DoesNotExist:
+                Watched.objects.create(user=request.user, name=movie.title, media_id=movie.id, media_type='movie')
+
+        if 'favorite' in request.POST:
+            try :
+                favorite_movie = Favorite.objects.get(user=request.user, media_id=movie.id,media_type='movie')
+                favorite_movie.delete()
+            except Favorite.DoesNotExist:
+                Favorite.objects.create(user=request.user, name=movie.title, media_id=movie.id, media_type='movie')
 
         return redirect('/films/{}'.format(movie_id))
 

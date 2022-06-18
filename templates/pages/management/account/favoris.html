@@ -1,6 +1,6 @@
 {% extends './account.html' %}
 
-{% block title %}Profile | Ma liste{% endblock %}
+{% block title %}Profile | Favoris{% endblock %}
 
 {% block management %}
 
@@ -30,19 +30,19 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
 
-                        {% for media in watched %}
+                        {% for favori in favoris %}
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {{media.name}}
+                                {{favori.name}}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{media.media_type}}
+                                {{favori.media_type}}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{media.pub_date|date}}, {{media.pub_date|time}}
+                                {{favori.pub_date|date}}, {{favori.pub_date|time}}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{% url media.media_type|add:'s'|add:':detail' media.media_id %}"
+                                <a href="{% url favori.media_type|add:'s'|add:':detail' favori.media_id %}"
                                     class="text-indigo-600 hover:text-indigo-900">Edit</a>
                             </td>
                         </tr>

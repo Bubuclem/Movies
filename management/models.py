@@ -39,6 +39,23 @@ class Watched(models.Model):
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
+class Favorite(models.Model):
+    '''
+    Media favorite by user
+    '''
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
+    media_id = models.IntegerField()
+    media_type = models.CharField(max_length=5,choices=MediaType.choices,default=MediaType.Movie)
+    pub_date = models.DateTimeField('date published',auto_now=True)
+
+    class Meta:
+        verbose_name = "Favori"
+        verbose_name_plural = "Favoris"
+
+    def __str__(self) -> str:
+        return self.name
+
 class Review(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)

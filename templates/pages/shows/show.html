@@ -1,4 +1,4 @@
-{% extends '../../base/base.html' %}ie
+{% extends 'base/base.html' %}ie
 
 {% block title %}{{show.name}}{% endblock %}
 
@@ -60,7 +60,7 @@
                     <form action="." method="post">
                         {% csrf_token %}
 
-                        <button type="submit"
+                        <button type="submit" name="watched" id="watched"
                             class="max-w-xs flex-1 {% if watched %} bg-gray-300 hover:bg-red-700 focus:ring-red-500 {% else %} bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 {% endif %} border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">
                             {%if watched %}Enlever de ma liste{%else%}Ajouter à ma liste{% endif %}</button>
 
@@ -68,13 +68,22 @@
 
                     <form action="." method="post">
                         {% csrf_token %}
-                        <button type="submit"
+                        <button type="submit" name="favorite" id="favorite"
                             class="ml-4 py-3 px-3 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500">
+                            {%if favorite%}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0 text-purple-500"
+                                viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            {%else%}
                             <svg class="h-6 w-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                             </svg>
+                            {% endif %}
                             <span class="sr-only">Favoris</span>
                         </button>
                     </form>
@@ -146,7 +155,6 @@
                         </div>
                     </div>
                     <div>
-                        <!-- Heroicon name: solid/chevron-right -->
                         <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                             fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd"

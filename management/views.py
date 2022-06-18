@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 from management.forms import LoginForm, AccountForm, RegistreAccountForm
-from management.models import Watched
+from management.models import Watched, Favorite
 from movies.models import Movie
 from shows.models import Show
 
@@ -91,7 +91,7 @@ class SuccesPageView(View):
 
 class WatchlistPageView(ListView):
     '''
-    Class de la page de la watchlist.
+    Class de la page watchlist.
     Retourne la liste des films de la watchlist
     '''
     template_name = TEMPLATE_BASE + 'account/watchlist.html'
@@ -100,6 +100,18 @@ class WatchlistPageView(ListView):
 
     def get_queryset(self):
         return Watched.objects.filter(user=self.request.user).order_by('pub_date')
+
+class FavoritesPageView(ListView):
+    '''
+    Class de la page favoris.
+    Retourne la liste des films des favoris.
+    '''
+    template_name = TEMPLATE_BASE + 'account/favoris.html'
+    context_object_name = 'favoris'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Favorite.objects.filter(user=self.request.user).order_by('pub_date')
 
 class MoviesPageView(ListView):
     '''

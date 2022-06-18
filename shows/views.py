@@ -4,10 +4,10 @@ from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import TemplateView, ListView
 
-from ESGI_Movies.wrappe.tmdb import tmdb_tv, tmdb_search, tmdb_tv_season
+from ESGI_Movies.wrappe.tmdb import tmdb_tv, tmdb_search
 from .models import Show
 from management.forms import ReviewForm
-from management.models import Watched, Review
+from management.models import Watched, Favorite, Review
 
 TEMPLATE_BASE = 'pages/shows/'
 
@@ -148,16 +148,29 @@ class ShowPageView(TemplateView):
         except Watched.DoesNotExist:
             context['watched'] = None
 
+        try :
+            context['favorite'] = Favorite.objects.get(user=self.request.user, media_id=show_id,media_type='show')
+        except Favorite.DoesNotExist:
+            context['favorite'] = None
+
         return context
 
     def post(self, request, show_id, **kwargs):
         show = Show.objects.get(id=show_id)
 
-        try :
-            watched_movie = Watched.objects.get(user=request.user, media_id=show.id,media_type='show')
-            watched_movie.delete()
-        except Watched.DoesNotExist:
-            Watched.objects.create(user=request.user, name=show.name, media_id=show.id, media_type='show')
+        if 'watched' in request.POST:
+            try :
+                watched_movie = Watched.objects.get(user=request.user, media_id=show_id,media_type='show')
+                watched_movie.delete()
+            except Watched.DoesNotExist:
+                Watched.objects.create(user=request.user, name=show.name, media_id=show_id, media_type='show')
+
+        if 'favorite' in request.POST:
+            try :
+                favorite_movie = Favorite.objects.get(user=request.user, media_id=show_id,media_type='show')
+                favorite_movie.delete()
+            except Favorite.DoesNotExist:
+                Favorite.objects.create(user=request.user, name=show.name, media_id=show_id, media_type='show')
 
         return redirect('/series/{}'.format(show_id))
 

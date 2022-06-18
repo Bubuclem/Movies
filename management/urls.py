@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import LoginPageView, LogoutPageView, RegisterAccountPageView,AccountPageView, MoviesPageView, MoviePageView, ShowsPageView, ShowPageView, WatchlistPageView
+from .views import LoginPageView, LogoutPageView, RegisterAccountPageView,AccountPageView, MoviesPageView, MoviePageView, ShowsPageView, ShowPageView, WatchlistPageView, FavoritesPageView
 
 app_name = 'management'
 urlpatterns = [
@@ -33,6 +33,11 @@ urlpatterns = [
     path('watchlist/',
     WatchlistPageView.as_view(),
     name='watchlist'),
+
+    # URL des favoris
+    path('favoris/',
+    FavoritesPageView.as_view(),
+    name='favoris'),
 
     path('dashboard/films/',
     MoviesPageView.as_view(),
