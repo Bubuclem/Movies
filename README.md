@@ -26,17 +26,17 @@ With framework [**Django**](https://docs.djangoproject.com/fr/4.0/), in [**Pytho
   
   :heavy_check_mark: Upcoming
   
-  :x: Top Rated
+  :heavy_check_mark: Top Rated
 
 ## Shows <a name="Shows"></a>
 
   :heavy_check_mark: Popular
   
-  :heavy_check_mark: Airing Today
+  :heavy_check_mark: Now Playing
   
-  :x: On TV
+  :heavy_check_mark: Upcoming
   
-  :x: Top Rated
+  :heavy_check_mark: Top Rated
 
 ## Actors <a name="Actors"></a>
 
@@ -45,7 +45,31 @@ With framework [**Django**](https://docs.djangoproject.com/fr/4.0/), in [**Pytho
 
 ## API <a name="API"></a>
 
+  :heavy_check_mark: Popular movies
+
+  :heavy_check_mark: Top rated movies
+
+  :heavy_check_mark: Upcoming movies
+
+  :heavy_check_mark: Movies details
+
+  :heavy_check_mark: Popular shows
+
+  :heavy_check_mark: Top rated shows
+
+  :heavy_check_mark: Upcoming shows
+
+  :heavy_check_mark: Shows details
+  
+  :heavy_check_mark: Actors
+
 ## Oauth2 <a name="Oauth2"></a>
+
+  :x: Github Oauth
+
+  :x: Facebook Oauth
+
+  :x: Twitter Oauth
 
 ### Requirements
 
