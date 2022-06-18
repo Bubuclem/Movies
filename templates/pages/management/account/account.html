@@ -5,55 +5,49 @@
 {% block management %}
 
 <div class="py-6 px-4 sm:p-6 lg:pb-8">
-
-    <div class="mt-6 flex flex-col lg:flex-row">
-        <div class="flex-grow space-y-6">
-            <div>
-                <label for="username" class="block text-sm font-medium text-gray-700">
-                    Nom d’utilisateur
-                </label>
-                <div class="mt-1 rounded-md shadow-sm flex">
-                    <input type="text" name="username" id="username" autocomplete="username"
-                        class="focus:ring-purple-500 focus:border-purple-500 flex-grow block w-full min-w-0 rounded-md sm:text-sm border-gray-300"
-                        value="{{user.username}}">
+    <form action="{%url 'management:account'%}" method="post">
+        {% csrf_token %}
+        <div class="mt-6 flex flex-col lg:flex-row">
+            <div class="flex-grow space-y-6">
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700">
+                        Nom d’utilisateur
+                    </label>
+                    <div class="mt-1 rounded-md shadow-sm flex">
+                        {{form.username}}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="mt-6 grid grid-cols-12 gap-6">
-        <div class="col-span-12 sm:col-span-6">
-            <label for="first-name" class="block text-sm font-medium text-gray-700">Prénom</label>
-            <input type="text" name="first-name" id="first-name" autocomplete="given-name"
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
-                value="{{user.first_name}}">
-        </div>
+        <div class="mt-6 grid grid-cols-12 gap-6">
+            <div class="col-span-12 sm:col-span-6">
+                <label for="first-name" class="block text-sm font-medium text-gray-700">Prénom</label>
+                {{form.first_name}}
+            </div>
 
-        <div class="col-span-12 sm:col-span-6">
-            <label for="last-name" class="block text-sm font-medium text-gray-700">Nom</label>
-            <input type="text" name="last-name" id="last-name" autocomplete="family-name"
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
-                value="{{user.last_name}}">
-        </div>
+            <div class="col-span-12 sm:col-span-6">
+                <label for="last-name" class="block text-sm font-medium text-gray-700">Nom</label>
+                {{form.last_name}}
+            </div>
 
-        <div class="col-span-12">
-            <label for="url" class="block text-sm font-medium text-gray-700">Adresse
-                électronique</label>
-            <input type="email" name="email" id="email"
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
-                value="{{user.email}}">
+            <div class="col-span-12">
+                <label for="url" class="block text-sm font-medium text-gray-700">Adresse
+                    électronique</label>
+                {{form.email}}
+            </div>
         </div>
-    </div>
-    <div class="mt-4 py-4 px-4 flex justify-end sm:px-6">
-        <button type="button"
-            class="bg-white border border-gray-300 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-            Cancel
-        </button>
-        <button type="submit"
-            class="ml-5 bg-purple-700 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-            Save
-        </button>
-    </div>
+        <div class="mt-4 py-4 px-4 flex justify-end sm:px-6">
+            <a type="button" href="{% url 'management:logout' %}"
+                class="ml-5 bg-red-700 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                Déconnexion
+            </a>
+            <button type="submit"
+                class="ml-5 bg-purple-700 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                Enregistrer
+            </button>
+        </div>
+    </form>
 </div>
 
 {% endblock %}

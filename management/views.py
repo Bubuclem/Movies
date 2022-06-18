@@ -1,6 +1,8 @@
+import email
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, FormView
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
@@ -14,46 +16,26 @@ TEMPLATE_BASE = 'pages/management/'
 ''''
 Connexion class
 '''
-class LoginPageView(TemplateView):
-    '''
-    Method Get login page
-    if user is logged, redirect to the class view of the popular movies
-    return connexion page with form
-    '''
-    template_name = TEMPLATE_BASE + 'login/login.html'
+class LoginPageView(FormView):
+    template_name = TEMPLATE_BASE + 'auth/login.html'
+    form_class = LoginForm
+    success_url = '/films/populaires/'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = LoginForm()
-        return context
-
-    '''
-    Method Post login page
-    return to the main page /popular if the connexion is ok
-    '''
-    def post(self,request):
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            try:
-                user = User.objects.get(email=form.cleaned_data['email'].lower())
-            except User.DoesNotExist:
-                return redirect('/vitrine/authentification/')
-
-            user = authenticate(self.request, username=user.username, password=form.cleaned_data['password'])
+    def form_valid(self, form):
+        try:
+            user = User.objects.get(email=form.cleaned_data['email'])
+            user = authenticate(username=user.username, password=form.cleaned_data['password'])
             if user is not None:
-                login(request, user)
-                return redirect('/films/populaires/')
-        return redirect('/authentification/')
+                login(self.request, user)
+                return super().form_valid(form)
+        except User.DoesNotExist:
+            return render(self.request, self.template_name, {'form': form, 'error': 'Email does not exist'})
 
-''''
-Logout class
-'''
 class LogoutPageView(TemplateView):
     '''
-    Method Get logout page
-    logout the user and return to the login page
+    Logout class
     '''
-    template_name = TEMPLATE_BASE + 'logout/logout.html'
+    template_name = TEMPLATE_BASE + 'auth/logout.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -73,17 +55,25 @@ class RegisterAccountPageView(TemplateView):
         context['form'] = RegistreAccountForm()
         return context
 
-class AccountPageView(TemplateView):
+class AccountPageView(FormView):
     '''
-    Class du profil utilisateur.
-    Retourne le formulaire du profile utilisateur
+    Class de gestion du compte.
+    Retourne le formulaire de modification de compte
     '''
     template_name = TEMPLATE_BASE + 'account/account.html'
+    form_class = AccountForm
+    success_url = '/profile/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = AccountForm()
+        context['form'] = AccountForm(instance=self.request.user)
         return context
+
+    def post(self, request):
+        form = AccountForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('/profile/')
 
 class SuccesPageView(View):
     def get(self, request):

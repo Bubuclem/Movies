@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib.auth.decorators import login_required
 
 from .views import LoginPageView, LogoutPageView, RegisterAccountPageView,AccountPageView, MoviesPageView, MoviePageView, ShowsPageView, ShowPageView, WatchlistPageView, FavoritesPageView
 
@@ -26,12 +27,12 @@ urlpatterns = [
 
     # URL du profile utilisateur
     path('profile/', 
-    AccountPageView.as_view(), 
+    login_required(AccountPageView.as_view()), 
     name='account'),
 
     # URL de la watchlist
     path('watchlist/',
-    WatchlistPageView.as_view(),
+    login_required(WatchlistPageView.as_view()),
     name='watchlist'),
 
     # URL des favoris

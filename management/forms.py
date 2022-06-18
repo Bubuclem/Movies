@@ -1,35 +1,32 @@
 from django.forms import ModelForm, EmailInput, PasswordInput, TextInput, Textarea
 from django.contrib.auth.models import User
 
-from management.models import Watched, Review
+from management.models import Review
 
-ATTRS_CLASS = 'w-full px-4 py-3 rounded-md dark:border-coolGray-700 dark:bg-coolGray-900 dark:text-coolGray-100'
+INPUT_CLASS = 'focus:ring-purple-500 focus:border-purple-500 flex-grow block w-full min-w-0 rounded-md sm:text-sm border-gray-300'
 
 class LoginForm(ModelForm):
     class Meta:
         model = User
         fields = ['email', 'password']
-        widgets = {
-        'email' : EmailInput(attrs={'class':ATTRS_CLASS}),
-        'password' : PasswordInput(attrs={'class':ATTRS_CLASS}),
-        }
 
 class AccountForm(ModelForm):
+    ''' Account form
+    '''
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['username', 'email', 'first_name', 'last_name']
+        widgets = {
+        'username' : TextInput(attrs={'class':INPUT_CLASS}),
+        'email' : EmailInput(attrs={'class':INPUT_CLASS}),
+        'first_name' : TextInput(attrs={'class':INPUT_CLASS}),
+        'last_name' : TextInput(attrs={'class':INPUT_CLASS}),
+        }
 
 class RegistreAccountForm(ModelForm):
     class Meta:
         model = User
         fields = ['username','first_name','last_name','email','password']
-        widgets = {
-        'username' : TextInput(attrs={'class':ATTRS_CLASS}),
-        'first_name' : TextInput(attrs={'class':ATTRS_CLASS}),
-        'last_name' : TextInput(attrs={'class':ATTRS_CLASS}),
-        'email' : EmailInput(attrs={'class':ATTRS_CLASS}),
-        'password' : PasswordInput(attrs={'class':ATTRS_CLASS}),
-        }
 
 class ReviewForm(ModelForm):
     class Meta:
@@ -37,7 +34,4 @@ class ReviewForm(ModelForm):
         fields = ['content']
         labels = {
         'content': 'Commentaire'
-        }
-        widgets = {
-        'content': Textarea(attrs={'class':ATTRS_CLASS}),
         }
