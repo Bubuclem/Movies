@@ -7,7 +7,10 @@ class SpokenLanguageAdmin(admin.ModelAdmin):
 
 admin.site.register(SpokenLanguage,SpokenLanguageAdmin)
 
-admin.site.register(Watched)
+class WatchedAdmin(admin.ModelAdmin):
+    list_display = ('user', 'name', 'media_id', 'media_type', 'pub_date')
+
+admin.site.register(Watched,WatchedAdmin)
 
 admin.site.register(Review)
 

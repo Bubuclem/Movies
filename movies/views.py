@@ -1,11 +1,12 @@
 from datetime import datetime, timedelta
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView, ListView
 
 from ESGI_Movies.wrappe.tmdb import tmdb_movie, tmdb_search
 from management.forms import ReviewForm
+from management.models import Watched
 from .models import Movie
 
 TEMPLATE_BASE = 'pages/movies/'
@@ -143,8 +144,24 @@ class MoviePageView(TemplateView):
         movies_similar = movies_similar.recommendations(language='fr')
         # Sort by vote average
         context['similars'] = movies_similar['results'][:8]
+        
+        try :
+            context['watched'] = Watched.objects.get(user=self.request.user, media_id=movie.id,media_type='movie')
+        except Watched.DoesNotExist:
+            context['watched'] = None
 
         return context
+
+    def post(self, request, movie_id, **kwargs):
+        movie = Movie.objects.get(id=movie_id)
+
+        try :
+            watched_movie = Watched.objects.get(user=request.user, media_id=movie.id,media_type='movie')
+            watched_movie.delete()
+        except Watched.DoesNotExist:
+            Watched.objects.create(user=request.user, name=movie.title, media_id=movie.id, media_type='movie')
+
+        return redirect('/films/{}'.format(movie_id))
 
 class CreditsPageView(TemplateView):
     """

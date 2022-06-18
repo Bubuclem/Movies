@@ -4,7 +4,8 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import LoginForm, AccountForm, RegistreAccountForm
+from management.forms import LoginForm, AccountForm, RegistreAccountForm
+from management.models import Watched
 from movies.models import Movie
 from shows.models import Show
 
@@ -87,6 +88,17 @@ class AccountPageView(TemplateView):
 class SuccesPageView(View):
     def get(self, request):
         return render(request,'generic/succes.html',{})
+
+class WatchlistPageView(ListView):
+    '''
+    Class de la page de la watchlist.
+    Retourne la liste des films de la watchlist
+    '''
+    template_name = TEMPLATE_BASE + 'account/watchlist.html'
+    context_object_name = 'watched'
+
+    def get_queryset(self):
+        return Watched.objects.filter(user=self.request.user).order_by('pub_date')
 
 class MoviesPageView(ListView):
     '''

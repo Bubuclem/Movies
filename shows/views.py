@@ -110,13 +110,13 @@ class ShowPageView(TemplateView):
         show = tmdb_tv(show_id).detail(language='fr')
 
         try:
-            show : Show = Show.objects.get(id=show_id)
-            show.vote_average=show['vote_average']
-            show.vote_count=show['vote_count']
-            show.popularity=show['popularity']
-            show.save()
+            _show : Show = Show.objects.get(id=show_id)
+            _show.vote_average=show['vote_average']
+            _show.vote_count=show['vote_count']
+            _show.popularity=show['popularity']
+            _show.save()
         except Show.DoesNotExist:
-            show = Show.objects.create(
+            _show = Show.objects.create(
                 id=show['id'],
                 name=show['name'],
                 overview=show['overview'],
@@ -130,7 +130,7 @@ class ShowPageView(TemplateView):
                 original_name=show['original_name']
             )
 
-        context['show'] = show
+        context['show'] = _show
 
         show_cast = tmdb_tv(show_id).credits(language='fr')['cast']
         # Sort by popularity
