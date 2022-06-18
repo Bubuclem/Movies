@@ -63,6 +63,8 @@
                     </fieldset>
                 </div>
 
+                {% if user.is_authenticated %}
+
                 <div class="mt-10 flex sm:flex-col1">
                     <form action="." method="post">
                         {% csrf_token %}
@@ -94,6 +96,8 @@
                         </button>
                     </form>
                 </div>
+
+                {% endif %}
 
                 <section aria-labelledby="details-heading" class="mt-12">
                     <h2 id="details-heading" class="sr-only">Additional details</h2>

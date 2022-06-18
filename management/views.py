@@ -99,7 +99,7 @@ class WatchlistPageView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Watched.objects.filter(user=self.request.user).order_by('pub_date')
+        return Watched.objects.filter(user=self.request.user).order_by('-pub_date')
 
 class FavoritesPageView(ListView):
     '''
@@ -111,7 +111,7 @@ class FavoritesPageView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Favorite.objects.filter(user=self.request.user).order_by('pub_date')
+        return Favorite.objects.filter(user=self.request.user).order_by('-pub_date')
 
 class MoviesPageView(ListView):
     '''

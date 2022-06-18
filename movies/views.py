@@ -145,15 +145,16 @@ class MoviePageView(TemplateView):
         # Sort by vote average
         context['similars'] = movies_similar['results'][:8]
         
-        try :
-            context['watched'] = Watched.objects.get(user=self.request.user, media_id=movie.id,media_type='movie')
-        except Watched.DoesNotExist:
-            context['watched'] = None
-            
-        try :
-            context['favorite'] = Favorite.objects.get(user=self.request.user, media_id=movie.id,media_type='movie')
-        except Favorite.DoesNotExist:
-            context['favorite'] = None
+        if self.request.user.is_authenticated:
+            try :
+                context['watched'] = Watched.objects.get(user=self.request.user, media_id=movie.id,media_type='movie')
+            except Watched.DoesNotExist:
+                context['watched'] = None
+                
+            try :
+                context['favorite'] = Favorite.objects.get(user=self.request.user, media_id=movie.id,media_type='movie')
+            except Favorite.DoesNotExist:
+                context['favorite'] = None
 
         return context
 
