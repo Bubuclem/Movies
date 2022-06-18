@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth.decorators import login_required
 
-from .views import LoginPageView, LogoutPageView, RegisterAccountPageView,AccountPageView, MoviesPageView, MoviePageView, ShowsPageView, ShowPageView, WatchlistPageView, FavoritesPageView
+from .views import LoginPageView, LogoutPageView, RegisterAccountPageView,AccountPageView, MoviesPageView, MoviePageView, ShowsPageView, ShowPageView, WatchlistPageView, FavoritesPageView, ReviewsPageView, ReviewsDetailPageView
 
 app_name = 'management'
 urlpatterns = [
@@ -37,8 +37,18 @@ urlpatterns = [
 
     # URL des favoris
     path('favoris/',
-    FavoritesPageView.as_view(),
+    login_required(FavoritesPageView.as_view()),
     name='favoris'),
+
+    # URL des avis
+    path('avis/',
+    login_required(ReviewsPageView.as_view()),
+    name='reviews'),
+
+    # URL pour modifier un avis
+    path('avis/<int:pk>/',
+    login_required(ReviewsDetailPageView.as_view()),
+    name='reviews_detail'),
 
     path('dashboard/films/',
     MoviesPageView.as_view(),

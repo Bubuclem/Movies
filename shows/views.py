@@ -139,6 +139,8 @@ class ShowPageView(TemplateView):
         show_reviews = tmdb_tv(show_id).reviews(language='fr')['results']
         # Sort by date created
         context['reviews'] = sorted(show_reviews, key=lambda k: k['created_at'], reverse=True)[:5]
+        if Review.objects.filter(media_id=_show.id).exists():
+            context['reviews'].append(Review.objects.get(media_id=_show.id,media_type='show'))
 
         # Sort by vote average
         context['similars'] = tmdb_tv(show_id).recommendations(language='fr')['results'][:8]

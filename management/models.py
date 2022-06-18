@@ -59,10 +59,11 @@ class Favorite(models.Model):
 class Review(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200,null=True)
     content = models.CharField(max_length=1000)
     media_id = models.IntegerField()
     media_type = models.CharField(max_length=5,choices=MediaType.choices,default=MediaType.Movie)
-    pub_date = models.DateTimeField('date published')
+    pub_date = models.DateTimeField('date published',auto_now=True)
 
     class Meta:
         verbose_name = "Commentaire"
@@ -73,6 +74,12 @@ class Review(models.Model):
 
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+
+    def author(self) -> str:
+        return self.user.username
+
+    def created_at(self) -> str:
+        return self.pub_date
 
 class Cast(models.Model):
     '''

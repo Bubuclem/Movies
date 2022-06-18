@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, ListView
 
 from ESGI_Movies.wrappe.tmdb import tmdb_movie, tmdb_search
 from management.forms import ReviewForm
-from management.models import Watched, Favorite
+from management.models import Watched, Favorite, Review
 from .models import Movie
 
 TEMPLATE_BASE = 'pages/movies/'
@@ -139,6 +139,8 @@ class MoviePageView(TemplateView):
         movie_reviews = movie_reviews.reviews(language='fr')
         # Sort by date created
         context['reviews'] = sorted(movie_reviews['results'], key=lambda k: k['created_at'], reverse=True)[:5]
+        if Review.objects.filter(media_id=movie.id).exists():
+            context['reviews'].append(Review.objects.get(media_id=movie.id,media_type='movie'))
 
         movies_similar = tmdb_movie(movie_id)
         movies_similar = movies_similar.recommendations(language='fr')
@@ -155,6 +157,8 @@ class MoviePageView(TemplateView):
                 context['favorite'] = Favorite.objects.get(user=self.request.user, media_id=movie.id,media_type='movie')
             except Favorite.DoesNotExist:
                 context['favorite'] = None
+
+            context['form_review'] = ReviewForm()
 
         return context
 
@@ -174,6 +178,16 @@ class MoviePageView(TemplateView):
                 favorite_movie.delete()
             except Favorite.DoesNotExist:
                 Favorite.objects.create(user=request.user, name=movie.title, media_id=movie.id, media_type='movie')
+
+        form_review = ReviewForm(request.POST)
+        if form_review.is_valid():
+            Review.objects.create(
+                user=request.user,
+                media_id=movie_id,
+                name=movie.title,
+                media_type='movie',
+                content=form_review.cleaned_data['content']
+            )
 
         return redirect('/films/{}'.format(movie_id))
 

@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from management.models import Review
 
 INPUT_CLASS = 'focus:ring-purple-500 focus:border-purple-500 flex-grow block w-full min-w-0 rounded-md sm:text-sm border-gray-300'
+TEXTAREA_CLASS = 'shadow-sm focus:ring-purple-500 focus:border-purple-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md'
 
 class LoginForm(ModelForm):
     class Meta:
@@ -34,4 +35,7 @@ class ReviewForm(ModelForm):
         fields = ['content']
         labels = {
         'content': 'Commentaire'
+        }
+        widgets = {
+        'content': Textarea(attrs={'class':TEXTAREA_CLASS})
         }
