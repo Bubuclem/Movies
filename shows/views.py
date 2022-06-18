@@ -143,7 +143,23 @@ class ShowPageView(TemplateView):
         # Sort by vote average
         context['similars'] = tmdb_tv(show_id).recommendations(language='fr')['results'][:8]
 
+        try :
+            context['watched'] = Watched.objects.get(user=self.request.user, media_id=show_id,media_type='show')
+        except Watched.DoesNotExist:
+            context['watched'] = None
+
         return context
+
+    def post(self, request, show_id, **kwargs):
+        show = Show.objects.get(id=show_id)
+
+        try :
+            watched_movie = Watched.objects.get(user=request.user, media_id=show.id,media_type='show')
+            watched_movie.delete()
+        except Watched.DoesNotExist:
+            Watched.objects.create(user=request.user, name=show.name, media_id=show.id, media_type='show')
+
+        return redirect('/series/{}'.format(show_id))
 
 class CreditsPageView(TemplateView):
     """

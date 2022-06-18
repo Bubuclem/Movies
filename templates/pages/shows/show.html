@@ -37,32 +37,38 @@
                     </div>
                 </div>
 
-                <form class="mt-6">
-                    <div>
-                        <h3 class="text-sm text-gray-600">Genres</h3>
+                <div class="mt-6">
+                    <h3 class="text-sm text-gray-600">Genres</h3>
 
-                        <fieldset class="mt-2">
-                            <div class="flex items-center space-x-3">
-                                {% for genre in show.genres.all %}
-                                <label
-                                    class="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-700">
+                    <fieldset class="mt-2">
+                        <div class="flex items-center space-x-3">
+                            {% for genre in show.genres.all %}
+                            <label
+                                class="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-700">
 
-                                    <span
-                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
-                                        {{genre.name}}
-                                    </span>
-                                </label>
-                                {% endfor %}
-                            </div>
-                        </fieldset>
-                    </div>
+                                <span
+                                    class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
+                                    {{genre.name}}
+                                </span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+                </div>
 
-                    <div class="mt-10 flex sm:flex-col1">
+                <div class="mt-10 flex sm:flex-col1">
+                    <form action="." method="post">
+                        {% csrf_token %}
+
                         <button type="submit"
-                            class="max-w-xs flex-1 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full">Ajouter
-                            à ma liste</button>
+                            class="max-w-xs flex-1 {% if watched %} bg-gray-300 hover:bg-red-700 focus:ring-red-500 {% else %} bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 {% endif %} border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">{% if watched %}Enlever
+                            de ma liste{% else %}Ajouter à ma liste{% endif %}</button>
 
-                        <button type="button"
+                    </form>
+
+                    <form action="." method="post">
+                        {% csrf_token %}
+                        <button type="submit"
                             class="ml-4 py-3 px-3 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500">
                             <svg class="h-6 w-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -71,8 +77,9 @@
                             </svg>
                             <span class="sr-only">Favoris</span>
                         </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>

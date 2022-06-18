@@ -42,7 +42,8 @@
                                 {{media.pub_date|date}}, {{media.pub_date|time}}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{% url media.media_type|add:'s'|add:':detail' media.media_id %}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                <a href="{% url media.media_type|add:'s'|add:':detail' media.media_id %}"
+                                    class="text-indigo-600 hover:text-indigo-900">Edit</a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -51,6 +52,11 @@
                 </table>
             </div>
         </div>
+
+        <div class="pt-6">
+            {% include 'generic/pagination.html' %}
+        </div>
+
     </div>
 </div>
 

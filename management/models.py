@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 class MediaType(models.TextChoices):
         Movie = 'movie',
-        Show = 'tv',
+        Show = 'show',
         Both = 'both'
 
 class SpokenLanguage(models.Model):

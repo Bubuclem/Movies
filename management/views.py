@@ -96,6 +96,7 @@ class WatchlistPageView(ListView):
     '''
     template_name = TEMPLATE_BASE + 'account/watchlist.html'
     context_object_name = 'watched'
+    paginate_by = 10
 
     def get_queryset(self):
         return Watched.objects.filter(user=self.request.user).order_by('pub_date')
