@@ -19,6 +19,7 @@ router.register(r'actors', views.ActorsViewSet,basename='actors')
 
 urlpatterns = [
     path('', include('management.urls')),
+    path('social/', include('social_django.urls')),
     path('films/', include('movies.urls')),
     path('series/', include('shows.urls')),
     path('acteurs/', include('actors.urls')),
