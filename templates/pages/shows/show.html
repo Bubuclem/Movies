@@ -179,27 +179,36 @@
 
 <div class="bg-white">
     <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-        <h2 class="sr-only">Products</h2>
-        <div class="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+        <h2 class="sr-only">Acteurs</h2>
 
-            {% for actor in cast %}
-            <a href="{% url 'actors:detail' actor.id %}" class="group">
-                <div
-                    class="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
-                    <img src="https://image.tmdb.org/t/p/w500{{actor.profile_path}}" alt=""
-                        class="w-full h-full object-center object-cover group-hover:opacity-75">
+        {% include 'generic/actors.html' with actors=cast|slice:":8" %}
+
+        <div x-data="{ open: false }" class="flex justify-center">
+            <span x-on:click="open = true">
+                <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
+                    Plus d'acteurs
+                    <span aria-hidden="true"> &rarr;</span>
+                </button>
+            </span>
+
+            <div x-show="open" style="display: none" x-on:keydown.escape.prevent.stop="open = false" role="dialog"
+                aria-modal="true" x-id="['modal-title']" :aria-labelledby="$id('modal-title')"
+                class="fixed inset-0 overflow-y-auto z-10">
+
+                <div x-show="open" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-50"></div>
+
+                <div x-show="open" x-transition x-on:click="open = false"
+                    class="relative min-h-screen flex items-center justify-center p-4">
+                    <div x-on:click.stop x-trap.noscroll.inert="open"
+                        class="relative max-w-6xl w-full bg-white rounded-xl shadow-lg p-12 overflow-y-auto">
+                        <h2 class="text-3xl font-bold" :id="$id('modal-title')">Acteurs</h2>
+
+                        {% include 'generic/actors.html' with actors=cast|slice:"8:" %}
+                    </div>
                 </div>
-                <h3 class="mt-4 text-sm text-gray-700">
-                    {{actor.original_name}}
-                </h3>
-                <p class="mt-1 text-lg font-medium text-gray-900">
-                    {{actor.character}}
-                </p>
-            </a>
-            {% endfor %}
+            </div>
         </div>
-        <a href="#" type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Plus d'acteurs<span
-                aria-hidden="true"> &rarr;</span></a>
+        
     </div>
 </div>
 

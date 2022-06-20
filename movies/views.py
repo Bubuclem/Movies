@@ -133,7 +133,7 @@ class MoviePageView(TemplateView):
         movie_credits = tmdb_movie(movie_id)
         movie_credits = movie_credits.credits(language='fr')
         # Sort by popularity
-        context['cast'] = sorted(movie_credits['cast'], key=lambda k: k['popularity'], reverse=True)[:8]
+        context['cast'] = sorted(movie_credits['cast'], key=lambda k: k['popularity'], reverse=True)
 
         movie_reviews = tmdb_movie(movie_id)
         movie_reviews = movie_reviews.reviews(language='fr')
