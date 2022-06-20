@@ -1,18 +1,5 @@
 <div class="pt-8 place-self-center">
-    <div class="sm:hidden">
-        <label for="tabs" class="sr-only">Select a tab</label>
-        <select id="tabs" name="tabs"
-            class="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
-            <option>My Account</option>
-
-            <option>Company</option>
-
-            <option selected>Team Members</option>
-
-            <option>Billing</option>
-        </select>
-    </div>
-    <div class="hidden sm:block">
+    <div>
         <nav class="flex space-x-4" aria-label="Tabs">
             {% url request.resolver_match.app_name|add:':popular' as url_popular %}
             <a href="{% url request.resolver_match.app_name|add:':popular' %}"

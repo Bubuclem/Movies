@@ -204,6 +204,8 @@
     </div>
 </div>
 
+{%if user.is_authenticated %}
+
 <form action="." method="post">
     {% csrf_token %}
     <div x-data="{ open: false }" class="flex justify-center">
@@ -248,6 +250,8 @@
         </div>
     </div>
 </form>
+
+{% endif %}
 
 {% if similars %}
 {% include 'generic/divider.html' with title='Recommandations' %}
