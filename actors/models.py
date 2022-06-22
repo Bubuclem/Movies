@@ -58,4 +58,4 @@ class Actor(models.Model):
         Get url for profile_path
         '''
         if self.profile_path:
-            return 'https://image.tmdb.org/t/p/w500'.format(self.profile_path)
+            return 'https://image.tmdb.org/t/p/w500{}'.format(self.profile_path)

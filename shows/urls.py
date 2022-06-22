@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import PopularPageView, NowPlayingPageView, LastestPageView,ShowPageView, CreditsPageView, VideosPageView, ReviewsPageView, SearchPageView, WriteReviewPageView, TopRatedPageView
+from .views import PopularPageView, NowPlayingPageView, LastestPageView,ShowPageView, SearchPageView, TopRatedPageView
 
 app_name = 'shows'
 urlpatterns = [    
@@ -32,25 +32,5 @@ urlpatterns = [
     # URL du détail d'une série
     path('<int:show_id>/', 
     ShowPageView.as_view(), 
-    name='detail'),
-
-    # URL des crédits d'un film
-    path('<int:show_id>/credits/', 
-    CreditsPageView.as_view(), 
-    name='credits'),
-
-    # URL des vidéos d'un film
-    path('<int:show_id>/videos/', 
-    VideosPageView.as_view(), 
-    name='videos'),
-
-    # URL des avis d'un film
-    path('<int:show_id>/avis/', 
-    ReviewsPageView.as_view(), 
-    name='reviews'),
-
-    # URL pour rédiger un avis
-    path('<int:show_id>/avis/edition/', 
-    WriteReviewPageView.as_view(), 
-    name='writereview')
+    name='detail')
 ]

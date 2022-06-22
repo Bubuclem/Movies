@@ -1,4 +1,4 @@
-{% extends '../../base/base.html' %}
+{% extends 'base/base.html' %}
 
 {% block title %}{{movie.title}}{% endblock %}
 
@@ -27,7 +27,7 @@
                     <p
                         class="text-3xl {% if movie.get_percent_average > 60 %}text-green-800{%else%}text-red-800{%endif%}">
                         {{movie.get_percent_average}}%</p>
-                    <p>De personnes aiments</p>
+                    <p>De personnes ont aimé</p>
                 </div>
 
                 <div class="mt-6">
@@ -116,11 +116,25 @@
                             </h3>
                             <div class="pb-6 prose prose-sm" id="disclosure-1">
                                 <ul role="list">
-                                    <li>Durée ({{movie.get_runtime}})</li>
+                                    <li>
+                                        <span class="text-gray-700">Date de sortie :</span>
+                                        <span class="text-gray-600">{{movie.release_date}}</span>
+                                    </li>
 
-                                    <li>Budget {{movie.budget}} $</li>
+                                    <li>
+                                        <span class="text-gray-700">Durée : </span>
+                                        <span class="text-gray-600">({{movie.get_runtime}})</span>
+                                    </li>
 
-                                    <li>Recette {{movie.revenue}} $</li>
+                                    <li>
+                                        <span class="text-gray-700">Budget : </span>
+                                        <span class="text-gray-600">{{movie.budget}} $</span>
+                                    </li>
+
+                                    <li>
+                                        <span class="text-gray-700">Recette :</span> 
+                                        <span class="text-gray-600">{{movie.revenue}} $</span> 
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -141,6 +155,7 @@
 
         {% include 'generic/actors.html' with actors=cast|slice:":8" %}
 
+        {%if cast|length > 8 %}
         <div x-data="{ open: false }" class="flex justify-center">
             <span x-on:click="open = true">
                 <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
@@ -152,7 +167,7 @@
             <div x-show="open" style="display: none" x-on:keydown.escape.prevent.stop="open = false" role="dialog"
                 aria-modal="true" x-id="['modal-title']" :aria-labelledby="$id('modal-title')"
                 class="fixed inset-0 overflow-y-auto z-10">
-                
+
                 <div x-show="open" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-50"></div>
 
                 <div x-show="open" x-transition x-on:click="open = false"
@@ -160,12 +175,13 @@
                     <div x-on:click.stop x-trap.noscroll.inert="open"
                         class="relative max-w-6xl w-full bg-white rounded-xl shadow-lg p-12 overflow-y-auto">
                         <h2 class="text-3xl font-bold" :id="$id('modal-title')">Acteurs</h2>
-                        
+
                         {% include 'generic/actors.html' with actors=cast|slice:"8:" %}
                     </div>
                 </div>
             </div>
         </div>
+        {% endif %}
 
     </div>
 </div>

@@ -67,7 +67,7 @@ With framework [**Django**](https://docs.djangoproject.com/fr/4.0/), in [**Pytho
 
   :x: Github Oauth
 
-  :x: Facebook Oauth
+  :x: Google Oauth
 
   :x: Twitter Oauth
 
@@ -79,4 +79,5 @@ psycopg2>=2.8
 djangorestframework>=3.1
 django-tailwind>=3.1
 django-extensions>3.1
+social-auth-app-django
 ```

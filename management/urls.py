@@ -1,14 +1,14 @@
 from django.urls import path
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 
-from .views import LoginPageView, LogoutPageView, RegisterAccountPageView,AccountPageView, MoviesPageView, MoviePageView, ShowsPageView, ShowPageView, WatchlistPageView, FavoritesPageView, ReviewsPageView, ReviewsDetailPageView
+from management.views import LoginPageView, LogoutPageView, RegisterAccountPageView,AccountPageView, MoviesPageView, MoviePageView, ShowsPageView, ShowPageView, WatchlistPageView, FavoritesPageView, ReviewsPageView, ReviewsDetailPageView, PasswordPageView, UserManagementPageView
 
 app_name = 'management'
 urlpatterns = [
-    # URL de connexion
+    # URL / redirects to popular movies
     path('', 
-    LoginPageView.as_view(), 
-    name='login'),
+    lambda req: redirect('/films/populaires/')),
 
     # URL de connexion
     path('authentification/', 
@@ -26,27 +26,27 @@ urlpatterns = [
     name='register'),
 
     # URL du profile utilisateur
-    path('profile/', 
+    path('dashboard/profile/', 
     login_required(AccountPageView.as_view()), 
     name='account'),
 
     # URL de la watchlist
-    path('watchlist/',
+    path('dashboard/watchlist/',
     login_required(WatchlistPageView.as_view()),
     name='watchlist'),
 
     # URL des favoris
-    path('favoris/',
+    path('dashboard/favoris/',
     login_required(FavoritesPageView.as_view()),
     name='favoris'),
 
     # URL des avis
-    path('avis/',
+    path('dashboard/commentaires/',
     login_required(ReviewsPageView.as_view()),
     name='reviews'),
 
     # URL pour modifier un avis
-    path('avis/<int:pk>/',
+    path('dashboard/avis/<int:pk>/',
     login_required(ReviewsDetailPageView.as_view()),
     name='reviews_detail'),
 
@@ -65,4 +65,12 @@ urlpatterns = [
     path('dashboard/show/<int:pk>/',
     ShowPageView.as_view(),
     name='show'),
+
+    path('dashboard/profile/password/',
+    PasswordPageView.as_view(),
+    name='password'),
+
+    path('dashboard/utilisateurs/',
+    UserManagementPageView.as_view(),
+    name='users'),
 ]

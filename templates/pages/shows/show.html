@@ -27,6 +27,7 @@
                     <p
                         class="text-3xl {% if show.get_percent_average > 60 %}text-green-800{%else%}text-red-800{%endif%}">
                         {{show.get_percent_average}}%</p>
+                    <p>De personnes ont aimé</p>
                 </div>
 
                 <div class="mt-6">
@@ -109,7 +110,10 @@
                             </h3>
                             <div class="pb-6 prose prose-sm" id="disclosure-1">
                                 <ul role="list">
-                                    <li>{{show.last_episode.season_number}} Saisons</li>
+                                    <li>
+                                        <span class="text-gray-700">Saisons :</span>
+                                        <span class="text-gray-600">{{show.last_episode.season_number}}</span>
+                                    </li>
 
                                     <li>publié le {{show.last_episode.air_date|date}}</li>
                                 </ul>
@@ -123,6 +127,8 @@
         </div>
     </div>
 </div>
+
+{%if show.seasons.all%}
 
 {% include 'generic/divider.html' with title='Saisons' %}
 
@@ -175,6 +181,8 @@
     </ul>
 </div>
 
+{%endif%}
+
 {% include 'generic/divider.html' with title='Acteurs' %}
 
 <div class="bg-white">
@@ -183,6 +191,7 @@
 
         {% include 'generic/actors.html' with actors=cast|slice:":8" %}
 
+        {%if cast|length > 8 %}
         <div x-data="{ open: false }" class="flex justify-center">
             <span x-on:click="open = true">
                 <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
@@ -208,7 +217,8 @@
                 </div>
             </div>
         </div>
-        
+        {% endif %}
+
     </div>
 </div>
 

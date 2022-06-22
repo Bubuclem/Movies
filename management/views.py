@@ -3,6 +3,7 @@ from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, FormView
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import PasswordChangeForm
 
 from management.forms import LoginForm, AccountForm, RegistreAccountForm, ReviewForm
 from management.models import Review, Watched, Favorite
@@ -30,8 +31,8 @@ class LoginPageView(FormView):
             return render(self.request, self.template_name, {'form': form, 'error': 'Email does not exist'})
 
 class LogoutPageView(TemplateView):
-    '''
-    Logout class
+    ''' 
+    Logout page
     '''
     template_name = TEMPLATE_BASE + 'auth/logout.html'
 
@@ -178,3 +179,34 @@ class ShowPageView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+class PasswordPageView(FormView):
+    '''
+    Class : Password change
+    Description : Change password
+    '''
+    template_name = TEMPLATE_BASE + 'account/password.html'
+    form_class = PasswordChangeForm
+    success_url = '/profile/'
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = PasswordChangeForm(instance=self.request.user)
+        return context
+
+class UserManagementPageView(ListView):
+    '''
+    Class : User management
+    Description : Manage users
+    '''
+    template_name = TEMPLATE_BASE + 'account/users.html'
+    model = User
+    paginate_by = 15
+    context_object_name = 'users'
+
+    def get_queryset(self):
+        return User.objects.all().order_by('-date_joined')
