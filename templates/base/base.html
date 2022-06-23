@@ -15,16 +15,11 @@
 </head>
 
 <body class="BodyWrapper">
-    {% if request.resolver_match.app_name is not management %}
     {% include "./header.html" %}
-    {% endif %}
     
-    <!-- Content -->
     {% block content %}{% endblock %}
 
-    {% if request.resolver_match.app_name is not 'management' %}
     {% include "./footer.html" %}
-    {% endif %}
 </body>
 
 </html>
