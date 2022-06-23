@@ -24,7 +24,7 @@ class LoginPageView(FormView):
         try:
             user = User.objects.get(email=form.cleaned_data['email'])
             user = authenticate(username=user.username, password=form.cleaned_data['password'])
-            if user is not None:
+            if user is not None and user.is_active:
                 login(self.request, user)
                 return super().form_valid(form)
         except User.DoesNotExist:
