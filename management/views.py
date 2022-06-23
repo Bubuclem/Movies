@@ -12,10 +12,10 @@ from shows.models import Show
 
 TEMPLATE_BASE = 'pages/management/'
 
-''''
-Connexion class
-'''
 class LoginPageView(FormView):
+    ''''
+    Vue pour la page de connexion.
+    '''
     template_name = TEMPLATE_BASE + 'auth/login.html'
     form_class = LoginForm
     success_url = '/films/populaires/'
@@ -28,11 +28,11 @@ class LoginPageView(FormView):
                 login(self.request, user)
                 return super().form_valid(form)
         except User.DoesNotExist:
-            return render(self.request, self.template_name, {'form': form, 'error': 'Email does not exist'})
+            return render(self.request, self.template_name, {'form': form, 'error': 'Les informations fournies ne correspondent à aucun compte.'})
 
 class LogoutPageView(TemplateView):
     ''' 
-    Logout page
+    Vue de déconnexion de l'utilisateur courant.
     '''
     template_name = TEMPLATE_BASE + 'auth/logout.html'
 
@@ -44,8 +44,7 @@ class LogoutPageView(TemplateView):
 
 class RegisterAccountPageView(TemplateView):
     '''
-    Class de création de compte.
-    Retourne le formulaire d'inscription
+    Vue pour la page d'inscription.
     '''
     template_name = TEMPLATE_BASE + 'register/register.html'
 
@@ -56,8 +55,7 @@ class RegisterAccountPageView(TemplateView):
 
 class AccountPageView(FormView):
     '''
-    Class de gestion du compte.
-    Retourne le formulaire de modification de compte
+    Vue pour la page de profil.
     '''
     template_name = TEMPLATE_BASE + 'account/account.html'
     form_class = AccountForm
@@ -76,7 +74,7 @@ class AccountPageView(FormView):
 
 class ReviewsPageView(ListView):
     '''
-    Class de gestion des avis.
+    Vue pour la page des commentaires.
     '''
     template_name = TEMPLATE_BASE + 'account/reviews.html'
     model = Review
@@ -87,7 +85,7 @@ class ReviewsPageView(ListView):
 
 class ReviewsDetailPageView(DetailView):
     '''
-    Class d'édition d'un avis.
+    Vue pour la page de détails d'un commentaire.
     '''
     template_name = TEMPLATE_BASE + 'account/review.html'
     model = Review
@@ -112,8 +110,7 @@ class SuccesPageView(View):
 
 class WatchlistPageView(ListView):
     '''
-    Class de la page watchlist.
-    Retourne la liste des films de la watchlist
+    Vue pour la page de la watchlist.
     '''
     template_name = TEMPLATE_BASE + 'account/watchlist.html'
     context_object_name = 'watched'
@@ -124,8 +121,7 @@ class WatchlistPageView(ListView):
 
 class FavoritesPageView(ListView):
     '''
-    Class de la page favoris.
-    Retourne la liste des films des favoris.
+    Vue pour la page des favoris.
     '''
     template_name = TEMPLATE_BASE + 'account/favoris.html'
     context_object_name = 'favoris'
@@ -136,8 +132,7 @@ class FavoritesPageView(ListView):
 
 class MoviesPageView(ListView):
     '''
-    Class : Movies list
-    Description : Manage movies
+    Vue pour la page des films.
     '''
     template_name = TEMPLATE_BASE + 'back/movies.html'
     model = Movie
@@ -146,8 +141,7 @@ class MoviesPageView(ListView):
 
 class MoviePageView(DetailView):
     '''
-    Class : Detail view for movie
-    Description : Edit movie
+    Vue pour la page d'un film.
     '''
     template_name = TEMPLATE_BASE + 'back/movie.html'
 
@@ -159,8 +153,7 @@ class MoviePageView(DetailView):
 
 class ShowsPageView(ListView):
     '''
-    Class : Shows list
-    Description : Manage shows
+    Vue pour la page des séries.
     '''
     template_name = TEMPLATE_BASE + 'back/shows.html'
     model = Show
@@ -169,8 +162,7 @@ class ShowsPageView(ListView):
 
 class ShowPageView(DetailView):
     '''
-    Class : Detail view for show
-    Description : Edit show
+    Vue pour la page d'une série.
     '''
     template_name = TEMPLATE_BASE + 'back/show.html'
 
@@ -182,8 +174,7 @@ class ShowPageView(DetailView):
 
 class PasswordPageView(FormView):
     '''
-    Class : Password change
-    Description : Change password
+    Vue pour modifier le mot de passe de l'utilisateur connecté.
     '''
     template_name = TEMPLATE_BASE + 'account/password.html'
     form_class = PasswordChangeForm
@@ -200,8 +191,7 @@ class PasswordPageView(FormView):
 
 class UserManagementPageView(ListView):
     '''
-    Class : User management
-    Description : Manage users
+    Vue pour la gestion des utilisateurs, triée par date de création.
     '''
     template_name = TEMPLATE_BASE + 'account/users.html'
     model = User
