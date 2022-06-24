@@ -1,0 +1,48 @@
+{% extends './account.html' %}
+
+{% block title %}Dashboard | {%if form.username.value%}{{form.username.value}}{%else%}Nouveau{%endif%}{% endblock %}
+
+{% block management %}
+
+<div class="p-8">
+    <form action="{%if form.username.value%}{% url 'management:user_detail' id%}{%else%}{% url 'management:user_detail' 'nouveau'%}{%endif%}" method="post">
+        {% csrf_token %}
+
+        <div>
+            <label for="username" class="block text-sm font-medium text-gray-700">
+                {{form.username.label}}
+            </label>
+            {{form.username}}
+        </div>
+
+        <div class="pt-4">
+            <label for="username" class="block text-sm font-medium text-gray-700">
+                {{form.first_name.label}}
+            </label>
+            {{form.first_name}}
+        </div>
+
+        <div class="pt-4">
+            <label for="username" class="block text-sm font-medium text-gray-700">
+                {{form.last_name.label}}
+            </label>
+            {{form.last_name}}
+        </div>
+
+        <div class="pt-4">
+            <label for="username" class="block text-sm font-medium text-gray-700">
+                {{form.email.label}}
+            </label>
+            {{form.email}}
+        </div>
+
+        <div class="mt-4 py-4 px-4 flex justify-end sm:px-6">
+            <button type="submit"
+                class="ml-5 bg-purple-700 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                Enregistrer
+            </button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

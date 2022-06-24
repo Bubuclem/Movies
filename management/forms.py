@@ -39,3 +39,20 @@ class ReviewForm(ModelForm):
         widgets = {
         'content': Textarea(attrs={'class':TEXTAREA_CLASS})
         }
+
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
+        labels = {
+        'username': 'Pseudo',
+        'first_name': 'Prénom',
+        'last_name': 'Nom',
+        'email': 'Email'
+        }
+        widgets = {
+        'username': TextInput(attrs={'class':INPUT_CLASS}),
+        'first_name': TextInput(attrs={'class':INPUT_CLASS}),
+        'last_name': TextInput(attrs={'class':INPUT_CLASS}),
+        'email': EmailInput(attrs={'class':INPUT_CLASS}),
+        }

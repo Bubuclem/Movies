@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import PasswordChangeForm
 
-from management.forms import LoginForm, AccountForm, RegistreAccountForm, ReviewForm
+from management.forms import LoginForm, AccountForm, RegistreAccountForm, ReviewForm, UserForm
 from management.models import Review, Watched, Favorite
 from movies.models import Movie
 from shows.models import Show
@@ -200,3 +200,43 @@ class UserManagementPageView(ListView):
 
     def get_queryset(self):
         return User.objects.all().order_by('-date_joined')
+
+class UserManagementDetailPageView(FormView):
+    '''
+    Vue pour la gestion d'un utilisateur.
+    '''
+    template_name = TEMPLATE_BASE + 'account/user.html'
+    form_class = UserForm
+    success_url = '/dashboard/utilisateurs/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.kwargs['pk'] == 'nouveau':
+            context['form'] = UserForm()
+        else:
+            context['form'] = UserForm(instance=User.objects.get(pk=self.kwargs['pk']))
+            context['id'] = self.kwargs['pk']
+        return context
+ 
+    def post(self, request, pk):
+        if pk == 'nouveau':
+            form = UserForm(request.POST)
+        else :
+            form = UserForm(request.POST, instance=User.objects.get(pk=pk))
+        if form.is_valid():
+            form.save()
+        return redirect(self.success_url)
+
+class ActiveUserPageView(View):
+    '''
+    Vue pour activer/desactiver un utilisateur.
+    '''
+    def get(self, request, pk):
+        try :
+            user : User = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return redirect('/dashboard/utilisateurs/')
+        user.is_active = not user.is_active
+        user.save()
+        return redirect('/dashboard/utilisateurs/')

@@ -2,7 +2,10 @@ from django.urls import path
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
-from management.views import LoginPageView, LogoutPageView, RegisterAccountPageView,AccountPageView, MoviesPageView, MoviePageView, ShowsPageView, ShowPageView, WatchlistPageView, FavoritesPageView, ReviewsPageView, ReviewsDetailPageView, PasswordPageView, UserManagementPageView
+from management.views import LoginPageView, LogoutPageView, PasswordPageView, UserManagementPageView, UserManagementDetailPageView, ActiveUserPageView
+from management.views import RegisterAccountPageView,AccountPageView
+from management.views import MoviesPageView, MoviePageView, ShowsPageView, ShowPageView
+from management.views import  WatchlistPageView, FavoritesPageView, ReviewsPageView, ReviewsDetailPageView
 
 app_name = 'management'
 urlpatterns = [
@@ -71,6 +74,14 @@ urlpatterns = [
     name='password'),
 
     path('dashboard/utilisateurs/',
-    UserManagementPageView.as_view(),
+    login_required(UserManagementPageView.as_view()),
     name='users'),
+
+    path('dashboard/utilisateur/active/<int:pk>/',
+    login_required(ActiveUserPageView.as_view()),
+    name='active_user'),
+
+    path('dashboard/utilisateur/<str:pk>/',
+    login_required(UserManagementDetailPageView.as_view()),
+    name='user_detail'),
 ]
