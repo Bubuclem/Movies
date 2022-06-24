@@ -13,9 +13,9 @@ SECRET_KEY = 'django-insecure-pc+y641rlw-y880!fl39p2e_$7s*t+$(yw0pr%ld%jj%zn!kxu
 SECRET_KEY_TMDB = '907eefe505cd622142ef9afae861393d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["cburdeyron.com"]
 INTERNAL_IPS = ALLOWED_HOSTS
 
 # Application definition
@@ -118,12 +118,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'theme/static/'
-
-STATICFILES_DIRS = [os.path.join(BASE_DIR, STATIC_URL)]
-
-PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = os.path.join(PROJECT_DIR, STATIC_URL)
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_DIRS = [
+    BASE_DIR / 'static',
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -171,3 +170,16 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+# Protection contre le « Cross site request forgery »
+# https://docs.djangoproject.com/fr/4.0/ref/csrf/
+# &
+# Intergiciels (« middleware »)
+# https://docs.djangoproject.com/fr/4.0/ref/middleware/
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 300000
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
