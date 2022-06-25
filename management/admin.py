@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Watched, Favorite,Review, Credit, Cast, Crew, SpokenLanguage
+from .models import Watched, Favorite,Review, SpokenLanguage
 
 class SpokenLanguageAdmin(admin.ModelAdmin):
     list_display = ('iso_639_1', 'name')
@@ -18,12 +18,3 @@ class FavoriteAdmin(admin.ModelAdmin):
 admin.site.register(Favorite,FavoriteAdmin)
 
 admin.site.register(Review)
-
-admin.site.register(Cast)
-admin.site.register(Crew)
-
-class CreditAdmin(admin.ModelAdmin):
-    list_display = ('media_type', )
-    list_filter = ('media_type',)
-
-admin.site.register(Credit, CreditAdmin)
