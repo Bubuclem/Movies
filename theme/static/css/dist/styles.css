@@ -1351,6 +1351,26 @@ select {
   --tw-aspect-h: 3;
 }
 
+.aspect-w-3 {
+  position: relative;
+  padding-bottom: calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 100%);
+  --tw-aspect-w: 3;
+}
+
+.aspect-w-3 > * {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.aspect-h-4 {
+  --tw-aspect-h: 4;
+}
+
 .aspect-h-6 {
   --tw-aspect-h: 6;
 }
@@ -1590,6 +1610,10 @@ select {
   height: 16rem;
 }
 
+.h-4 {
+  height: 1rem;
+}
+
 .h-48 {
   height: 12rem;
 }
@@ -1632,6 +1656,10 @@ select {
 
 .w-48 {
   width: 12rem;
+}
+
+.w-4 {
+  width: 1rem;
 }
 
 .w-10 {
@@ -1839,6 +1867,10 @@ select {
        column-gap: 2rem;
 }
 
+.gap-y-4 {
+  row-gap: 1rem;
+}
+
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(1rem * var(--tw-space-x-reverse));
@@ -1873,6 +1905,12 @@ select {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.5rem * var(--tw-space-x-reverse));
   margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-y-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
 }
 
 .space-y-1 > :not([hidden]) ~ :not([hidden]) {
@@ -2233,10 +2271,6 @@ select {
 
 .pb-12 {
   padding-bottom: 3rem;
-}
-
-.pt-14 {
-  padding-top: 3.5rem;
 }
 
 .pb-6 {
@@ -2780,6 +2814,21 @@ select {
     --tw-aspect-h: 1;
   }
 
+  .sm\:aspect-none {
+    position: static;
+    padding-bottom: 0;
+  }
+
+  .sm\:aspect-none > * {
+    position: static;
+    height: auto;
+    width: auto;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+  }
+
   .sm\:col-span-6 {
     grid-column: span 6 / span 6;
   }
@@ -2808,6 +2857,14 @@ select {
 
   .sm\:inline-block {
     display: inline-block;
+  }
+
+  .sm\:h-96 {
+    height: 24rem;
+  }
+
+  .sm\:h-full {
+    height: 100%;
   }
 
   .sm\:w-full {
