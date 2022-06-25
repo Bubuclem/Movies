@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from management.views import LoginPageView, LogoutPageView, PasswordPageView, UserManagementPageView, UserManagementDetailPageView, ActiveUserPageView
 from management.views import RegisterAccountPageView,AccountPageView
 from management.views import MoviesPageView, MoviePageView, ShowsPageView, ShowPageView
-from management.views import  WatchlistPageView, FavoritesPageView, ReviewsPageView, ReviewsDetailPageView
+from management.views import WatchlistPageView, FavoritesPageView, ReviewsPageView, ReviewsDetailPageView
 
 app_name = 'management'
 urlpatterns = [
@@ -48,30 +48,15 @@ urlpatterns = [
     login_required(ReviewsPageView.as_view()),
     name='reviews'),
 
+    # URL sécurité
+    path('dashboard/securite/',
+    login_required(PasswordPageView.as_view()),
+    name='password'),
+
     # URL pour modifier un avis
     path('dashboard/avis/<int:pk>/',
     login_required(ReviewsDetailPageView.as_view()),
     name='reviews_detail'),
-
-    path('dashboard/films/',
-    MoviesPageView.as_view(),
-    name='movies'),
-
-    path('dashboard/film/<int:pk>/',
-    MoviePageView.as_view(),
-    name='movie'),
-
-    path('dashboard/shows/',
-    ShowsPageView.as_view(),
-    name='shows'),
-
-    path('dashboard/show/<int:pk>/',
-    ShowPageView.as_view(),
-    name='show'),
-
-    path('dashboard/profile/password/',
-    PasswordPageView.as_view(),
-    name='password'),
 
     path('dashboard/utilisateurs/',
     login_required(UserManagementPageView.as_view()),

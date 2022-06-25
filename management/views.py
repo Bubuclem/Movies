@@ -3,9 +3,8 @@ from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, FormView
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import PasswordChangeForm
 
-from management.forms import LoginForm, AccountForm, RegistreAccountForm, ReviewForm, UserForm
+from management.forms import LoginForm, AccountForm, RegistreAccountForm, ReviewForm, UserForm, ChangePasswordForm
 from management.models import Review, Watched, Favorite
 from movies.models import Movie
 from shows.models import Show
@@ -178,22 +177,25 @@ class ShowPageView(DetailView):
         context = super().get_context_data(**kwargs)
         return context
 
-class PasswordPageView(FormView):
+class PasswordPageView(TemplateView):
     '''
     Vue pour modifier le mot de passe de l'utilisateur connecté.
     '''
     template_name = TEMPLATE_BASE + 'account/password.html'
-    form_class = PasswordChangeForm
-    success_url = '/profile/'
-
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
+    form_class = ChangePasswordForm
+    success_url = 'dashboard/securite/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = PasswordChangeForm(instance=self.request.user)
+        context['form'] = ChangePasswordForm(self.request.user)
         return context
+
+    def post(self, request):
+        form = ChangePasswordForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, self.template_name, {'form': form, 'message': 'Mot de passe modifié avec succès.'})
+        return render(request, self.template_name, {'form': form, 'message': 'Les informations fournies ne correspondent pas.'})
 
 class UserManagementPageView(ListView):
     '''
