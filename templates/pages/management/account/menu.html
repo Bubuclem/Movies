@@ -85,6 +85,20 @@
                                 </span>
                             </a>
 
+                            {% url 'management:request-api' as url %}
+                            <a href="{% url 'management:request-api' %}"
+                                class="{% if request.path == url%} bg-purple-50 border-purple-500 text-purple-700 hover:bg-purple-50 hover:text-purple-700 {% else %} border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900 {% endif %} group border-l-4 px-3 py-2 flex items-center text-sm font-medium">
+                                <svg class="{% if request.path == url%} text-purple-500 group-hover:text-purple-500 {%else%} text-gray-400 group-hover:text-gray-500 {% endif %} flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                                </svg>
+                                <span class="truncate">
+                                    API
+                                </span>
+                            </a>
+
                             {% if user.is_staff %}
                             {% url 'management:users' as url %}
                             <a href="{% url 'management:users' %}"

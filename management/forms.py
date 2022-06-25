@@ -1,8 +1,9 @@
+from pyexpat import model
 from django.forms import ModelForm, EmailInput, PasswordInput, TextInput, Textarea
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 
-from management.models import Review
+from management.models import Review, RequestApi
 
 INPUT_CLASS = 'focus:ring-purple-500 focus:border-purple-500 flex-grow block w-full min-w-0 rounded-md sm:text-sm border-gray-300'
 PASSWORD_CLASS = 'mt-1 focus:ring-purple-500 focus:border-purple-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
@@ -77,3 +78,12 @@ class ChangePasswordForm(PasswordChangeForm):
         super(ChangePasswordForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs = {'class': INPUT_CLASS}
+
+class RequestApiForm(ModelForm):
+    class Meta:
+        model = RequestApi
+        fields = ['user','application_name', 'description']
+        widgets = {
+        'application_name' : TextInput(attrs={'class':INPUT_CLASS}),
+        'description' : Textarea(attrs={'class':INPUT_CLASS}),
+        }

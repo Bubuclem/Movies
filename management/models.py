@@ -1,4 +1,7 @@
+from ast import arg
+from cgitb import enable
 import datetime
+from email.mime import application
 
 from django.db import models
 from django.utils import timezone
@@ -144,3 +147,20 @@ class Credit(models.Model):
 
     def __str__(self) -> str:
         return 'Credit : {}'.format(self.id)
+
+class RequestApi(models.Model):
+    '''
+    This class is used to store the requests of the API.
+    '''
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    application_name = models.CharField(max_length=255)
+    description = models.TextField()
+    enable = models.BooleanField(default=False)
+    pub_date = models.DateTimeField('date published',auto_now=True)
+
+    class Meta:
+        verbose_name="Request API"
+        verbose_name_plural = "Requests API"
+
+    def __str__(self) -> str:
+        return 'Request API : {}'.format(self.application_name)

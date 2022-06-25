@@ -1,0 +1,166 @@
+{% extends './account.html' %}
+
+{% block title %}Profile | API{% endblock %}
+
+{% block management %}
+
+
+
+{%if token%}
+<div class="overflow-hidden">
+    <div class="px-4 py-5 bg-white sm:p-6">
+        <div class="grid grid-cols-6 gap-6">
+            <div class="col-span-6 sm:col-span-2">
+                <div class="flex items-center space-x-2">
+                    <svg class="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                        fill="currentColor" aria-hidden="true">
+                        <path
+                            d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />
+                    </svg>
+                    <span class="text-green-700 text-sm font-medium">Clé api</span>
+                </div>
+                <input type="text" name="first-name" id="first-name" autocomplete="given-name"
+                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    value="{{token}}">
+
+            </div>
+        </div>
+        <div class="pt-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Doc API </h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">Informations sur l'api.</p>
+        </div>
+        <div class="mt-5 border-t border-gray-200">
+            <dl class="divide-y divide-gray-200">
+                <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                    <dt class="text-sm font-medium text-gray-500">Racine</dt>
+                    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <a class="flex-grow" href="/api/">/api/</a>
+                    </dd>
+                </div>
+            </dl>
+        </div>
+
+        <div class="pt-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Films</h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">Informations sur les films.</p>
+        </div>
+        <div class="mt-5 border-t border-gray-200">
+            <dl class="divide-y divide-gray-200">
+                <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+                    <dt class="text-sm font-medium text-gray-500">Films populaires</dt>
+                    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <a class="flex-grow" href="/api/popular-movies/">/popular-movies/</a>
+                    </dd>
+                </div>
+                <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+                    <dt class="text-sm font-medium text-gray-500">Films les mieux notés</dt>
+                    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <a class="flex-grow" href="/api/top-rated-movies/">/top-rated-movies/</a>
+                    </dd>
+                </div>
+                <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+                    <dt class="text-sm font-medium text-gray-500">Films à venir</dt>
+                    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <a class="flex-grow" href="/api/upcoming-movies/">/upcoming-movies/</a>
+                    </dd>
+                </div>
+                <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+                    <dt class="text-sm font-medium text-gray-500">Films récemment sortie</dt>
+                    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <a class="flex-grow" href="/api/lastest-movies/">/lastest-movies/</a>
+                    </dd>
+                </div>
+            </dl>
+        </div>
+
+        <div class="pt-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Séries</h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">Informations sur les séries.</p>
+        </div>
+        <div class="mt-5 border-t border-gray-200">
+            <dl class="divide-y divide-gray-200">
+                <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+                    <dt class="text-sm font-medium text-gray-500">Séries populaires</dt>
+                    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <a class="flex-grow" href="/api/popular-shows/">/popular-shows/</a>
+                    </dd>
+                </div>
+                <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+                    <dt class="text-sm font-medium text-gray-500">Séries les mieux notés</dt>
+                    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <a class="flex-grow" href="/api/top-rated-shows/">/top-rated-shows/</a>
+                    </dd>
+                </div>
+                <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+                    <dt class="text-sm font-medium text-gray-500">Séries récemment sortie</dt>
+                    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <a class="flex-grow" href="/api/lastest-shows/">/lastest-shows/</a>
+                    </dd>
+                </div>
+            </dl>
+        </div>
+
+        <div class="pt-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Acteurs</h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">Informations sur les acteurs.</p>
+        </div>
+        <div class="mt-5 border-t border-gray-200">
+            <dl class="divide-y divide-gray-200">
+                <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+                    <dt class="text-sm font-medium text-gray-500">Acteurs populaires</dt>
+                    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <a class="flex-grow" href="/api/actors/">/actors/</a>
+                    </dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+</div>
+{%endif%}
+
+{%if form%}
+<div class="overflow-hidden">
+    <div class="px-4 py-5 bg-white sm:p-6">
+        <div class="grid grid-cols-6 gap-6">
+            <form action="{%url 'management:request-api' %}" method="post">
+                {% csrf_token %}
+
+                <div class="overflow-hidden">
+                    <div class="px-4 py-5 bg-white sm:p-6">
+                        <div class="grid grid-cols-6 gap-6">
+
+                            <div class="col-span-6 sm:col-span-4">
+                                <label for="email-address"
+                                    class="block text-sm font-medium text-gray-700">{{form.application_name.label}}</label>
+                                {{form.application_name}}
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-4">
+                                <label for="email-address"
+                                    class="block text-sm font-medium text-gray-700">{{form.description.label}}</label>
+                                {{form.description}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                        <button type="submit"
+                            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">Enregistrer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{%endif%}
+
+{%if message%}
+<div class="overflow-hidden">
+    <div class="px-4 py-5 bg-white sm:p-6">
+        <div class="grid grid-cols-6 gap-6">
+            <p>{{message}}</p>
+        </div>
+    </div>
+</div>
+{%endif%}
+
+{% endblock %}

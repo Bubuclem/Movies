@@ -3,9 +3,10 @@ from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, FormView
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from rest_framework.authtoken.models import Token
 
-from management.forms import LoginForm, AccountForm, RegistreAccountForm, ReviewForm, UserForm, ChangePasswordForm
-from management.models import Review, Watched, Favorite
+from management.forms import LoginForm, AccountForm, RegistreAccountForm, ReviewForm, UserForm, ChangePasswordForm, RequestApiForm
+from management.models import Review, Watched, Favorite, RequestApi
 from movies.models import Movie
 from shows.models import Show
 
@@ -195,6 +196,45 @@ class PasswordPageView(TemplateView):
         if form.is_valid():
             form.save()
             return render(request, self.template_name, {'form': form, 'message': 'Mot de passe modifié avec succès.'})
+        return render(request, self.template_name, {'form': form, 'message': 'Les informations fournies ne correspondent pas.'})
+
+class RequestApiPageView(TemplateView):
+    '''
+    Vue pour la page de demande d'API.
+    '''
+    template_name = TEMPLATE_BASE + 'account/api.html'
+    form_class = RequestApiForm
+    success_url = 'dashboard/securite/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        try:
+            api: RequestApi = RequestApi.objects.get(user=self.request.user)
+        except RequestApi.DoesNotExist:
+            api = None
+
+        if api and api.enable:
+            try:
+                context['token'] = Token.objects.get(user=api.user)
+            except Token.DoesNotExist:
+                context['token'] = Token.objects.create(user=api.user)
+        elif api.enable is False:
+            context['message'] = 'Votre demande n\'a pas encore été traitée.'
+        else:
+            context['form'] = RequestApiForm()
+
+        return context
+
+    def post(self, request):
+        form = RequestApiForm(request.POST)
+        if form.is_valid():
+            requestAPI = form.save()
+
+            requestAPI.user_id = request.user.id
+            requestAPI.save()
+
+            return render(request, self.template_name, {'form': form, 'message': 'Demande de clé API envoyée avec succès.'})
         return render(request, self.template_name, {'form': form, 'message': 'Les informations fournies ne correspondent pas.'})
 
 class UserManagementPageView(ListView):
