@@ -219,7 +219,7 @@ class RequestApiPageView(TemplateView):
                 context['token'] = Token.objects.get(user=api.user)
             except Token.DoesNotExist:
                 context['token'] = Token.objects.create(user=api.user)
-        elif api.enable is False:
+        elif api and api.enable is False:
             context['message'] = 'Votre demande n\'a pas encore été traitée.'
         else:
             context['form'] = RequestApiForm()
