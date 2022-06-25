@@ -10,6 +10,10 @@ class LoginForm(ModelForm):
     class Meta:
         model = User
         fields = ['email', 'password']
+        widgets = {
+            'email': EmailInput(attrs={'class': INPUT_CLASS}),
+            'password': PasswordInput(attrs={'class': INPUT_CLASS}),
+        }
 
 class AccountForm(ModelForm):
     ''' Account form

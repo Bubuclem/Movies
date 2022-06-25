@@ -23,12 +23,18 @@ class LoginPageView(FormView):
     def form_valid(self, form):
         try:
             user = User.objects.get(email=form.cleaned_data['email'])
-            user = authenticate(username=user.username, password=form.cleaned_data['password'])
-            if user is not None and user.is_active:
-                login(self.request, user)
+            auth = authenticate(username=user.username, password=form.cleaned_data['password'])
+            if auth is not None and auth.is_active:
+                login(self.request, auth)
                 return super().form_valid(form)
+            elif user.is_active is False:
+                error='Votre compte est désactivé'
+            elif auth is None:
+                error='Les informations fournies ne correspondent à aucun compte.'
         except User.DoesNotExist:
-            return render(self.request, self.template_name, {'form': form, 'error': 'Les informations fournies ne correspondent à aucun compte.'})
+            pass
+
+        return render(self.request, self.template_name, {'form': form, 'error': error})
 
 class LogoutPageView(TemplateView):
     ''' 
