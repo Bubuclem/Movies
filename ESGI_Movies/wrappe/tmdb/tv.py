@@ -17,11 +17,13 @@ class tmdb_tv(TMDB):
         'on_the_air': '/on_the_air',
         'popular': '/popular',
         'top_rated': '/top_rated',
+        'season': '/{id}/season/{season_number}',
     }
 
     def __init__(self, id=0):
         super(tmdb_tv, self).__init__()
         self.id = id
+        self.season_number = None
 
     def detail(self, **kwargs): # Détail de la série
         path = self._get_id_path('detail')
@@ -115,6 +117,14 @@ class tmdb_tv(TMDB):
 
     def top_rated(self, **kwargs): # Séries les mieux notées
         path = self._get_path('top_rated')
+
+        response = self._GET(path, kwargs)
+        self._set_attrs_to_values(response)
+        return response
+
+    def season(self, **kwargs):
+        self.season_number = kwargs['season_number']
+        path = self._get_tv_id_season_number_path('season')
 
         response = self._GET(path, kwargs)
         self._set_attrs_to_values(response)

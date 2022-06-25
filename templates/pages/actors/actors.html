@@ -6,7 +6,9 @@
 
 {% include 'generic/search.html' %}
 
-{% include 'generic/divider.html' with title='Acteurs' %}
+<div class="pt-16">
+    {% include 'generic/divider.html' with title='Acteurs' %}
+</div>
 
 <div class="bg-white">
     <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -14,9 +16,7 @@
             {% for actor in actors %}
             <div class="relative group">
                 <div class="h-96 aspect-w-4 aspect-h-3 rounded-lg overflow-hidden bg-gray-100">
-                    <img src="{{actor.get_profile_path}}"
-                        alt=""
-                        class="object-center object-cover">
+                    <img src="{{actor.get_profile_path}}" alt="" class="object-center object-cover">
                     <div class="flex items-end opacity-0 p-4 group-hover:opacity-100" aria-hidden="true">
                         <div
                             class="w-full bg-white bg-opacity-75 backdrop-filter backdrop-blur py-2 px-4 rounded-md text-sm font-medium text-gray-900 text-center">

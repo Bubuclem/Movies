@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import PopularPageView, NowPlayingPageView, LastestPageView,ShowPageView, SearchPageView, TopRatedPageView
+from .views import PopularPageView, NowPlayingPageView, LastestPageView,ShowPageView, SearchPageView, TopRatedPageView, EpisodesPageView
 
 app_name = 'shows'
 urlpatterns = [    
@@ -32,5 +32,10 @@ urlpatterns = [
     # URL du détail d'une série
     path('<int:show_id>/', 
     ShowPageView.as_view(), 
-    name='detail')
+    name='detail'),
+
+    # URL des épisodes d'une série
+    path('<int:show_id>/saison/<int:season_number>/',
+    EpisodesPageView.as_view(),
+    name='episodes'),
 ]

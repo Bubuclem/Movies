@@ -13,9 +13,9 @@ SECRET_KEY = 'django-insecure-pc+y641rlw-y880!fl39p2e_$7s*t+$(yw0pr%ld%jj%zn!kxu
 SECRET_KEY_TMDB = '907eefe505cd622142ef9afae861393d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["cburdeyron.com"]
+ALLOWED_HOSTS = ["cburdeyron.com",'127.0.0.1']
 INTERNAL_IPS = ALLOWED_HOSTS
 
 # Application definition
@@ -177,9 +177,9 @@ AUTHENTICATION_BACKENDS = (
 # Intergiciels (« middleware »)
 # https://docs.djangoproject.com/fr/4.0/ref/middleware/
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+SECURE_SSL_REDIRECT = False
 SECURE_HSTS_SECONDS = 300000
-SECURE_HSTS_PRELOAD = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = False
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False

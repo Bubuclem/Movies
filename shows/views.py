@@ -189,6 +189,20 @@ class ShowPageView(TemplateView):
 
         return redirect('/series/{}'.format(show_id))
 
+class EpisodesPageView(TemplateView):
+    """
+    Class des épisodes d'une série.
+    Retourne la liste des épisodes d'une série.
+    """
+    template_name = TEMPLATE_BASE + 'episodes.html'
+
+    def get_context_data(self, show_id, season_number,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['show'] = Show.objects.get(id=show_id)
+        context['episodes'] = tmdb_tv(show_id).season(season_number=season_number, language='fr')['episodes']
+
+        return context
+
 class CreditsPageView(TemplateView):
     """
     Class des acteurs d'une série.

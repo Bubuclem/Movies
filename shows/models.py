@@ -44,6 +44,7 @@ class Season(models.Model):
     '''
     Saison de la série
     '''
+    id = models.IntegerField(primary_key=True)
     air_date = models.DateField(blank=True,null=True)
     episode_count = models.IntegerField()
     season_number = models.IntegerField()
@@ -138,14 +139,22 @@ class Show(models.Model):
         )
 
         for season in json_show['seasons']:
-            self.seasons.add(Season.objects.create(
+            self.save() # Save show before adding seasons
+
+            try:
+                _season = Season.objects.get(id=season['id'])
+            except Season.DoesNotExist:
+                _season = Season.objects.create(
+                id=season['id'],
                 air_date=season['air_date'],
                 episode_count=season['episode_count'],
                 season_number=season['season_number'],
                 name=season['name'],
                 overview=season['overview'],
                 poster_path=season['poster_path']
-            ))
+                )
+
+            self.seasons.add(_season)
 
         for language in json_show['spoken_languages']:
             self.save() # Save the show before adding the genre
