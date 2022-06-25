@@ -3,8 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
 from management.views import LoginPageView, LogoutPageView, PasswordPageView, UserManagementPageView, UserManagementDetailPageView, ActiveUserPageView
-from management.views import RegisterAccountPageView, AccountPageView, RequestApiPageView
-from management.views import MoviesPageView, MoviePageView, ShowsPageView, ShowPageView
+from management.views import RegisterAccountPageView, AccountPageView, RequestApiPageView, InboxRequestApiPageView
 from management.views import WatchlistPageView, FavoritesPageView, ReviewsPageView, ReviewsDetailPageView
 
 app_name = 'management'
@@ -57,6 +56,11 @@ urlpatterns = [
     path('dashboard/demande-api/',
     login_required(RequestApiPageView.as_view()),
     name='request-api'),
+
+    # URL Boite de réception des demandes d'API
+    path('dashboard/boite-de-reception/',
+    login_required(InboxRequestApiPageView.as_view()),
+    name='inbox-request-api'),
 
     # URL pour modifier un avis
     path('dashboard/avis/<int:pk>/',

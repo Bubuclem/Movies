@@ -237,6 +237,24 @@ class RequestApiPageView(TemplateView):
             return render(request, self.template_name, {'form': form, 'message': 'Demande de clé API envoyée avec succès.'})
         return render(request, self.template_name, {'form': form, 'message': 'Les informations fournies ne correspondent pas.'})
 
+class InboxRequestApiPageView(ListView):
+    '''
+    Vue pour la page de demande d'API.
+    '''
+    template_name = TEMPLATE_BASE + 'account/requestapi.html'
+    model = RequestApi
+    context_object_name = 'requests'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return RequestApi.objects.all().order_by('-pub_date')
+
+    def post(self, request):
+        requestAPI = RequestApi.objects.get(pk=request.POST['id'])
+        requestAPI.enable = not requestAPI.enable
+        requestAPI.save()
+        return redirect('/dashboard/boite-de-reception/')
+
 class UserManagementPageView(ListView):
     '''
     Vue pour la gestion des utilisateurs, triée par date de création.
