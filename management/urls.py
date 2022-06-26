@@ -5,7 +5,6 @@ from django.shortcuts import redirect
 from management.views import LoginPageView, LogoutPageView, PasswordPageView, UserManagementPageView, UserManagementDetailPageView, ActiveUserPageView
 from management.views import RegisterAccountPageView, AccountPageView, RequestApiPageView, InboxRequestApiPageView
 from management.views import WatchlistPageView, FavoritesPageView, ReviewsPageView, ReviewsDetailPageView
-from management.views import EmailTestPageView
 
 app_name = 'management'
 urlpatterns = [
@@ -63,6 +62,11 @@ urlpatterns = [
     login_required(InboxRequestApiPageView.as_view()),
     name='inbox-request-api'),
 
+    # URL Modification des demandes d'API
+    path('dashboard/boite-de-reception/<int:pk>/',
+    login_required(InboxRequestApiPageView.as_view()),
+    name='inbox-request-api'),
+
     # URL pour modifier un avis
     path('dashboard/avis/<int:pk>/',
     login_required(ReviewsDetailPageView.as_view()),
@@ -78,9 +82,5 @@ urlpatterns = [
 
     path('dashboard/utilisateur/<str:pk>/',
     login_required(UserManagementDetailPageView.as_view()),
-    name='user_detail'),
-
-    path('dashboard/email-test/',
-    login_required(EmailTestPageView.as_view()),
-    name='email_test'),
+    name='user_detail')
 ]

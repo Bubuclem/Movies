@@ -251,8 +251,8 @@ class InboxRequestApiPageView(ListView):
     def get_queryset(self):
         return RequestApi.objects.all().order_by('-pub_date')
 
-    def post(self, request):
-        requestAPI = RequestApi.objects.get(pk=request.POST['id'])
+    def post(self, request, pk):
+        requestAPI = RequestApi.objects.get(user=User.objects.get(pk=pk))
         requestAPI.enable = not requestAPI.enable
         requestAPI.save()
         return redirect('/dashboard/boite-de-reception/')
@@ -308,22 +308,3 @@ class ActiveUserPageView(View):
         user.is_active = not user.is_active
         user.save()
         return redirect('/dashboard/utilisateurs/')
-
-class EmailTestPageView(TemplateView):
-    '''
-    Vue pour tester l'envoi d'un email.
-    '''
-    template_name = TEMPLATE_BASE + 'account/emailtest.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-    def post(self, request):
-        send_mail(
-            'Subject here',
-            'Here is the message.',
-            '{}'.format(settings.EMAIL_HOST_USER),
-            [request.POST['email']],
-            fail_silently=False,
-        )

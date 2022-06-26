@@ -61,9 +61,11 @@
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{% url 'management:inbox-request-api' %}"
-                                    class="{%if user.is_active%}text-red-600 hover:text-red-900{%else%}text-indigo-600 hover:text-indigo-900{%endif%}">
-                                    {%if user.is_active%}Désactiver{%else%}Activer{%endif%}</a>
+                                <form method="post" action="{% url 'management:inbox-request-api' request.user.id %}">{% csrf_token %}
+                                    <button type="submit"
+                                        class="{%if user.is_active%}text-red-600 hover:text-red-900{%else%}text-indigo-600 hover:text-indigo-900{%endif%}">
+                                        {%if request.enable%}Désactiver{%else%}Activer{%endif%}</button>
+                                </form>
                             </td>
                         </tr>
                         {%endfor%}
