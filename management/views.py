@@ -4,6 +4,8 @@ from django.views.generic import TemplateView, ListView, DetailView, FormView
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.authtoken.models import Token
+from django.core.mail import send_mail
+from django.conf import settings
 
 from management.forms import LoginForm, AccountForm, RegistreAccountForm, ReviewForm, UserForm, ChangePasswordForm, RequestApiForm
 from management.models import Review, Watched, Favorite, RequestApi
@@ -65,7 +67,7 @@ class AccountPageView(FormView):
     '''
     template_name = TEMPLATE_BASE + 'account/account.html'
     form_class = AccountForm
-    success_url = '/profile/'
+    success_url = '/dashboard/profile/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -76,7 +78,7 @@ class AccountPageView(FormView):
         form = AccountForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('/profile/')
+            return redirect(self.success_url)
 
 class ReviewsPageView(ListView):
     '''
@@ -306,3 +308,22 @@ class ActiveUserPageView(View):
         user.is_active = not user.is_active
         user.save()
         return redirect('/dashboard/utilisateurs/')
+
+class EmailTestPageView(TemplateView):
+    '''
+    Vue pour tester l'envoi d'un email.
+    '''
+    template_name = TEMPLATE_BASE + 'account/emailtest.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def post(self, request):
+        send_mail(
+            'Subject here',
+            'Here is the message.',
+            '{}'.format(settings.EMAIL_HOST_USER),
+            [request.POST['email']],
+            fail_silently=False,
+        )

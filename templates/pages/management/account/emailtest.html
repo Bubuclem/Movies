@@ -1,0 +1,12 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Test mail{% endblock %}
+
+{% block content %}
+
+<form action="{% url 'management:email_test' %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="email" value="{{ email }}" />
+</form>
+
+{% endblock %}

@@ -24,6 +24,7 @@ urlpatterns = [
     path('series/', include('shows.urls')),
     path('acteurs/', include('actors.urls')),
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))

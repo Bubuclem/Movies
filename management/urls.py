@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from management.views import LoginPageView, LogoutPageView, PasswordPageView, UserManagementPageView, UserManagementDetailPageView, ActiveUserPageView
 from management.views import RegisterAccountPageView, AccountPageView, RequestApiPageView, InboxRequestApiPageView
 from management.views import WatchlistPageView, FavoritesPageView, ReviewsPageView, ReviewsDetailPageView
+from management.views import EmailTestPageView
 
 app_name = 'management'
 urlpatterns = [
@@ -78,4 +79,8 @@ urlpatterns = [
     path('dashboard/utilisateur/<str:pk>/',
     login_required(UserManagementDetailPageView.as_view()),
     name='user_detail'),
+
+    path('dashboard/email-test/',
+    login_required(EmailTestPageView.as_view()),
+    name='email_test'),
 ]
