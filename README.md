@@ -80,4 +80,5 @@ djangorestframework>=3.1
 django-tailwind>=3.1
 django-extensions>3.1
 social-auth-app-django
+django-environ
 ```

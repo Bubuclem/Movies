@@ -5,3 +5,4 @@
 /venv
 __pycache__
 ESGI_Movies/theme
+ESGI_Movies/.env
