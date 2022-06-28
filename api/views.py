@@ -59,7 +59,7 @@ class MovieViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Movie.objects.filter(id=self.kwargs['pk'])
+        return Movie.objects.filter(id=self.kwargs['pk']).prefetch_related('genres', 'languages')
 
 #
 # Show section

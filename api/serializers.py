@@ -10,9 +10,10 @@ class MovieGenreSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'name')
 
 class MovieSerializer(serializers.HyperlinkedModelSerializer):
+    genres = MovieGenreSerializer(many=True)
     class Meta:
         model = Movie
-        fields = ('id', 'title', 'overview', 'homepage', 'tagline', 'original_language', 'original_title', 'release_date', 'status', 'adult', 'popularity', 'vote_count', 'vote_average', 'runtime', 'revenue', 'budget', 'video', 'poster_path', 'backdrop_path')
+        fields = ('id', 'title', 'overview', 'homepage', 'tagline', 'original_language', 'original_title', 'release_date', 'status', 'adult', 'popularity', 'vote_count', 'vote_average', 'runtime', 'revenue', 'budget', 'video', 'poster_path', 'backdrop_path', 'genres')
 
 class ShowGenreSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

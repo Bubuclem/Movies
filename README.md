@@ -51,7 +51,7 @@ With framework [**Django**](https://docs.djangoproject.com/fr/4.0/), in [**Pytho
 
   :heavy_check_mark: Upcoming movies
 
-  :heavy_check_mark: Movies details
+  :heavy_check_mark: Movie details
 
   :heavy_check_mark: Popular shows
 
@@ -59,17 +59,19 @@ With framework [**Django**](https://docs.djangoproject.com/fr/4.0/), in [**Pytho
 
   :heavy_check_mark: Upcoming shows
 
-  :heavy_check_mark: Shows details
+  :heavy_check_mark: Show details
   
   :heavy_check_mark: Actors
 
+  :heavy_check_mark: Actor details
+
+  :heavy_check_mark: Credits details
+
 ## Oauth2 <a name="Oauth2"></a>
 
-  :x: Github Oauth
+  :heavy_check_mark: Github Oauth
 
-  :x: Google Oauth
-
-  :x: Twitter Oauth
+  :heavy_check_mark: Google Oauth
 
 ### Requirements
 
