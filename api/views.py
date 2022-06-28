@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from rest_framework import viewsets
 from rest_framework import permissions
 
+from ESGI_Movies.wrappe.tmdb import tmdb_movie
 from .serializers import MovieSerializer, ShowSerializer, ActorSerializer
 from movies.models import Movie
 from shows.models import Show
@@ -117,3 +118,28 @@ class ActorsViewSet(viewsets.ModelViewSet):
     queryset = Actor.objects.all().order_by('-popularity')
     serializer_class = ActorSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+class ActorViewSet(viewsets.ModelViewSet):
+    '''
+    API endpoint that allows actors to be viewed
+    '''
+    serializer_class = ActorSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Actor.objects.filter(id=self.kwargs['pk'])
+
+class CreditsViewSet(viewsets.ModelViewSet):
+    '''
+    API endpoint that allows actors to be viewed
+    '''
+    serializer_class = ActorSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        movie_credits = tmdb_movie(self.kwargs['pk'])
+        movie_credits = movie_credits.credits(language='fr')
+
+        credits : Actor = sorted(movie_credits['cast'], key=lambda k: k['popularity'], reverse=True)
+
+        return credits

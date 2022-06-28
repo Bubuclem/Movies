@@ -16,10 +16,12 @@ router.register(r'on-the-air-shows', views.ShowsOnTheAirViewSet,basename='upcomi
 router.register(r'lastest-shows', views.ShowsLastestViewSet,basename='lastest-shows')
 router.register(r'show', views.ShowViewSet,basename='show')
 router.register(r'actors', views.ActorsViewSet,basename='actors')
+router.register(r'actor', views.ActorViewSet,basename='actor')
+router.register(r'credits', views.CreditsViewSet,basename='credits')
 
 urlpatterns = [
     path('', include('management.urls')),
-    path('social/', include('social_django.urls')),
+    path('social/', include('social_django.urls', namespace='social')),
     path('films/', include('movies.urls')),
     path('series/', include('shows.urls')),
     path('acteurs/', include('actors.urls')),

@@ -4,8 +4,8 @@
     <a href="{% url 'actors:detail' actor.id %}" class="group">
         <div class="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
 
-            {%if actor.get_profile_path%}
-            <img src="{{actor.get_profile_path}}" alt="{{actor.original_name}}"
+            {%if actor.profile_path%}
+            <img src="https://image.tmdb.org/t/p/w500/{{actor.profile_path}}" alt="{{actor.original_name}}"
                 class="w-full h-full object-center object-cover group-hover:opacity-75">
             {%else%}
             <svg id="glyphicons-basic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
